@@ -6,7 +6,7 @@ import primary_logo_light from '../../assets/Logo/Logo_Primary_Light.png'
 const Navbar = () => {
   return (
     <div className='NavBar'>
-      <img src={primary_logo_light} alt="Primary Logo" className='NavBarLogo' />
+      <NavLink to="/"><img src={primary_logo_light} alt="Primary Logo" className='NavBarLogo' /></NavLink>
 
       <ul>
         <li><NavLink to="/shop" className="NavBarItem">Shop</NavLink></li>
