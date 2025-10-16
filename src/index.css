@@ -21,28 +21,34 @@ code {
   --color-background-dark: #7D796E;
 }
 
-h1 {
+h1, .h1 {
   font-size: 2rem;
+  font-weight: 400;
 }
 
-h2 {
+h2, .h2 {
   font-size: 1.5rem;
+  font-weight: 400;
 }
 
-h3 {
+h3, .h3 {
   font-size: 1.25rem;
+  font-weight: 400;
 }
 
 .p1 {
   font-size: 1rem;
+  font-weight: 400;
 }
 
 .p2 {
   font-size: 0.875rem;
+  font-weight: 400;
 }
 
 .p3 {
   font-size: 0.75rem;
+  font-weight: 400;
 }
 
 .txt-color-primary {
@@ -79,4 +85,28 @@ h3 {
 
 .weight-bold {
   font-weight: 700;
+}
+
+.button-primary {
+  background-color: var(--color-primary);
+  color: white;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  border-radius: 50svh;
+  padding: 1rem 2rem;
+}
+
+.button-ternary {
+  background-color: var(--color-ternary);
+  color: white;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  border-radius: 50svh;
+  padding: 1rem 2rem;
+}
+
+.button-primary:hover, .button-ternary:hover {
+  opacity: 0.9;
 }
