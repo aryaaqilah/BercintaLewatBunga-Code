@@ -3,24 +3,28 @@ import mongoose from "mongoose";
 import dotenv from "dotenv";
 import cors from "cors";
 
+import design3DRoutes from "./routes/design3DRoutes.js";
 import userRoutes from "./routes/userRoutes.js";
-import designRoutes from "./routes/designRoutes.js";
+import productRoutes from "./routes/productRoutes.js";
+import orderRoutes from "./routes/orderRoutes.js";
+import addressRoutes from "./routes/addressRoutes.js";
 
 dotenv.config();
-
 const app = express();
+
 app.use(cors());
 app.use(express.json());
 
-// 🔗 Routes
+// Gunakan semua routes
+app.use("/api/design3d", design3DRoutes);
 app.use("/api/users", userRoutes);
-app.use("/api/designs", designRoutes);
+app.use("/api/products", productRoutes);
+app.use("/api/orders", orderRoutes);
+app.use("/api/addresses", addressRoutes);
 
-// 🧠 Koneksi MongoDB
 mongoose
   .connect(process.env.MONGO_URI)
   .then(() => console.log("✅ MongoDB Connected"))
-  .catch((err) => console.error("❌ MongoDB Connection Error:", err));
+  .catch((err) => console.log("MongoDB Error:", err));
 
-const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => console.log(`🚀 Server running on port ${PORT}`));
+app.listen(5000, () => console.log("🚀 Server running on port 5000"));
