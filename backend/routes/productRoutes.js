@@ -16,14 +16,14 @@ router.post("/", async (req, res) => {
 
 // Ambil semua product
 router.get("/", async (req, res) => {
-  const products = await Product.find().populate("design3d");
+  const products = await Product.find().populate("design3D");
   res.json(products);
 });
 
 // Ambil product berdasarkan ID
 router.get("/:id", async (req, res) => {
   try {
-    const product = await Product.findById(req.params.id).populate("design3d");
+    const product = await Product.findById(req.params.id).populate("design3D");
     if (!product) return res.status(404).json({ error: "Product not found" });
     res.json(product);
   } catch (err) {
