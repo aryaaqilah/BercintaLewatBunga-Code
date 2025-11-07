@@ -3,6 +3,7 @@ import { Canvas, useThree } from "@react-three/fiber";
 import { OrbitControls, Text, useGLTF } from "@react-three/drei";
 import { useEffect, useRef, useState } from "react";
 import * as THREE from "three";
+import { GLTFExporter } from "three/examples/jsm/exporters/GLTFExporter.js";
 
 function Object3DModel({
   id,
@@ -15,56 +16,88 @@ function Object3DModel({
   text,
   isSelected,
   onSelect,
+  parcelColor,
+  ribbonColor,
 }) {
   const { scene } = useGLTF(modelPath);
   const modelRef = useRef();
   const { camera, gl } = useThree();
 
+  // ✅ Clone dan atur warna, tanpa shadow
   useEffect(() => {
-    if (scene) {
-      const cloned = scene.clone(true);
+    if (!scene || !modelRef.current) return;
+    const cloned = scene.clone(true);
 
-      // Skala objek berdasarkan jenis
-      if (type === "flower") {
-        if (modelPath.includes("tulip")) cloned.scale.set(0.15, 0.15, 0.15);
-        else if (modelPath.includes("rose")) cloned.scale.set(1.1, 1.1, 1.1);
-        else if (modelPath.includes("lilly")) cloned.scale.set(1.5, 1.5, 1.5);
-        else cloned.scale.set(0.5, 0.5, 0.5);
+    cloned.traverse((child) => {
+      if (child.isMesh) {
+        child.castShadow = false;
+        child.receiveShadow = false;
       }
+    });
 
-      if (type === "wrapper") cloned.scale.set(2.0, 2.0, 2.0);
-      if (type === "card") cloned.scale.set(0.3, 0.3, 0.3);
+    if (type === "flower") {
+      if (modelPath.includes("tulip")) cloned.scale.set(0.15, 0.15, 0.15);
+      else if (modelPath.includes("rose")) cloned.scale.set(1.1, 1.1, 1.1);
+      else if (modelPath.includes("lilly")) cloned.scale.set(1.5, 1.5, 1.5);
+      else cloned.scale.set(0.5, 0.5, 0.5);
+    }
+    if (type === "wrapper") cloned.scale.set(2.0, 2.0, 2.0);
+    if (type === "card") cloned.scale.set(0.3, 0.3, 0.3);
 
-      // Warna wrapper/card
-      if ((type === "wrapper" || type === "card") && color) {
-        cloned.traverse((child) => {
+    // 🎨 Warna parcel & ribbon
+    if (type === "wrapper") {
+      const parcels = cloned.getObjectByName("Parcels");
+      const ribbon = cloned.getObjectByName("Ribbon");
+
+      if (parcels) {
+        parcels.traverse((child) => {
           if (child.isMesh) {
             child.material = child.material.clone();
-            child.material.color = new THREE.Color(color);
+            child.material.color = new THREE.Color(parcelColor || "#ffffff");
           }
         });
       }
 
-      modelRef.current.add(cloned);
-    }
-  }, [scene, type, color, modelPath]);
-
-  // Efek highlight saat terpilih
-  useEffect(() => {
-    if (modelRef.current) {
-      modelRef.current.traverse((child) => {
+      if (ribbon) {
+        ribbon.traverse((child) => {
+          if (child.isMesh) {
+            child.material = child.material.clone();
+            child.material.color = new THREE.Color(ribbonColor || "#ff0000");
+          }
+        });
+      }
+    } else if (type === "card" && color) {
+      cloned.traverse((child) => {
         if (child.isMesh) {
-          child.material.emissive = new THREE.Color(isSelected ? 0x00ff00 : 0x000000);
+          child.material = child.material.clone();
+          child.material.color = new THREE.Color(color);
         }
       });
     }
+
+    modelRef.current.clear && modelRef.current.clear();
+    while (modelRef.current.children.length)
+      modelRef.current.remove(modelRef.current.children[0]);
+    modelRef.current.add(cloned);
+  }, [scene, type, modelPath, parcelColor, ribbonColor, color]);
+
+  // 🔹 Highlight objek terpilih
+  useEffect(() => {
+    if (!modelRef.current) return;
+    modelRef.current.traverse((child) => {
+      if (child.isMesh && child.material) {
+        child.material = child.material.clone();
+        child.material.emissive = new THREE.Color(
+          isSelected ? 0x00ff00 : 0x000000
+        );
+      }
+    });
   }, [isSelected]);
 
-  // Klik untuk select
+  // 🔹 Seleksi objek dengan klik
   useEffect(() => {
     const model = modelRef.current;
     if (!model) return;
-
     const raycaster = new THREE.Raycaster();
     const mouse = new THREE.Vector2();
 
@@ -72,10 +105,8 @@ function Object3DModel({
       const rect = gl.domElement.getBoundingClientRect();
       mouse.x = ((event.clientX - rect.left) / rect.width) * 2 - 1;
       mouse.y = -((event.clientY - rect.top) / rect.height) * 2 + 1;
-
       raycaster.setFromCamera(mouse, camera);
       const intersects = raycaster.intersectObject(model, true);
-
       if (intersects.length > 0) onSelect(id);
     };
 
@@ -83,32 +114,27 @@ function Object3DModel({
     return () => gl.domElement.removeEventListener("click", handleClick);
   }, [camera, gl, id, onSelect]);
 
-  // Drag & Rotate
+  // 🔹 Drag & Rotate mode
   useEffect(() => {
     if (mode === "camera") return;
     const model = modelRef.current;
     if (!model) return;
-
     const raycaster = new THREE.Raycaster();
     const mouse = new THREE.Vector2();
     const plane = new THREE.Plane(new THREE.Vector3(0, 1, 0), 0);
     const offset = new THREE.Vector3();
     const intersection = new THREE.Vector3();
-
     let isActive = false;
 
     const handleMouseDown = (event) => {
       const rect = gl.domElement.getBoundingClientRect();
       mouse.x = ((event.clientX - rect.left) / rect.width) * 2 - 1;
       mouse.y = -((event.clientY - rect.top) / rect.height) * 2 + 1;
-
       raycaster.setFromCamera(mouse, camera);
       const intersects = raycaster.intersectObject(model, true);
-
       if (intersects.length > 0) {
         isActive = true;
         setDragging(true);
-
         if (mode === "drag") {
           plane.setFromNormalAndCoplanarPoint(
             camera.getWorldDirection(new THREE.Vector3()),
@@ -122,17 +148,14 @@ function Object3DModel({
 
     const handleMouseMove = (event) => {
       if (!isActive) return;
-
       const rect = gl.domElement.getBoundingClientRect();
       mouse.x = ((event.clientX - rect.left) / rect.width) * 2 - 1;
       mouse.y = -((event.clientY - rect.top) / rect.height) * 2 + 1;
-
       if (mode === "drag") {
         raycaster.setFromCamera(mouse, camera);
         raycaster.ray.intersectPlane(plane, intersection);
         model.position.copy(intersection.sub(offset));
       }
-
       if (mode === "rotateX") model.rotation.x += event.movementY * 0.01;
       if (mode === "rotateY") model.rotation.y += event.movementX * 0.01;
       if (mode === "rotateZ") model.rotation.z += event.movementX * 0.01;
@@ -148,7 +171,6 @@ function Object3DModel({
     gl.domElement.addEventListener("mousedown", handleMouseDown);
     gl.domElement.addEventListener("mousemove", handleMouseMove);
     gl.domElement.addEventListener("mouseup", handleMouseUp);
-
     return () => {
       gl.domElement.removeEventListener("mousedown", handleMouseDown);
       gl.domElement.removeEventListener("mousemove", handleMouseMove);
@@ -158,18 +180,17 @@ function Object3DModel({
 
   return (
     <group ref={modelRef} position={position}>
+      {/* 💬 Teks muncul di card */}
       {type === "card" && text && (
         <Text
-          position={[0, 0, 0]}
+          position={[0, 0.08, 0.02]}
           fontSize={0.035}
           color="black"
           anchorX="center"
           anchorY="middle"
-          maxWidth={0.45}
-          lineHeight={1.1}
-          overflowWrap="break-word"
+          maxWidth={0.4}
+          lineHeight={1.2}
           textAlign="center"
-          clipRect={[-0.23, -0.12, 0.23, 0.12]}
         >
           {text}
         </Text>
@@ -183,16 +204,167 @@ export default function FlowerScene() {
   const [selectedId, setSelectedId] = useState(null);
   const [isDragging, setIsDragging] = useState(false);
   const [mode, setMode] = useState("camera");
-  const [wrapperColor, setWrapperColor] = useState("#ffc0cb");
+  const [parcelColor, setParcelColor] = useState("#ffc0cb");
+  const [ribbonColor, setRibbonColor] = useState("#ff0000");
   const [cardColor, setCardColor] = useState("#cccccc");
   const [cardText, setCardText] = useState("Happy Day 💐");
+  const [designId, setDesignId] = useState(null);
 
-  // Tambah bunga sesuai jenis
+  // 🆕 Tambahan state baru
+  const [modelName, setModelName] = useState("");
+  const [question, setQuestion] = useState("");
+  const [answer, setAnswer] = useState("");
+
+  const sceneRef = useRef();
+
+  // ✅ Simpan desain ke database
+  const handleSaveDesign = async () => {
+    // 🆕 Validasi nama, pertanyaan, dan jawaban
+    if (!modelName.trim()) return alert("⚠️ Masukkan nama model terlebih dahulu!");
+    if (!question.trim() || !answer.trim())
+      return alert("⚠️ Isi pertanyaan dan jawaban untuk proteksi AR!");
+
+    // 🔹 Pisahkan objek berdasarkan tipe
+    const flowers = objects
+      .filter((obj) => obj.type === "flower")
+      .map((obj) => ({
+        type: obj.modelPath.includes("tulip")
+          ? "tulip"
+          : obj.modelPath.includes("rose")
+          ? "rose"
+          : "lilly",
+        modelPath: obj.modelPath,
+        position: obj.position || [0, 0, 0],
+        rotation: obj.rotation || [0, 0, 0],
+        scale: obj.scale || [1, 1, 1],
+      }));
+
+    const wrapperObj = objects.find((obj) => obj.type === "wrapper");
+    const cardObj = objects.find((obj) => obj.type === "card");
+
+    // 🔹 Bentuk data yang sesuai schema Design3D
+    const designData = {
+      name: modelName,
+      flowers: flowers.length > 0 ? flowers : [
+        {
+          type: "rose",
+          modelPath: "/models/rose.glb",
+          position: [0, 0, 0],
+          rotation: [0, 0, 0],
+          scale: [1, 1, 1],
+        },
+      ],
+      wrapper: wrapperObj
+        ? {
+            modelPath: "/models/wrapper.glb",
+            parcelColor,
+            ribbonColor,
+            position: wrapperObj.position || [0, 0, 0],
+            rotation: wrapperObj.rotation || [0, 0, 0],
+          }
+        : {
+            modelPath: "/models/wrapper.glb",
+            parcelColor,
+            ribbonColor,
+            position: [0, 0, 0],
+            rotation: [0, 0, 0],
+          },
+      card: cardObj
+        ? {
+            modelPath: "/models/card.glb",
+            color: cardColor,
+            text: cardText,
+            position: cardObj.position || [0, 0.2, 0],
+            rotation: cardObj.rotation || [0, 0, 0],
+          }
+        : {
+            modelPath: "/models/card.glb",
+            color: cardColor,
+            text: cardText,
+            position: [0, 0.2, 0],
+            rotation: [0, 0, 0],
+          },
+      question,
+      answer,
+    };
+
+    console.log("🧩 Data dikirim ke backend:", designData);
+
+    try {
+      const res = await fetch("http://localhost:5000/api/design3d/save", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(designData),
+      });
+      const data = await res.json();
+
+      if (res.ok) {
+        setDesignId(data._id || data.designId);
+        alert("✅ Desain berhasil disimpan!");
+        // reset field pertanyaan
+        setQuestion("");
+        setAnswer("");
+      } else {
+        alert(`❌ Gagal: ${data.message}`);
+      }
+    } catch (err) {
+      console.error("❌ Error saat menyimpan desain:", err);
+      alert("❌ Gagal menyimpan desain ke server");
+    }
+  };
+
+const handleExportGLB = async () => {
+  if (!sceneRef.current) return;
+  if (!designId) {
+    alert("💾 Simpan desain terlebih dahulu sebelum ekspor!");
+    return;
+  }
+
+  const exporter = new GLTFExporter();
+  exporter.parse(
+    sceneRef.current,
+    async (result) => {
+      // 🔹 Pastikan hasil dalam format biner (GLB)
+      let blob;
+      if (result instanceof ArrayBuffer) {
+        blob = new Blob([result], { type: "model/gltf-binary" });
+      } else {
+        console.warn("⚠️ Hasil ekspor bukan biner, menyimpan ke GLTF (JSON)...");
+        blob = new Blob([JSON.stringify(result)], {
+          type: "application/json",
+        });
+      }
+
+      // 🔹 Kirim ke backend
+      const formData = new FormData();
+      formData.append("model", blob, `${designId}.glb`);
+
+      try {
+        const res = await fetch(`http://localhost:5000/api/design3d/${designId}/export`, {
+          method: "POST",
+          body: formData,
+        });
+        const data = await res.json();
+
+        if (res.ok) {
+          alert("✅ Model berhasil diekspor dan diunggah ke server!");
+        } else {
+          alert(`❌ Gagal: ${data.message}`);
+        }
+      } catch (err) {
+        console.error("❌ Gagal upload model:", err);
+        alert("❌ Gagal mengirim file GLB ke server.");
+      }
+    },
+    { binary: true }
+  );
+};
+
+  // 🔹 Fungsi menambah objek
   const addFlower = (type) => {
     let modelPath = "/models/tulip.glb";
     if (type === "rose") modelPath = "/models/rose.glb";
     else if (type === "lilly") modelPath = "/models/lilly.glb";
-
     setObjects((prev) => [
       ...prev,
       { id: Date.now(), type: "flower", modelPath, position: [prev.length * 0.5, 0, 0] },
@@ -200,35 +372,27 @@ export default function FlowerScene() {
   };
 
   const addWrapper = () => {
-    setObjects((prev) => {
-      const filtered = prev.filter((obj) => obj.type !== "wrapper");
-      return [
-        ...filtered,
-        { id: Date.now(), type: "wrapper", modelPath: "/models/wrapper.glb", position: [0, 0, 0] },
-      ];
-    });
+    setObjects((prev) => [
+      ...prev.filter((o) => o.type !== "wrapper"),
+      { id: Date.now(), type: "wrapper", modelPath: "/models/wrapper.glb", position: [0, 0, 0] },
+    ]);
   };
 
   const addCard = () => {
-    setObjects((prev) => {
-      const filtered = prev.filter((obj) => obj.type !== "card");
-      return [
-        ...filtered,
-        { id: Date.now(), type: "card", modelPath: "/models/card.glb", position: [0, 0.2, 0], text: cardText },
-      ];
-    });
+    setObjects((prev) => [
+      ...prev.filter((o) => o.type !== "card"),
+      { id: Date.now(), type: "card", modelPath: "/models/card.glb", position: [0, 0.2, 0], text: cardText },
+    ]);
   };
 
-  // Hapus objek terpilih
   const deleteSelected = () => {
     if (!selectedId) return alert("Tidak ada objek yang dipilih!");
-    setObjects((prev) => prev.filter((obj) => obj.id !== selectedId));
+    setObjects((prev) => prev.filter((o) => o.id !== selectedId));
     setSelectedId(null);
   };
 
-  // 🔹 Reset semua objek
   const resetAll = () => {
-    if (window.confirm("Apakah kamu yakin ingin menghapus semua objek?")) {
+    if (window.confirm("Yakin ingin menghapus semua objek?")) {
       setObjects([]);
       setSelectedId(null);
     }
@@ -236,7 +400,7 @@ export default function FlowerScene() {
 
   return (
     <div className="w-full relative bg-gray-100">
-      {/* Toolbar kontrol */}
+      {/* Tombol Mode */}
       <div className="absolute top-6 left-6 flex gap-3 flex-wrap">
         {[
           { name: "Camera", mode: "camera", icon: "🎥", color: "blue" },
@@ -249,7 +413,9 @@ export default function FlowerScene() {
             key={btn.mode}
             onClick={() => setMode(btn.mode)}
             className={`px-4 py-2 rounded-lg font-semibold transition ${
-              mode === btn.mode ? `bg-${btn.color}-600 text-white shadow-lg scale-105` : "bg-gray-200 text-black"
+              mode === btn.mode
+                ? `bg-${btn.color}-600 text-white shadow-lg scale-105`
+                : "bg-gray-200 text-black"
             }`}
           >
             {btn.icon} {btn.name}
@@ -257,52 +423,78 @@ export default function FlowerScene() {
         ))}
       </div>
 
-      {/* Tombol aksi kanan atas */}
+      {/* Tombol Aksi */}
       <div className="absolute top-6 right-6 flex flex-col gap-3">
-        <button onClick={() => addFlower("tulip")} className="px-6 py-3 bg-pink-600 text-white text-lg rounded-xl shadow-lg hover:bg-pink-700 transition">🌷 Tambah Tulip</button>
-        <button onClick={() => addFlower("rose")} className="px-6 py-3 bg-red-600 text-white text-lg rounded-xl shadow-lg hover:bg-red-700 transition">🌹 Tambah Rose</button>
-        <button onClick={() => addFlower("lilly")} className="px-6 py-3 bg-yellow-600 text-white text-lg rounded-xl shadow-lg hover:bg-yellow-700 transition">🌸 Tambah Lilly</button>
-        <button onClick={addWrapper} className="px-6 py-3 bg-yellow-500 text-white text-lg rounded-xl shadow-lg hover:bg-yellow-600 transition">🧺 Tambah Wrapper</button>
-        <button onClick={addCard} className="px-6 py-3 bg-gray-600 text-white text-lg rounded-xl shadow-lg hover:bg-gray-700 transition">🪪 Tambah Card</button>
-        <button onClick={deleteSelected} className="px-6 py-3 bg-red-500 text-white text-lg rounded-xl shadow-lg hover:bg-red-600 transition">🗑️ Hapus Terpilih</button>
-        <button onClick={resetAll} className="px-6 py-3 bg-black text-white text-lg rounded-xl shadow-lg hover:bg-gray-800 transition">♻️ Reset Semua</button>
+        <button onClick={() => addFlower("tulip")} className="px-6 py-3 bg-pink-600 text-white rounded-xl">🌷 Tulip</button>
+        <button onClick={() => addFlower("rose")} className="px-6 py-3 bg-red-600 text-white rounded-xl">🌹 Rose</button>
+        <button onClick={() => addFlower("lilly")} className="px-6 py-3 bg-yellow-600 text-white rounded-xl">🌸 Lilly</button>
+        <button onClick={addWrapper} className="px-6 py-3 bg-yellow-500 text-white rounded-xl">🧺 Wrapper</button>
+        <button onClick={addCard} className="px-6 py-3 bg-gray-600 text-white rounded-xl">🪪 Card</button>
+        <button onClick={deleteSelected} className="px-6 py-3 bg-red-500 text-white rounded-xl">🗑️ Hapus</button>
+        <button onClick={resetAll} className="px-6 py-3 bg-black text-white rounded-xl">♻️ Reset</button>
+        {/* Input Nama & Proteksi */}
+<div className="absolute top-6 right-[300px] bg-white rounded-xl shadow-lg p-4 flex flex-col gap-3 w-72">
+  <label className="font-semibold text-gray-800">📝 Nama Model</label>
+  <input
+    type="text"
+    value={modelName}
+    onChange={(e) => setModelName(e.target.value)}
+    className="border rounded-lg px-3 py-2 text-sm"
+    placeholder="Masukkan nama desain..."
+  />
+  <label className="font-semibold text-gray-800">❓ Pertanyaan</label>
+  <input
+    type="text"
+    value={question}
+    onChange={(e) => setQuestion(e.target.value)}
+    className="border rounded-lg px-3 py-2 text-sm"
+    placeholder="Contoh: Siapa penerima buket ini?"
+  />
+  <label className="font-semibold text-gray-800">🔐 Jawaban</label>
+  <input
+    type="text"
+    value={answer}
+    onChange={(e) => setAnswer(e.target.value)}
+    className="border rounded-lg px-3 py-2 text-sm"
+    placeholder="Contoh: Dina"
+  />
+</div>
+
+        <button onClick={handleSaveDesign} className="px-6 py-3 bg-blue-600 text-white rounded-xl">💾 Simpan Desain</button>
+        <button onClick={handleExportGLB} className="px-6 py-3 bg-green-600 text-white rounded-xl">💾 Simpan Model</button>
       </div>
 
-      {/* Panel warna dan teks */}
+      {/* Panel Warna */}
       <div className="absolute bottom-6 right-6 bg-white rounded-xl shadow-lg p-4 flex flex-col gap-3 w-80">
         <div className="flex items-center gap-4">
-          <label className="font-semibold">🎨 Warna Wrapper:</label>
-          <input type="color" value={wrapperColor} onChange={(e) => setWrapperColor(e.target.value)} className="w-10 h-10 border-none rounded-full cursor-pointer" />
+          <label className="font-semibold">📦 Parcel:</label>
+          <input type="color" value={parcelColor} onChange={(e) => setParcelColor(e.target.value)} />
         </div>
-
         <div className="flex items-center gap-4">
-          <label className="font-semibold">🪶 Warna Card:</label>
-          <input type="color" value={cardColor} onChange={(e) => setCardColor(e.target.value)} className="w-10 h-10 border-none rounded-full cursor-pointer" />
+          <label className="font-semibold">🎀 Ribbon:</label>
+          <input type="color" value={ribbonColor} onChange={(e) => setRibbonColor(e.target.value)} />
         </div>
-
-        <div className="flex flex-col gap-2">
-          <label className="font-semibold">💌 Teks pada Card:</label>
+        <div className="flex items-center gap-4">
+          <label className="font-semibold">🪶 Card:</label>
+          <input type="color" value={cardColor} onChange={(e) => setCardColor(e.target.value)} />
+        </div>
+        <div>
+          <label className="font-semibold">💌 Pesan Card:</label>
           <textarea
             value={cardText}
-            onChange={(e) => {
-              const value = e.target.value;
-              if (value.length <= 120) setCardText(value);
-            }}
-            placeholder="Tulis pesanmu di sini... (max 120 karakter)"
-            className="border rounded-lg px-3 py-2 text-sm resize-none h-24"
+            onChange={(e) => setCardText(e.target.value.slice(0, 120))}
+            className="border rounded-lg px-3 py-2 text-sm resize-none h-24 w-full"
             maxLength={120}
           />
-          <p className="text-xs text-gray-500 text-right">{cardText.length}/120 karakter</p>
         </div>
       </div>
 
       {/* Canvas */}
       <div className="w-full border-4 border-gray-400 rounded-lg overflow-hidden" style={{ height: "900px" }}>
-        <Canvas camera={{ position: [5, 5, 10], fov: 50 }}>
+        <Canvas camera={{ position: [5, 5, 10], fov: 50 }} ref={sceneRef}>
           <color attach="background" args={["#fdfdfd"]} />
           <ambientLight intensity={0.6} />
           <directionalLight position={[5, 10, 5]} intensity={1} />
-
           {objects.map((obj) => (
             <Object3DModel
               key={obj.id}
@@ -312,14 +504,14 @@ export default function FlowerScene() {
               position={obj.position}
               mode={mode}
               setDragging={setIsDragging}
-              color={obj.type === "wrapper" ? wrapperColor : obj.type === "card" ? cardColor : undefined}
-              text={obj.type === "card" ? obj.text : undefined}
+              color={obj.type === "card" ? cardColor : undefined}
+              text={obj.type === "card" ? cardText : undefined}
+              parcelColor={parcelColor}
+              ribbonColor={ribbonColor}
               isSelected={selectedId === obj.id}
               onSelect={(id) => setSelectedId((prev) => (prev === id ? null : id))}
             />
           ))}
-
-          <axesHelper args={[5]} />
           <gridHelper args={[20, 20, 0x888888, 0x444444]} />
           <OrbitControls enabled={mode === "camera" && !isDragging} />
         </Canvas>

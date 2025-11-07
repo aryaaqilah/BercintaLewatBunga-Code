@@ -33,14 +33,19 @@ FlowerSchema.pre("validate", function (next) {
 });
 
 // === WRAPPER SCHEMA ===
+// disesuaikan: sekarang wrapper terdiri dari dua bagian: parcels & ribbon
 const WrapperSchema = new mongoose.Schema({
   modelPath: {
     type: String,
     default: "/models/wrapper.glb",
   },
-  color: {
+  parcelColor: {
     type: String,
-    default: "#ffc0cb", // pink
+    default: "#ffc0cb", // warna default parcels
+  },
+  ribbonColor: {
+    type: String,
+    default: "#ff0000", // warna default ribbon
   },
   position: {
     type: [Number],
@@ -60,7 +65,7 @@ const CardSchema = new mongoose.Schema({
   },
   color: {
     type: String,
-    default: "#cccccc",
+    default: "#ffffff",
   },
   text: {
     type: String,
@@ -86,11 +91,13 @@ const Design3DSchema = new mongoose.Schema(
     user: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",
-      required: true,
+      required: false, // dibuat opsional sementara
     },
     flowers: [FlowerSchema],
     wrapper: WrapperSchema,
     card: CardSchema,
+    question: { type: String, default: "" },
+    answer: { type: String, default: "" }, 
     createdAt: {
       type: Date,
       default: Date.now,

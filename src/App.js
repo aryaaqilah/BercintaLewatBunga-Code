@@ -7,6 +7,7 @@ import About from "./pages/About";
 import Help from "./pages/Help";
 import Login from "./pages/Login";
 import Customizer from "./pages/Customizer";
+import ARViewer from "./pages/ARViewer";
 
 export default function App() {
   return (
@@ -23,6 +24,7 @@ export default function App() {
             <Route path="/help" element={<Help />} />
             <Route path="/login" element={<Login />} />
             <Route path="/customizer" element={<Customizer />} />
+            <Route path="/ar/:id" element={<ARViewer />} />
           </Routes>
         </main>
         <Footer />
