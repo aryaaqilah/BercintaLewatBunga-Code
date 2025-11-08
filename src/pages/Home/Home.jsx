@@ -1,7 +1,7 @@
 import './Home.css'
 import HeroPicture from '../../assets/Landing.jpg'
 import OurStoryImage from '../../assets/OurStory.jpg'
-import CustomizeYourOwnImage from '../../assets/CustomizeYourOwn.jpg' // Assuming this is the image you want to use for the OurStory section
+import CustomizeYourOwnImage from '../../assets/CustomizeYourOwn.jpg'
 
 function HeroSection() {
   return (
@@ -10,7 +10,7 @@ function HeroSection() {
         <img src={HeroPicture} alt="" className='HeroPicture' />
         <div className='HeroOverlay'>
           <p className='p1 txt-color-white'>mengukir kisah melalui bunga</p>
-          <h1 className='txt-color-ternary weight-semibold'>
+          <h1 className='txt-color-ternary'>
             Preserve your <span className='txt-color-primary'>love</span> journey with 
             <br />
             <span className='txt-color-primary'>our bouquet</span>, safely living in it

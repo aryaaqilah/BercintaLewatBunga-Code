@@ -3,8 +3,8 @@ import Navbar from "./components/Navbar/NavBar";
 import Footer from "./components/footer";
 import Home from "./pages/Home/Home";
 import Shop from "./pages/Shop";
-import About from "./pages/About";
-import Help from "./pages/Help";
+import About from "./pages/About/About";
+import Help from "./pages/Help/Help";
 import Login from "./pages/Login";
 import Customizer from "./pages/Customizer";
 
