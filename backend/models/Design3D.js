@@ -27,7 +27,7 @@ const FlowerSchema = new mongoose.Schema({
 // Middleware: otomatis isi modelPath berdasarkan type
 FlowerSchema.pre("validate", function (next) {
   if (this.type && !this.modelPath) {
-    this.modelPath = `/models/${this.type}.glb`;
+    this.modelPath = `/models/${this.type}.gltf`;
   }
   next();
 });

@@ -198,6 +198,18 @@ function Object3DModel({
     </group>
   );
 }
+function SceneContent({ children, sceneRef }) {
+    const { scene } = useThree();
+    const exportGroupRef = useRef(); 
+    useEffect(() => {
+        if (exportGroupRef.current) {
+            sceneRef.current = exportGroupRef.current;
+            console.log("Export Group berhasil di-set.");
+        }
+    }, [sceneRef]);
+
+    return <group ref={exportGroupRef}>{children}</group>;
+}
 
 export default function FlowerScene() {
   const [objects, setObjects] = useState([]);
@@ -210,21 +222,17 @@ export default function FlowerScene() {
   const [cardText, setCardText] = useState("Happy Day 💐");
   const [designId, setDesignId] = useState(null);
 
-  // 🆕 Tambahan state baru
   const [modelName, setModelName] = useState("");
   const [question, setQuestion] = useState("");
   const [answer, setAnswer] = useState("");
 
   const sceneRef = useRef();
 
-  // ✅ Simpan desain ke database
   const handleSaveDesign = async () => {
-    // 🆕 Validasi nama, pertanyaan, dan jawaban
     if (!modelName.trim()) return alert("⚠️ Masukkan nama model terlebih dahulu!");
     if (!question.trim() || !answer.trim())
       return alert("⚠️ Isi pertanyaan dan jawaban untuk proteksi AR!");
 
-    // 🔹 Pisahkan objek berdasarkan tipe
     const flowers = objects
       .filter((obj) => obj.type === "flower")
       .map((obj) => ({
@@ -242,7 +250,6 @@ export default function FlowerScene() {
     const wrapperObj = objects.find((obj) => obj.type === "wrapper");
     const cardObj = objects.find((obj) => obj.type === "card");
 
-    // 🔹 Bentuk data yang sesuai schema Design3D
     const designData = {
       name: modelName,
       flowers: flowers.length > 0 ? flowers : [
@@ -312,53 +319,124 @@ export default function FlowerScene() {
       alert("❌ Gagal menyimpan desain ke server");
     }
   };
+// const handleExportGLB = async () => {
+//     if (!sceneRef.current) {
+//         alert("⚠️ Model belum siap untuk diekspor!");
+//         return;
+//     }
+//     if (!designId) {
+//         alert("💾 Simpan desain terlebih dahulu sebelum ekspor!");
+//         return;
+//     }
+//     const exporter = new GLTFExporter();
+
+//     const options = {
+//         binary: true, 
+//         embedImages: true,
+//         onlyVisible: true, 
+//         animations: [],
+//     };
+
+//     exporter.parse(
+//         // Ekspor Group yang berisi semua model
+//         sceneRef.current, 
+//         async (result) => {
+//             // Karena kita set binary: true, result PASTI ArrayBuffer (data GLB)
+//             if (!(result instanceof ArrayBuffer)) {
+//                 console.error("❌ Export gagal menghasilkan ArrayBuffer (GLB)");
+//                 alert("❌ Export gagal (Bukan format biner GLB).");
+//                 return;
+//             }
+            
+//             const blob = new Blob([result], { type: "model/gltf-binary" });
+//             const formData = new FormData();
+//             formData.append("model", blob, `${designId}.glb`);
+//             try {
+//                 const res = await fetch(`http://localhost:5000/api/design3d/${designId}/export`, {
+//                     method: "POST",
+//                     body: formData,
+//                 });
+//                 const data = await res.json();
+
+//                 if (res.ok) {
+//                     alert("✅ Model berhasil diekspor dan diunggah ke server!");
+//                 } else {
+//                     alert(`❌ Gagal: ${data.message}`);
+//                 }
+//             } catch (err) {
+//                 console.error("❌ Gagal upload model:", err);
+//                 alert("❌ Gagal mengirim file GLB ke server.");
+//             }
+//         },
+//         options // Gunakan options di sini
+//     );
+// };
+
+// --- Fungsi handleExportGLB di dalam FlowerScene() ---
 
 const handleExportGLB = async () => {
-  if (!sceneRef.current) return;
-  if (!designId) {
-    alert("💾 Simpan desain terlebih dahulu sebelum ekspor!");
-    return;
-  }
+    if (!sceneRef.current) {
+        alert("⚠️ Model belum siap untuk diekspor!");
+        return;
+    }
+    if (!designId) {
+        alert("💾 Simpan desain terlebih dahulu sebelum ekspor!");
+        return;
+    }
 
-  const exporter = new GLTFExporter();
-  exporter.parse(
-    sceneRef.current,
-    async (result) => {
-      // 🔹 Pastikan hasil dalam format biner (GLB)
-      let blob;
-      if (result instanceof ArrayBuffer) {
-        blob = new Blob([result], { type: "model/gltf-binary" });
-      } else {
-        console.warn("⚠️ Hasil ekspor bukan biner, menyimpan ke GLTF (JSON)...");
-        blob = new Blob([JSON.stringify(result)], {
-          type: "application/json",
-        });
-      }
+    const exporter = new GLTFExporter();
 
-      // 🔹 Kirim ke backend
-      const formData = new FormData();
-      formData.append("model", blob, `${designId}.glb`);
+    // 1. Opsi Eksport: Pastikan binary: false untuk GLTF (JSON)
+    const options = {
+        binary: false, // Menghasilkan JSON
+        embedImages: true,
+        onlyVisible: true,
+    };
 
-      try {
-        const res = await fetch(`http://localhost:5000/api/design3d/${designId}/export`, {
-          method: "POST",
-          body: formData,
-        });
-        const data = await res.json();
+    exporter.parse(
+        sceneRef.current, 
+        async (result) => {
+            // 2. Pemeriksaan Tipe Hasil: Cek apakah result adalah objek JSON
+            if (typeof result !== 'object') {
+                console.error("❌ Export GAGAL menghasilkan objek JSON (GLTF). Cek konsol Three.js.");
+                alert("❌ Export Gagal GLTF. Hasil bukan format JSON.");
+                return;
+            }
+            
+            // --- Proses Upload GLTF (JSON) ---
+            
+            // Konversi objek JSON menjadi string
+            const outputJSON = JSON.stringify(result, null, 2); 
+            
+            // 3. Blob & Upload: Buat Blob dengan tipe application/json dan nama file .gltf
+            const blob = new Blob([outputJSON], { type: "application/json" });
+            const formData = new FormData();
+            
+            // Ubah ekstensi menjadi .gltf
+            formData.append("model", blob, `${designId}.gltf`); 
+            
+            // ... (Kode fetch ke backend)
+            try {
+                const res = await fetch(`http://localhost:5000/api/design3d/${designId}/export`, {
+                    method: "POST",
+                    body: formData,
+                });
+                const data = await res.json();
 
-        if (res.ok) {
-          alert("✅ Model berhasil diekspor dan diunggah ke server!");
-        } else {
-          alert(`❌ Gagal: ${data.message}`);
-        }
-      } catch (err) {
-        console.error("❌ Gagal upload model:", err);
-        alert("❌ Gagal mengirim file GLB ke server.");
-      }
-    },
-    { binary: true }
-  );
+                if (res.ok) {
+                    alert("✅ Model berhasil diekspor dan diunggah ke server sebagai GLTF!");
+                } else {
+                    alert(`❌ Gagal: ${data.message}`);
+                }
+            } catch (err) {
+                console.error("❌ Gagal upload model:", err);
+                alert("❌ Gagal mengirim file GLTF ke server.");
+            }
+        },
+        options
+    );
 };
+
 
   // 🔹 Fungsi menambah objek
   const addFlower = (type) => {
@@ -491,12 +569,15 @@ const handleExportGLB = async () => {
 
       {/* Canvas */}
       <div className="w-full border-4 border-gray-400 rounded-lg overflow-hidden" style={{ height: "900px" }}>
-        <Canvas camera={{ position: [5, 5, 10], fov: 50 }} ref={sceneRef}>
-          <color attach="background" args={["#fdfdfd"]} />
-          <ambientLight intensity={0.6} />
-          <directionalLight position={[5, 10, 5]} intensity={1} />
-          {objects.map((obj) => (
-            <Object3DModel
+        <Canvas camera={{ position: [5, 5, 10], fov: 50 }}>
+          <color attach="background" args={["#fdfdfd"]} />
+          <ambientLight intensity={0.6} />
+          <directionalLight position={[5, 10, 5]} intensity={1} />
+          
+          {/* Ganti Canvas ref dengan SceneContent */}
+          <SceneContent sceneRef={sceneRef}> 
+            {objects.map((obj) => (
+              <Object3DModel
               key={obj.id}
               id={obj.id}
               type={obj.type}
@@ -511,11 +592,45 @@ const handleExportGLB = async () => {
               isSelected={selectedId === obj.id}
               onSelect={(id) => setSelectedId((prev) => (prev === id ? null : id))}
             />
-          ))}
-          <gridHelper args={[20, 20, 0x888888, 0x444444]} />
-          <OrbitControls enabled={mode === "camera" && !isDragging} />
-        </Canvas>
-      </div>
+            ))}
+          </SceneContent>
+
+          <gridHelper args={[20, 20, 0x888888, 0x444444]} />
+          <OrbitControls enabled={mode === "camera" && !isDragging} />
+        </Canvas>
+      </div>
     </div>
   );
+}
+
+// --- FUNGSI HELPER BARU ---
+
+// Helper untuk memicu download string (JSON/GLTF)
+function saveString( text, filename ) {
+    const blob = new Blob( [ text ], { type: 'text/plain' } );
+    const link = document.createElement( 'a' );
+    link.style.display = 'none';
+    document.body.appendChild( link );
+
+    link.href = URL.createObjectURL( blob );
+    link.download = filename;
+    link.click();
+
+    URL.revokeObjectURL( link.href );
+    document.body.removeChild( link );
+}
+
+// Helper untuk memicu download ArrayBuffer (GLB)
+function saveArrayBuffer( buffer, filename ) {
+    const blob = new Blob( [ buffer ], { type: 'model/gltf-binary' } );
+    const link = document.createElement( 'a' );
+    link.style.display = 'none';
+    document.body.appendChild( link );
+
+    link.href = URL.createObjectURL( blob );
+    link.download = filename;
+    link.click();
+
+    URL.revokeObjectURL( link.href );
+    document.body.removeChild( link );
 }

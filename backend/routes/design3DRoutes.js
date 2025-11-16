@@ -18,7 +18,7 @@ router.post("/", async (req, res) => {
 
     const processedFlowers = (flowers || []).map((f) => ({
       ...f,
-      modelPath: `/models/${f.type}.glb`,
+      modelPath: `/models/${f.type}.gltf`,
     }));
 
     const processedWrapper = {
@@ -98,7 +98,7 @@ router.put("/:id", async (req, res) => {
 
     const processedFlowers = (flowers || []).map((f) => ({
       ...f,
-      modelPath: `/models/${f.type}.glb`,
+      modelPath: `/models/${f.type}.gltf`,
     }));
 
     const processedWrapper = {
@@ -269,7 +269,7 @@ router.get("/:id/ar", async (req, res) => {
         </div>
 
         <model-viewer
-          src="/models/exported/${design._id}.glb"
+          src="/models/exported/${design._id}.gltf"
           ar
           ar-modes="webxr scene-viewer quick-look"
           camera-controls
@@ -326,12 +326,12 @@ router.post("/save", async (req, res) => {
 // === Konfigurasi folder penyimpanan model GLB ===
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
-    const folderPath = path.join("uploads", "models", "exported");
+    const folderPath = path.join("public", "models", "exported");
     if (!fs.existsSync(folderPath)) fs.mkdirSync(folderPath, { recursive: true });
     cb(null, folderPath);
   },
   filename: (req, file, cb) => {
-    cb(null, `${req.params.id}.glb`);
+    cb(null, `${req.params.id}.gltf`);
   },
 });
 
@@ -344,7 +344,7 @@ const upload = multer({ storage });
  */
 router.post("/:id/export", upload.single("model"), async (req, res) => {
   try {
-    const modelUrl = `/models/exported/${req.params.id}.glb`;
+    const modelUrl = `/models/exported/${req.params.id}.gltf`;
 
     await Design3D.findByIdAndUpdate(req.params.id, { modelUrl });
     res.json({ success: true, modelUrl });
