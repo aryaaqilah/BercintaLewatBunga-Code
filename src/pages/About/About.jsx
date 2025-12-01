@@ -29,7 +29,7 @@ function AboutLanding() {
             alt="White roses on a book"
             className="landing-image-bottom"
           />
-          <p className="p1 txt-color-bg-dark">
+          <p className="p1 txt-color-bg-dark landing-description">
             ullam bibendum eget turpis nec rhoncus. Integer in sapien neque.
             Phasellus egestas pellentesque ligula tempor vulputate. Sed in
             bibendum quam. Nullam dignissim dui sed metus tincidunt, id

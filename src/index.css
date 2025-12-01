@@ -1,37 +1,41 @@
 body {
   margin: 0;
+  padding: 0;
   overflow-x: hidden;
-  font-family: 'Playfair Display', serif;
+  font-family: "Playfair Display";
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   line-height: 1.5;
 }
 
 code {
-  font-family: 'Playfair Display', serif;
+  font-family: "Playfair Display";
 }
 
 :root {
-  --color-primary: #A55749;
-  --color-secondary: #B38D89;
-  --color-ternary: #3E4A49;
-  --color-background-light: #D4C4B5;
-  --color-background-dark: #7D796E;
+  --color-primary: #a55749;
+  --color-secondary: #b38d89;
+  --color-ternary: #3e4a49;
+  --color-background-light: #d4c4b5;
+  --color-background-dark: #7d796e;
 }
 
-h1, .h1 {
+h1,
+.h1 {
   font-size: 2.5rem;
   font-weight: 400;
   margin: 0;
 }
 
-h2, .h2 {
+h2,
+.h2 {
   font-size: 1.5rem;
   font-weight: 400;
   margin: 0;
 }
 
-h3, .h3 {
+h3,
+.h3 {
   font-size: 1.25rem;
   font-weight: 400;
   margin: 0;
@@ -79,6 +83,10 @@ h3, .h3 {
   color: white;
 }
 
+.txt-decoration-none {
+  text-decoration: none;
+}
+
 .weight-regular {
   font-weight: 400;
 }
@@ -91,14 +99,56 @@ h3, .h3 {
   font-weight: 700;
 }
 
+.rounded-button-primary {
+  background-color: var(--color-primary);
+  color: white;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  border-radius: 5svh;
+  padding: 1rem;
+}
+
 .button-primary {
   background-color: var(--color-primary);
   color: white;
   border: none;
   cursor: pointer;
   transition: background-color 0.3s ease;
-  border-radius: 50svh;
-  padding: 1rem 2rem;
+  border-radius: 2.5svh;
+  padding: 1rem;
+}
+
+.rounded-button-primary-fill {
+  background-color: var(--color-primary);
+  color: white;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  border-radius: 5svh;
+  padding: 1rem;
+  width: 100%;
+}
+
+.button-primary-fill {
+  background-color: var(--color-primary);
+  color: white;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  border-radius: 2.5svh;
+  padding: 1rem;
+  width: 100%;
+}
+
+.rounded-button-ternary {
+  background-color: var(--color-ternary);
+  color: white;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  border-radius: 5svh;
+  padding: 1rem;
 }
 
 .button-ternary {
@@ -107,10 +157,39 @@ h3, .h3 {
   border: none;
   cursor: pointer;
   transition: background-color 0.3s ease;
-  border-radius: 50svh;
-  padding: 1rem 2rem;
+  border-radius: 2.5svh;
+  padding: 1rem;
 }
 
-.button-primary:hover, .button-ternary:hover {
+.rounded-button-ternary-fill {
+  background-color: var(--color-ternary);
+  color: white;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  border-radius: 5svh;
+  padding: 1rem;
+  width: 100%;
+}
+
+.button-ternary-fill {
+  background-color: var(--color-ternary);
+  color: white;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  border-radius: 2.5svh;
+  padding: 1rem;
+  width: 100%;
+}
+
+.rounded-button-primary:hover,
+.button-primary:hover,
+.rounded-button-primary-fill:hover,
+.button-primary-fill:hover,
+.rounded-button-ternary:hover,
+.button-ternary:hover,
+.rounded-button-ternary-fill:hover,
+.button-ternary-fill:hover {
   opacity: 0.9;
 }

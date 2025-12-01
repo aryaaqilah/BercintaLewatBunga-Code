@@ -1,9 +1,9 @@
 .LandingSection {
-  height: 70vh;
+  height: 80vh;
   width: 100vw;
   overflow: hidden;
-  margin: 0;
   padding: 0;
+  margin-top: -6.25rem;
 }
 
 .LandingPicture {
@@ -11,7 +11,7 @@
   height: 100%;
   object-fit: cover;
   display: block;
-  object-position: bottom;
+  object-position: 0 85%;
 }
 
 .LandingOverlay {

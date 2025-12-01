@@ -5,6 +5,7 @@
   justify-content: center;
   align-items: flex-start;
   box-sizing: border-box;
+  margin-top: -6.25rem;
 }
 
 .landing-section {
@@ -59,6 +60,10 @@
   object-fit: cover;
   display: block;
   flex-shrink: 0;
+}
+
+.landing-description {
+  width: 60%;
 }
 
 .philosophy-container {
@@ -120,7 +125,7 @@
   height: 100%;
   object-fit: cover;
   display: block;
-  object-position: center 20%;
+  object-position: 0 20%;
 }
 
 .about-our-story-container {
