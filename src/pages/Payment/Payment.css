@@ -1,0 +1,108 @@
+.PaymentSection {
+  height: 85vh;
+  width: 100vw;
+  overflow: hidden;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  /* background-color: aqua; */
+}
+
+.PaymentContainer {
+  height: 100%;
+  width: 76vw;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  
+  margin: 0;
+  /* background-color: aquamarine; */
+}
+
+.box{
+    width: 12vw;
+    /* background-color: coral; */
+}
+
+.MainBoxPayment{
+  height: 90%;
+  width: 100%;
+  /* background-color: lightcoral; */
+  display: flex;
+  border: 2px solid #404C4C;
+  box-sizing: border-box;
+}
+
+.MainBoxPayment .LeftMainBox{
+  height: 100%;
+  width: 55%;
+  /* background-color: #D4BEA7; */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.MainBoxPayment .RightMainBox{
+  height: 100%;
+  width: 45%;
+  /* background-color: coral; */
+}
+
+.PaymentProduct{
+  width: 90%;
+  height: 40%;
+  /* background-color: lightblue; */
+  display: flex;
+  border-bottom: 1px solid #404C4C;
+  box-sizing: border-box;
+}
+
+.PaymentSummary{
+  width: 90%;
+  height: 50%;
+  /* background-color: lightgreen; */
+  display: flex;
+  flex-direction: column;
+  padding-top: 2%;
+}
+
+.PaymentProductPicture{
+  width: 30%;
+  height: 100%;
+  /* background-color: turquoise; */
+}
+
+.PaymentProductInfo{
+  width: 70%;
+  height: 100%;
+  /* background-color: yellow; */
+}
+
+.PaymentPriceBox{
+  width: 100%;
+  height: 15%;
+  /* background-color: lightgray; */
+  display: flex;
+  justify-content: space-between;
+}
+
+.PaymentSummaryLeft{
+  width: 50%;
+  height: 100%;
+  /* background-color: lightpink; */
+}
+
+.PaymentSummaryRight{
+  width: 50%;
+  height: 100%;
+  /* background-color: lightpink; */
+  display: flex;
+  justify-content: flex-end;
+}
+
+.PaymentSummaryItem{
+  display: flex;
+  height: 16%;
+  width: 100%;
+}

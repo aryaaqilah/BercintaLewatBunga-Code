@@ -229,7 +229,7 @@ router.get("/:id/ar", async (req, res) => {
     }
 
     // Jika jawaban benar → tampilkan AR model
-    const arPage = `
+const arPage = `
       <!DOCTYPE html>
       <html lang="en">
       <head>
@@ -241,28 +241,36 @@ router.get("/:id/ar", async (req, res) => {
           body {
             margin: 0;
             height: 100vh;
+            width: 100vw;
             display: flex;
+            flex-direction: column; /* Menyusun elemen (Info lalu Model) ke bawah */
             justify-content: center;
             align-items: center;
             background: #f7f7f7;
+            gap: 20px; /* Jarak antara teks info dan model */
           }
-          model-viewer {
-            width: 100%;
-            height: 100vh;
-            background-color: #f7f7f7;
-          }
+
+          /* Info ditaruh di luar model agar rapi */
           .info {
-            position: absolute;
-            top: 20px;
-            left: 20px;
-            background: rgba(255,255,255,0.8);
-            padding: 10px 20px;
-            border-radius: 10px;
+            text-align: center;
+            background: transparent;
             font-family: sans-serif;
+            color: #333;
+          }
+
+          /* Model viewer mengambil 80% layar */
+          model-viewer {
+            width: 80vw;
+            height: 80vh;
+            background-color: #ffffff; /* Putih agar kontras dengan background body */
+            border-radius: 20px;       /* Sudut melengkung agar cantik */
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1); /* Bayangan halus */
+            overflow: hidden;
           }
         </style>
       </head>
       <body>
+        
         <div class="info">
           <strong>${design.name}</strong><br/>
           <small>AR Mode: Ketuk ikon AR di bawah kanan 👇</small>
@@ -277,6 +285,7 @@ router.get("/:id/ar", async (req, res) => {
           shadow-intensity="1"
           exposure="1"
         ></model-viewer>
+        
       </body>
       </html>
     `;

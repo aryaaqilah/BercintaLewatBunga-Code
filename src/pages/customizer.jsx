@@ -5,6 +5,15 @@ import { useEffect, useRef, useState } from "react";
 import * as THREE from "three";
 import { GLTFExporter } from "three/examples/jsm/exporters/GLTFExporter.js";
 
+// ✅ Daftar warna yang diizinkan untuk Wrapper dan Ribbon
+const ALLOWED_COLORS = [
+  "#000000", // Hitam
+  "#ffffff", // Putih
+  "#f4cb9e", // Krem/Peach
+  "#fca1b6", // Pink
+  "#8fd9fa", // Biru Muda
+];
+
 function Object3DModel({
   id,
   modelPath,
@@ -183,8 +192,8 @@ function Object3DModel({
       {/* 💬 Teks muncul di card */}
       {type === "card" && text && (
         <Text
-          position={[0, 0.08, 0.02]}
-          fontSize={0.035}
+          position={[1, 0.18, 0.12]}
+          fontSize={99.035}
           color="black"
           anchorX="center"
           anchorY="middle"
@@ -199,16 +208,16 @@ function Object3DModel({
   );
 }
 function SceneContent({ children, sceneRef }) {
-    const { scene } = useThree();
-    const exportGroupRef = useRef(); 
-    useEffect(() => {
-        if (exportGroupRef.current) {
-            sceneRef.current = exportGroupRef.current;
-            console.log("Export Group berhasil di-set.");
-        }
-    }, [sceneRef]);
+  const { scene } = useThree();
+  const exportGroupRef = useRef();
+  useEffect(() => {
+    if (exportGroupRef.current) {
+      sceneRef.current = exportGroupRef.current;
+      console.log("Export Group berhasil di-set.");
+    }
+  }, [sceneRef]);
 
-    return <group ref={exportGroupRef}>{children}</group>;
+  return <group ref={exportGroupRef}>{children}</group>;
 }
 
 export default function FlowerScene() {
@@ -216,8 +225,9 @@ export default function FlowerScene() {
   const [selectedId, setSelectedId] = useState(null);
   const [isDragging, setIsDragging] = useState(false);
   const [mode, setMode] = useState("camera");
-  const [parcelColor, setParcelColor] = useState("#ffc0cb");
-  const [ribbonColor, setRibbonColor] = useState("#ff0000");
+  // Set default awal ke salah satu warna yang diizinkan agar konsisten
+  const [parcelColor, setParcelColor] = useState("#f4cb9e");
+  const [ribbonColor, setRibbonColor] = useState("#fca1b6");
   const [cardColor, setCardColor] = useState("#cccccc");
   const [cardText, setCardText] = useState("Happy Day 💐");
   const [designId, setDesignId] = useState(null);
@@ -229,7 +239,8 @@ export default function FlowerScene() {
   const sceneRef = useRef();
 
   const handleSaveDesign = async () => {
-    if (!modelName.trim()) return alert("⚠️ Masukkan nama model terlebih dahulu!");
+    if (!modelName.trim())
+      return alert("⚠️ Masukkan nama model terlebih dahulu!");
     if (!question.trim() || !answer.trim())
       return alert("⚠️ Isi pertanyaan dan jawaban untuk proteksi AR!");
 
@@ -252,15 +263,18 @@ export default function FlowerScene() {
 
     const designData = {
       name: modelName,
-      flowers: flowers.length > 0 ? flowers : [
-        {
-          type: "rose",
-          modelPath: "/models/rose.glb",
-          position: [0, 0, 0],
-          rotation: [0, 0, 0],
-          scale: [1, 1, 1],
-        },
-      ],
+      flowers:
+        flowers.length > 0
+          ? flowers
+          : [
+              {
+                type: "rose",
+                modelPath: "/models/rose.glb",
+                position: [0, 0, 0],
+                rotation: [0, 0, 0],
+                scale: [1, 1, 1],
+              },
+            ],
       wrapper: wrapperObj
         ? {
             modelPath: "/models/wrapper.glb",
@@ -319,124 +333,76 @@ export default function FlowerScene() {
       alert("❌ Gagal menyimpan desain ke server");
     }
   };
-// const handleExportGLB = async () => {
-//     if (!sceneRef.current) {
-//         alert("⚠️ Model belum siap untuk diekspor!");
-//         return;
-//     }
-//     if (!designId) {
-//         alert("💾 Simpan desain terlebih dahulu sebelum ekspor!");
-//         return;
-//     }
-//     const exporter = new GLTFExporter();
 
-//     const options = {
-//         binary: true, 
-//         embedImages: true,
-//         onlyVisible: true, 
-//         animations: [],
-//     };
-
-//     exporter.parse(
-//         // Ekspor Group yang berisi semua model
-//         sceneRef.current, 
-//         async (result) => {
-//             // Karena kita set binary: true, result PASTI ArrayBuffer (data GLB)
-//             if (!(result instanceof ArrayBuffer)) {
-//                 console.error("❌ Export gagal menghasilkan ArrayBuffer (GLB)");
-//                 alert("❌ Export gagal (Bukan format biner GLB).");
-//                 return;
-//             }
-            
-//             const blob = new Blob([result], { type: "model/gltf-binary" });
-//             const formData = new FormData();
-//             formData.append("model", blob, `${designId}.glb`);
-//             try {
-//                 const res = await fetch(`http://localhost:5000/api/design3d/${designId}/export`, {
-//                     method: "POST",
-//                     body: formData,
-//                 });
-//                 const data = await res.json();
-
-//                 if (res.ok) {
-//                     alert("✅ Model berhasil diekspor dan diunggah ke server!");
-//                 } else {
-//                     alert(`❌ Gagal: ${data.message}`);
-//                 }
-//             } catch (err) {
-//                 console.error("❌ Gagal upload model:", err);
-//                 alert("❌ Gagal mengirim file GLB ke server.");
-//             }
-//         },
-//         options // Gunakan options di sini
-//     );
-// };
-
-// --- Fungsi handleExportGLB di dalam FlowerScene() ---
-
-const handleExportGLB = async () => {
+  const handleExportGLB = async () => {
     if (!sceneRef.current) {
-        alert("⚠️ Model belum siap untuk diekspor!");
-        return;
+      alert("⚠️ Model belum siap untuk diekspor!");
+      return;
     }
     if (!designId) {
-        alert("💾 Simpan desain terlebih dahulu sebelum ekspor!");
-        return;
+      alert("💾 Simpan desain terlebih dahulu sebelum ekspor!");
+      return;
     }
 
     const exporter = new GLTFExporter();
 
     // 1. Opsi Eksport: Pastikan binary: false untuk GLTF (JSON)
     const options = {
-        binary: false, // Menghasilkan JSON
-        embedImages: true,
-        onlyVisible: true,
+      binary: false, // Menghasilkan JSON
+      embedImages: true,
+      onlyVisible: true,
     };
 
     exporter.parse(
-        sceneRef.current, 
-        async (result) => {
-            // 2. Pemeriksaan Tipe Hasil: Cek apakah result adalah objek JSON
-            if (typeof result !== 'object') {
-                console.error("❌ Export GAGAL menghasilkan objek JSON (GLTF). Cek konsol Three.js.");
-                alert("❌ Export Gagal GLTF. Hasil bukan format JSON.");
-                return;
-            }
-            
-            // --- Proses Upload GLTF (JSON) ---
-            
-            // Konversi objek JSON menjadi string
-            const outputJSON = JSON.stringify(result, null, 2); 
-            
-            // 3. Blob & Upload: Buat Blob dengan tipe application/json dan nama file .gltf
-            const blob = new Blob([outputJSON], { type: "application/json" });
-            const formData = new FormData();
-            
-            // Ubah ekstensi menjadi .gltf
-            formData.append("model", blob, `${designId}.gltf`); 
-            
-            // ... (Kode fetch ke backend)
-            try {
-                const res = await fetch(`http://localhost:5000/api/design3d/${designId}/export`, {
-                    method: "POST",
-                    body: formData,
-                });
-                const data = await res.json();
+      sceneRef.current,
+      async (result) => {
+        // 2. Pemeriksaan Tipe Hasil: Cek apakah result adalah objek JSON
+        if (typeof result !== "object") {
+          console.error(
+            "❌ Export GAGAL menghasilkan objek JSON (GLTF). Cek konsol Three.js."
+          );
+          alert("❌ Export Gagal GLTF. Hasil bukan format JSON.");
+          return;
+        }
 
-                if (res.ok) {
-                    alert("✅ Model berhasil diekspor dan diunggah ke server sebagai GLTF!");
-                } else {
-                    alert(`❌ Gagal: ${data.message}`);
-                }
-            } catch (err) {
-                console.error("❌ Gagal upload model:", err);
-                alert("❌ Gagal mengirim file GLTF ke server.");
+        // --- Proses Upload GLTF (JSON) ---
+
+        // Konversi objek JSON menjadi string
+        const outputJSON = JSON.stringify(result, null, 2);
+
+        // 3. Blob & Upload: Buat Blob dengan tipe application/json dan nama file .gltf
+        const blob = new Blob([outputJSON], { type: "application/json" });
+        const formData = new FormData();
+
+        // Ubah ekstensi menjadi .gltf
+        formData.append("model", blob, `${designId}.gltf`);
+
+        // ... (Kode fetch ke backend)
+        try {
+          const res = await fetch(
+            `http://localhost:5000/api/design3d/${designId}/export`,
+            {
+              method: "POST",
+              body: formData,
             }
-        },
-        options
+          );
+          const data = await res.json();
+
+          if (res.ok) {
+            alert(
+              "✅ Model berhasil diekspor dan diunggah ke server sebagai GLTF!"
+            );
+          } else {
+            alert(`❌ Gagal: ${data.message}`);
+          }
+        } catch (err) {
+          console.error("❌ Gagal upload model:", err);
+          alert("❌ Gagal mengirim file GLTF ke server.");
+        }
+      },
+      options
     );
-};
-
+  };
 
   // 🔹 Fungsi menambah objek
   const addFlower = (type) => {
@@ -445,21 +411,37 @@ const handleExportGLB = async () => {
     else if (type === "lilly") modelPath = "/models/lilly.glb";
     setObjects((prev) => [
       ...prev,
-      { id: Date.now(), type: "flower", modelPath, position: [prev.length * 0.5, 0, 0] },
+      {
+        id: Date.now(),
+        type: "flower",
+        modelPath,
+        position: [prev.length * 0.5, 0, 0],
+      },
     ]);
   };
 
   const addWrapper = () => {
     setObjects((prev) => [
       ...prev.filter((o) => o.type !== "wrapper"),
-      { id: Date.now(), type: "wrapper", modelPath: "/models/wrapper.glb", position: [0, 0, 0] },
+      {
+        id: Date.now(),
+        type: "wrapper",
+        modelPath: "/models/wrapper.glb",
+        position: [0, 0, 0],
+      },
     ]);
   };
 
   const addCard = () => {
     setObjects((prev) => [
       ...prev.filter((o) => o.type !== "card"),
-      { id: Date.now(), type: "card", modelPath: "/models/card.glb", position: [0, 0.2, 0], text: cardText },
+      {
+        id: Date.now(),
+        type: "card",
+        modelPath: "/models/card.glb",
+        position: [0, 0.2, 0],
+        text: cardText,
+      },
     ]);
   };
 
@@ -503,134 +485,185 @@ const handleExportGLB = async () => {
 
       {/* Tombol Aksi */}
       <div className="absolute top-6 right-6 flex flex-col gap-3">
-        <button onClick={() => addFlower("tulip")} className="px-6 py-3 bg-pink-600 text-white rounded-xl">🌷 Tulip</button>
-        <button onClick={() => addFlower("rose")} className="px-6 py-3 bg-red-600 text-white rounded-xl">🌹 Rose</button>
-        <button onClick={() => addFlower("lilly")} className="px-6 py-3 bg-yellow-600 text-white rounded-xl">🌸 Lilly</button>
-        <button onClick={addWrapper} className="px-6 py-3 bg-yellow-500 text-white rounded-xl">🧺 Wrapper</button>
-        <button onClick={addCard} className="px-6 py-3 bg-gray-600 text-white rounded-xl">🪪 Card</button>
-        <button onClick={deleteSelected} className="px-6 py-3 bg-red-500 text-white rounded-xl">🗑️ Hapus</button>
-        <button onClick={resetAll} className="px-6 py-3 bg-black text-white rounded-xl">♻️ Reset</button>
+        <button
+          onClick={() => addFlower("tulip")}
+          className="px-6 py-3 bg-pink-600 text-white rounded-xl"
+        >
+          🌷 Tulip
+        </button>
+        <button
+          onClick={() => addFlower("rose")}
+          className="px-6 py-3 bg-red-600 text-white rounded-xl"
+        >
+          🌹 Rose
+        </button>
+        <button
+          onClick={() => addFlower("lilly")}
+          className="px-6 py-3 bg-yellow-600 text-white rounded-xl"
+        >
+          🌸 Lilly
+        </button>
+        <button
+          onClick={addWrapper}
+          className="px-6 py-3 bg-yellow-500 text-white rounded-xl"
+        >
+          🧺 Wrapper
+        </button>
+        <button
+          onClick={addCard}
+          className="px-6 py-3 bg-gray-600 text-white rounded-xl"
+        >
+          🪪 Card
+        </button>
+        <button
+          onClick={deleteSelected}
+          className="px-6 py-3 bg-red-500 text-white rounded-xl"
+        >
+          🗑️ Hapus
+        </button>
+        <button
+          onClick={resetAll}
+          className="px-6 py-3 bg-black text-white rounded-xl"
+        >
+          ♻️ Reset
+        </button>
         {/* Input Nama & Proteksi */}
-<div className="absolute top-6 right-[300px] bg-white rounded-xl shadow-lg p-4 flex flex-col gap-3 w-72">
-  <label className="font-semibold text-gray-800">📝 Nama Model</label>
-  <input
-    type="text"
-    value={modelName}
-    onChange={(e) => setModelName(e.target.value)}
-    className="border rounded-lg px-3 py-2 text-sm"
-    placeholder="Masukkan nama desain..."
-  />
-  <label className="font-semibold text-gray-800">❓ Pertanyaan</label>
-  <input
-    type="text"
-    value={question}
-    onChange={(e) => setQuestion(e.target.value)}
-    className="border rounded-lg px-3 py-2 text-sm"
-    placeholder="Contoh: Siapa penerima buket ini?"
-  />
-  <label className="font-semibold text-gray-800">🔐 Jawaban</label>
-  <input
-    type="text"
-    value={answer}
-    onChange={(e) => setAnswer(e.target.value)}
-    className="border rounded-lg px-3 py-2 text-sm"
-    placeholder="Contoh: Dina"
-  />
-</div>
+        <div className="absolute top-6 right-[300px] bg-white rounded-xl shadow-lg p-4 flex flex-col gap-3 w-72">
+          <label className="font-semibold text-gray-800">📝 Nama Model</label>
+          <input
+            type="text"
+            value={modelName}
+            onChange={(e) => setModelName(e.target.value)}
+            className="border rounded-lg px-3 py-2 text-sm"
+            placeholder="Masukkan nama desain..."
+          />
+          <label className="font-semibold text-gray-800">❓ Pertanyaan</label>
+          <input
+            type="text"
+            value={question}
+            onChange={(e) => setQuestion(e.target.value)}
+            className="border rounded-lg px-3 py-2 text-sm"
+            placeholder="Contoh: Siapa penerima buket ini?"
+          />
+          <label className="font-semibold text-gray-800">🔐 Jawaban</label>
+          <input
+            type="text"
+            value={answer}
+            onChange={(e) => setAnswer(e.target.value)}
+            className="border rounded-lg px-3 py-2 text-sm"
+            placeholder="Contoh: Dina"
+          />
+        </div>
 
-        <button onClick={handleSaveDesign} className="px-6 py-3 bg-blue-600 text-white rounded-xl">💾 Simpan Desain</button>
-        <button onClick={handleExportGLB} className="px-6 py-3 bg-green-600 text-white rounded-xl">💾 Simpan Model</button>
+        <button
+          onClick={handleSaveDesign}
+          className="px-6 py-3 bg-blue-600 text-white rounded-xl"
+        >
+          💾 Simpan Desain
+        </button>
+        <button
+          onClick={handleExportGLB}
+          className="px-6 py-3 bg-green-600 text-white rounded-xl"
+        >
+          💾 Simpan Model
+        </button>
       </div>
 
-      {/* Panel Warna */}
+      {/* ✅ Panel Warna Dimodifikasi */}
       <div className="absolute bottom-6 right-6 bg-white rounded-xl shadow-lg p-4 flex flex-col gap-3 w-80">
-        <div className="flex items-center gap-4">
+        <div className="flex flex-col gap-2">
           <label className="font-semibold">📦 Parcel:</label>
-          <input type="color" value={parcelColor} onChange={(e) => setParcelColor(e.target.value)} />
+          <div className="flex gap-2 flex-wrap">
+            {ALLOWED_COLORS.map((color) => (
+              <button
+                key={color}
+                onClick={() => setParcelColor(color)}
+                className={`w-8 h-8 rounded-full border border-gray-300 transition-all ${
+                  parcelColor === color
+                    ? "ring-2 ring-blue-500 scale-110 shadow-md"
+                    : "hover:scale-105"
+                }`}
+                style={{ backgroundColor: color }}
+                title={color}
+              />
+            ))}
+          </div>
         </div>
-        <div className="flex items-center gap-4">
+
+        <div className="flex flex-col gap-2 mt-2">
           <label className="font-semibold">🎀 Ribbon:</label>
-          <input type="color" value={ribbonColor} onChange={(e) => setRibbonColor(e.target.value)} />
+          <div className="flex gap-2 flex-wrap">
+            {ALLOWED_COLORS.map((color) => (
+              <button
+                key={color}
+                onClick={() => setRibbonColor(color)}
+                className={`w-8 h-8 rounded-full border border-gray-300 transition-all ${
+                  ribbonColor === color
+                    ? "ring-2 ring-blue-500 scale-110 shadow-md"
+                    : "hover:scale-105"
+                }`}
+                style={{ backgroundColor: color }}
+                title={color}
+              />
+            ))}
+          </div>
         </div>
-        <div className="flex items-center gap-4">
+
+        <div className="flex items-center gap-4 mt-2">
           <label className="font-semibold">🪶 Card:</label>
-          <input type="color" value={cardColor} onChange={(e) => setCardColor(e.target.value)} />
+          <input
+            type="color"
+            value={cardColor}
+            onChange={(e) => setCardColor(e.target.value)}
+          />
         </div>
         <div>
           <label className="font-semibold">💌 Pesan Card:</label>
           <textarea
             value={cardText}
             onChange={(e) => setCardText(e.target.value.slice(0, 120))}
-            className="border rounded-lg px-3 py-2 text-sm resize-none h-24 w-full"
+            className="border rounded-lg px-3 py-2 text-sm resize-none h-24 w-full mt-1"
             maxLength={120}
           />
         </div>
       </div>
 
       {/* Canvas */}
-      <div className="w-full border-4 border-gray-400 rounded-lg overflow-hidden" style={{ height: "900px" }}>
-        <Canvas camera={{ position: [5, 5, 10], fov: 50 }}>
-          <color attach="background" args={["#fdfdfd"]} />
-          <ambientLight intensity={0.6} />
-          <directionalLight position={[5, 10, 5]} intensity={1} />
-          
-          {/* Ganti Canvas ref dengan SceneContent */}
-          <SceneContent sceneRef={sceneRef}> 
-            {objects.map((obj) => (
-              <Object3DModel
-              key={obj.id}
-              id={obj.id}
-              type={obj.type}
-              modelPath={obj.modelPath}
-              position={obj.position}
-              mode={mode}
-              setDragging={setIsDragging}
-              color={obj.type === "card" ? cardColor : undefined}
-              text={obj.type === "card" ? cardText : undefined}
-              parcelColor={parcelColor}
-              ribbonColor={ribbonColor}
-              isSelected={selectedId === obj.id}
-              onSelect={(id) => setSelectedId((prev) => (prev === id ? null : id))}
-            />
-            ))}
-          </SceneContent>
+      <div
+        className="w-full border-4 border-gray-400 rounded-lg overflow-hidden"
+        style={{ height: "900px" }}
+      >
+        <Canvas camera={{ position: [5, 5, 10], fov: 50 }}>
+          <color attach="background" args={["#fdfdfd"]} />
+          <ambientLight intensity={0.6} />
+          <directionalLight position={[5, 10, 5]} intensity={1} />
 
-          <gridHelper args={[20, 20, 0x888888, 0x444444]} />
-          <OrbitControls enabled={mode === "camera" && !isDragging} />
-        </Canvas>
-      </div>
+          <SceneContent sceneRef={sceneRef}>
+            {objects.map((obj) => (
+              <Object3DModel
+                key={obj.id}
+                id={obj.id}
+                type={obj.type}
+                modelPath={obj.modelPath}
+                position={obj.position}
+                mode={mode}
+                setDragging={setIsDragging}
+                color={obj.type === "card" ? cardColor : undefined}
+                text={obj.type === "card" ? cardText : undefined}
+                parcelColor={parcelColor}
+                ribbonColor={ribbonColor}
+                isSelected={selectedId === obj.id}
+                onSelect={(id) =>
+                  setSelectedId((prev) => (prev === id ? null : id))
+                }
+              />
+            ))}
+          </SceneContent>
+
+          <gridHelper args={[20, 20, 0x888888, 0x444444]} />
+          <OrbitControls enabled={mode === "camera" && !isDragging} />
+        </Canvas>
+      </div>
     </div>
   );
-}
-
-// --- FUNGSI HELPER BARU ---
-
-// Helper untuk memicu download string (JSON/GLTF)
-function saveString( text, filename ) {
-    const blob = new Blob( [ text ], { type: 'text/plain' } );
-    const link = document.createElement( 'a' );
-    link.style.display = 'none';
-    document.body.appendChild( link );
-
-    link.href = URL.createObjectURL( blob );
-    link.download = filename;
-    link.click();
-
-    URL.revokeObjectURL( link.href );
-    document.body.removeChild( link );
-}
-
-// Helper untuk memicu download ArrayBuffer (GLB)
-function saveArrayBuffer( buffer, filename ) {
-    const blob = new Blob( [ buffer ], { type: 'model/gltf-binary' } );
-    const link = document.createElement( 'a' );
-    link.style.display = 'none';
-    document.body.appendChild( link );
-
-    link.href = URL.createObjectURL( blob );
-    link.download = filename;
-    link.click();
-
-    URL.revokeObjectURL( link.href );
-    document.body.removeChild( link );
 }

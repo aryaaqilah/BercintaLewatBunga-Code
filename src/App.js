@@ -8,6 +8,9 @@ import Help from "./pages/Help";
 import Login from "./pages/Login";
 import Customizer from "./pages/Customizer";
 import ARViewer from "./pages/ARViewer";
+import Address from "./pages/Address/Address";
+import Confirmation from "./pages/Confirmation/Confirmation";
+import Payment from "./pages/Payment/Payment";
 
 export default function App() {
   return (
@@ -25,6 +28,9 @@ export default function App() {
             <Route path="/login" element={<Login />} />
             <Route path="/customizer" element={<Customizer />} />
             <Route path="/ar/:id" element={<ARViewer />} />
+            <Route path="/address" element={<Address />} />
+            <Route path="/confirmation" element={<Confirmation />} />
+            <Route path="/payment" element={<Payment />} />
           </Routes>
         </main>
         <Footer />
