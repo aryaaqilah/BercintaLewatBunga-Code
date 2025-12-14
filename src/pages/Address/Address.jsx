@@ -14,21 +14,21 @@ function MainSection() {
                 <div className="LeftContainer insideContainer">
                   <form>
                     <label>Nama Penerima</label><br />
-                    <input type="text" name="name" placeholder="Masukkan nama penerima" /><br />
+                    <input type="text" name="name" placeholder="Masukkan nama penerima" style={{  borderRadius: "10px", height: "40%" }} /><br />
                   </form>
                    <form>
                     <label>Email Penerima</label><br />
-                    <input type="text" name="email" placeholder="Masukkan email penerima" /><br />
+                    <input type="text" name="email" placeholder="Masukkan email penerima" style={{ borderRadius: "10px", height: "40%" }} /><br />
                   </form>
                   <form>
                     <label>Nomor Telepon Penerima</label><br />
-                    <input type="text" name="phone" placeholder="Masukkan nomor telepon" /><br />
+                    <input type="text" name="phone" placeholder="Masukkan nomor telepon" style={{ borderRadius: "10px", height: "40%" }}  /><br />
                   </form>
                 </div>
                 <div className="MidContainer insideContainer">
                   <form>
                     <label>Provinsi</label><br />
-                    <input type="text" name="province" placeholder="Masukkan provinsi" /><br />
+                    <input type="text" name="province" placeholder="Masukkan provinsi" style={{ borderRadius: "10px", height: "40%" }} /><br />
                   </form>
                   <form>
                     <label>Kota/Kabupaten</label>
@@ -40,7 +40,7 @@ function MainSection() {
                   </form>
                   <form>
                     <label>Kode Pos</label><br />
-                    <input type="text" name="postalcode" placeholder="Masukkan kode pos" /><br />
+                    <input type="text" name="postalcode" placeholder="Masukkan kode pos" style={{ borderRadius: "10px", height: "40%" }} /><br />
                   </form>
                 </div>
                 <div className="RightContainer">

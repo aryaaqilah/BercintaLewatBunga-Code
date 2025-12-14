@@ -1,0 +1,142 @@
+.Temp-MainSection {
+  height: 90vh;
+  width: 100vw;
+  overflow: hidden;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  /* background-color: aqua; */
+}
+
+.Temp-SectionContainer {
+  height: (56.25rem * 2) + 40vh;
+  width: 76vw;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  
+  margin: 0;
+  /* background-color: aquamarine; */
+}
+
+.box{
+    width: 12vw;
+    /* background-color: coral; */
+}
+
+.Temp-MainBox{
+    /* background-color: lightblue; */
+    width: 100%;
+    height: 85%;
+    /* border: 2px solid #404C4C; */
+    display: flex;
+    /* flex-direction: column; */
+    justify-content: center;
+
+}
+
+.Temp-ModelBox{
+    background-color: #D4BEA7;
+    width: 50%;
+    height: 100%;
+    border-top-left-radius: 200px;
+    border-bottom-right-radius: 200px;
+}
+
+.Temp-InfoBox{
+    /* background-color: lightpink; */
+    /* border-bottom-right-radius: 200px; */
+    /* border: 2px solid #404C4C; */
+    box-sizing: border-box;
+    width: 50%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.CustomizerMessage{
+    width: 90%;
+    height: 12%;
+    /* background-color: lightgreen; */
+}
+
+.CustomizerAddModel{
+    width: 90%;
+    height: 33%;
+    /* background-color: lightyellow; */
+}
+
+.CustomizerColor{
+    width: 90%;
+    height: 15%;
+    /* background-color: lightgreen; */
+}
+
+.CustomizerQuestion{
+    width: 90%;
+    height: 15%;
+    /* background-color: lightseagreen; */
+}
+
+.CustomizerAnswer{
+    width: 90%;
+    height: 15%;
+    /* background-color: lightsalmon; */
+}
+
+/* Container Utama */
+.input-group {
+  display: flex;             /* Menyusun label & input bersebelahan */
+  height: 80%;
+  width: 100%;
+  max-width: 600px;          /* Lebar maksimal */
+       /* Sudut melengkung */
+  overflow: hidden;          /* Memotong sudut anak elemen */
+  font-family: 'Times New Roman', serif; /* Font Serif sesuai gambar */
+}
+
+/* Bagian Label (Kiri) */
+.input-label {
+  background-color: #7f8381; /* Abu-abu gelap */
+  color: white;
+  padding: 10px 10px;        /* Spasi di sekitar teks label */
+  white-space: nowrap;       /* Mencegah teks turun baris */
+  display: flex;
+  align-items: center;       /* Tengah vertikal */
+  font-size: 16px;
+  cursor: pointer;           /* Kursor berubah saat hover label */
+  border-bottom-left-radius: 10px;
+  border-top-left-radius: 10px;
+  width: 30%;
+}
+
+/* Bagian Input (Kanan) */
+.input-field-customizer{
+  background-color: #c4c3bf; /* Abu-abu muda/beige */
+  border: none;              /* HAPUS border bawaan browser */
+  outline: none;             /* HAPUS garis biru saat diklik */
+  flex-grow: 1;              /* Mengisi sisa ruang */
+  padding: 10px 15px;        /* Spasi di dalam ketikan */
+  font-size: 16px;
+  color: #333;               /* Warna teks saat mengetik */
+  /* border: 1px solid #404C4C; */
+  border-bottom-right-radius: 10px;
+  border-top-right-radius: 10px;
+}
+
+/* Opsional: Efek saat input diklik/aktif */
+.input-field:focus {
+  background-color: #dcdbd7; /* Sedikit lebih terang saat mengetik */
+  border-radius: 0px;
+
+}
+
+.label-pesan{
+   background-color: #A95C4C
+}
+
+.input-pesan{
+    background-color: #D4BEA7
+}

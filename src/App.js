@@ -11,6 +11,7 @@ import ARViewer from "./pages/ARViewer";
 import Address from "./pages/Address/Address";
 import Confirmation from "./pages/Confirmation/Confirmation";
 import Payment from "./pages/Payment/Payment";
+import Temp from "./pages/Temp/Temp";
 
 export default function App() {
   return (
@@ -31,6 +32,7 @@ export default function App() {
             <Route path="/address" element={<Address />} />
             <Route path="/confirmation" element={<Confirmation />} />
             <Route path="/payment" element={<Payment />} />
+            <Route path="/temp" element={<Temp />} />
           </Routes>
         </main>
         <Footer />
