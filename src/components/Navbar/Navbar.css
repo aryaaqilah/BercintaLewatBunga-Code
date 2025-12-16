@@ -54,3 +54,10 @@ ul {
     border-radius: 5svh;
     padding: 0.5rem 1rem;
 }
+
+.ProfilePicture img {
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 50%;
+  object-fit: cover;
+}

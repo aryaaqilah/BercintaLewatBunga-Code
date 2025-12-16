@@ -126,7 +126,7 @@ h3,
   cursor: pointer;
   transition: background-color 0.3s ease;
   border-radius: 5svh;
-  padding: 1rem;
+  padding: 0.5rem;
   width: 100%;
 }
 
@@ -137,7 +137,7 @@ h3,
   cursor: pointer;
   transition: background-color 0.3s ease;
   border-radius: 2.5svh;
-  padding: 1rem;
+  padding: 0.5rem;
   width: 100%;
 }
 
@@ -168,7 +168,7 @@ h3,
   cursor: pointer;
   transition: background-color 0.3s ease;
   border-radius: 5svh;
-  padding: 1rem;
+  padding: 0.5rem;
   width: 100%;
 }
 
@@ -179,7 +179,7 @@ h3,
   cursor: pointer;
   transition: background-color 0.3s ease;
   border-radius: 2.5svh;
-  padding: 1rem;
+  padding: 0.5rem;
   width: 100%;
 }
 

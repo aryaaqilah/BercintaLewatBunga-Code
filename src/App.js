@@ -8,10 +8,12 @@ import Help from "./pages/Help/Help";
 import Login from "./pages/Login/Login";
 import Register from "./pages/Register/Register"
 import Customizer from "./pages/Customizer";
+import Profile from "./pages/Profile/Profile";
+import OrderDetail from "./pages/Order Detail/OrderDetail";
 
 function AppContent() {
   const location = useLocation();
-  const hideNavAndFooter = location.pathname === "/login" || location.pathname === "/register";
+  const hideNavAndFooter = location.pathname === "/login" || location.pathname === "/register"|| location.pathname === "/profile" || location.pathname === "/order-detail";
 
   return (
     <>
@@ -25,6 +27,8 @@ function AppContent() {
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
           <Route path="/customizer" element={<Customizer />} />
+          <Route path="/profile" element={<Profile />} />
+          <Route path="/order-detail" element={<OrderDetail />} />
         </Routes>
       </main>
       {!hideNavAndFooter && <Footer />}
