@@ -5,12 +5,26 @@ import cors from "cors";
 import path from "path";
 import { fileURLToPath } from "url";
 
-import design3DRoutes from "./routes/design3DRoutes.js";
-import userRoutes from "./routes/userRoutes.js";
-import productRoutes from "./routes/productRoutes.js";
-import orderRoutes from "./routes/orderRoutes.js";
-import addressRoutes from "./routes/addressRoutes.js";
+// === 1. Import Routes Utama (Sesuai Contoh Anda) ===
+import userRoutes from "./routes/UserrRoutes.js";
+import orderRoutes from "./routes/OrderRoutes.js";
+import productRoutes from "./routes/ProductRoutes.js";
+import addressRoutes from "./routes/AddressRoutes.js";
+// Catatan: Saya asumsikan design3DRoutes adalah untuk model 3DModel/3DModelRoutes.js
+import design3DRoutes from "./routes/3dModelRoutes.js"; // Menggunakan nama yang Anda berikan (design3DRoutes)
 
+// === 2. Import Routes Detail dan Geografis (Tambahan) ===
+import itemRoutes from "./routes/ItemRoutes.js";
+import componentRoutes from "./routes/ComponentRoutes.js";
+import deliveryRoutes from "./routes/DeliveryRoutes.js";
+import discountRoutes from "./routes/DiscountRoutes.js";
+import administrationFeeRoutes from "./routes/AddressRoutes.js";
+import provinceRoutes from "./routes/ProvinceRoutes.js";
+import cityRoutes from "./routes/CityRoutes.js";
+import districtRoutes from "./routes/DiscountRoutes.js";
+import postalCodeRoutes from "./routes/PostalCodeRoutes.js";
+
+// Load environment variables
 dotenv.config();
 
 const app = express();
@@ -21,19 +35,34 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 // === Middleware ===
-app.use(cors({ origin: "http://localhost:3000" })); // izinkan frontend React
+app.use(cors({ origin: process.env.CLIENT_URL || "http://localhost:3000" })); // Izinkan frontend React (menggunakan env atau fallback)
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 // === Folder publik untuk file model (GLB, dsb) ===
+// Ini akan melayani file statis di URL: http://localhost:5000/models/namafile.glb
 app.use("/models", express.static(path.join(__dirname, "public", "models")));
 
+// --- PENTING: Struktur database ini membutuhkan folder 'public/models' ---
+// 
+
 // === Routes ===
-app.use("/api/design3d", design3DRoutes);
 app.use("/api/users", userRoutes);
-app.use("/api/products", productRoutes);
 app.use("/api/orders", orderRoutes);
+app.use("/api/products", productRoutes);
 app.use("/api/addresses", addressRoutes);
+app.use("/api/design3d", design3DRoutes); // Mapped to 3DModel routes
+
+// Routes Detail dan Geografis
+app.use("/api/items", itemRoutes);
+app.use("/api/components", componentRoutes);
+app.use("/api/deliveries", deliveryRoutes);
+app.use("/api/discounts", discountRoutes);
+app.use("/api/adminfees", administrationFeeRoutes);
+app.use("/api/provinces", provinceRoutes);
+app.use("/api/cities", cityRoutes);
+app.use("/api/districts", districtRoutes);
+app.use("/api/postalcodes", postalCodeRoutes);
 
 // === Tes koneksi backend ===
 app.get("/", (req, res) => {
@@ -43,8 +72,9 @@ app.get("/", (req, res) => {
 // === Koneksi ke MongoDB ===
 mongoose
   .connect(process.env.MONGO_URI, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
+    // Opsi ini tidak diperlukan di Mongoose terbaru, namun dipertahankan untuk kompatibilitas/gaya coding.
+    // useNewUrlParser: true,
+    // useUnifiedTopology: true,
   })
   .then(() => console.log("✅ MongoDB Connected"))
   .catch((err) => console.error("❌ MongoDB Connection Error:", err));

@@ -2,53 +2,50 @@ import express from "express";
 import Product from "../models/Product.js";
 
 const router = express.Router();
+const POPULATE_FIELDS = ['3DModelId', 'Items'];
 
-// Tambah product baru
+// 🛍️ Tambah Product Baru (POST /api/products)
 router.post("/", async (req, res) => {
   try {
     const product = new Product(req.body);
     await product.save();
     res.status(201).json(product);
-  } catch (err) {
-    res.status(400).json({ error: err.message });
-  }
+  } catch (err) { res.status(400).json({ error: err.message }); }
 });
 
-// Ambil semua product
+// 🛒 Ambil Semua Product (GET /api/products)
 router.get("/", async (req, res) => {
-  const products = await Product.find().populate("design3D");
-  res.json(products);
+  try {
+    const products = await Product.find().populate(POPULATE_FIELDS);
+    res.json(products);
+  } catch (err) { res.status(500).json({ error: err.message }); }
 });
 
-// Ambil product berdasarkan ID
+// 🔎 Ambil Product Berdasarkan ID (GET /api/products/:id)
 router.get("/:id", async (req, res) => {
   try {
-    const product = await Product.findById(req.params.id).populate("design3D");
+    const product = await Product.findById(req.params.id).populate(POPULATE_FIELDS);
     if (!product) return res.status(404).json({ error: "Product not found" });
     res.json(product);
-  } catch (err) {
-    res.status(400).json({ error: err.message });
-  }
+  } catch (err) { res.status(400).json({ error: err.message }); }
 });
 
-// Update product
+// 🖊️ Update Product (PUT /api/products/:id)
 router.put("/:id", async (req, res) => {
   try {
-    const updated = await Product.findByIdAndUpdate(req.params.id, req.body, { new: true });
-    res.json(updated);
-  } catch (err) {
-    res.status(400).json({ error: err.message });
-  }
+    const product = await Product.findByIdAndUpdate(req.params.id, req.body, { new: true, runValidators: true }).populate(POPULATE_FIELDS);
+    if (!product) return res.status(404).json({ error: "Product not found" });
+    res.json(product);
+  } catch (err) { res.status(400).json({ error: err.message }); }
 });
 
-// Hapus product
+// ❌ Hapus Product (DELETE /api/products/:id)
 router.delete("/:id", async (req, res) => {
   try {
-    await Product.findByIdAndDelete(req.params.id);
-    res.json({ message: "Product deleted successfully" });
-  } catch (err) {
-    res.status(400).json({ error: err.message });
-  }
+    const product = await Product.findByIdAndDelete(req.params.id);
+    if (!product) return res.status(404).json({ error: "Product not found" });
+    res.status(204).send();
+  } catch (err) { res.status(400).json({ error: err.message }); }
 });
 
 export default router;
