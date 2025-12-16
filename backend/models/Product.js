@@ -1,16 +1,13 @@
 import mongoose from "mongoose";
 
 const productSchema = new mongoose.Schema({
-  namaProduk: { type: String, required: true },
-  harga: { type: Number, required: true },
-  quantity: { type: Number, default: 1 },
-  deskripsi: String,
-  design3D: { 
-    type: mongoose.Schema.Types.ObjectId, 
-    ref: "Design3D",
-    required: false // ✅ optional
-  },
-  gambar : [{type: String, required: true}]
+  Name: { type: String, required: true },
+  Price: { type: Number, required: true },
+  Quantity: { type: Number, required: true },
+  Image: { type: String, required: true },
+  '3DModelId': { type: mongoose.Schema.Types.ObjectId, ref: '3DModel', required: false },
+  Memo: { type: String, required: false },
+  Items: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Item', required: false }]
 });
 
 export default mongoose.model("Product", productSchema);

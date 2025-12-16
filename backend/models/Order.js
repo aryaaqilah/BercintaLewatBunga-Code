@@ -1,18 +1,15 @@
 import mongoose from "mongoose";
 
 const orderSchema = new mongoose.Schema({
-  user: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
-  products: [
-  {
-    productId: { type: mongoose.Schema.Types.ObjectId, ref: "Product" },
-    quantity: Number,
-  },
-],
-
-  address: { type: mongoose.Schema.Types.ObjectId, ref: "Address" }, // 🏠 alamat pengiriman
-  tanggal: { type: Date, default: Date.now },
-  status: { type: String, default: "pending" },
-  totalHarga: { type: Number, default: 0 }
+  Status: { type: String, required: true },
+  AddressId: { type: mongoose.Schema.Types.ObjectId, ref: 'Address', required: true },
+  DeliveryId: { type: mongoose.Schema.Types.ObjectId, ref: 'Delivery', required: true },
+  ProductId: { type: mongoose.Schema.Types.ObjectId, ref: 'Product', required: true },
+  Notes: { type: String, required: false },
+  ProductPrice: { type: Number, required: true },
+  AdministrationFee: { type: mongoose.Schema.Types.ObjectId, ref: 'AdministrationFee', required: true },
+  DiscountId: { type: mongoose.Schema.Types.ObjectId, ref: 'Discount', required: false },
+  Total: { type: Number, required: true },
 });
 
 export default mongoose.model("Order", orderSchema);

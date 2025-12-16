@@ -16,8 +16,6 @@ import Temp from "./pages/Temp/Temp";
 import Profile from "./pages/Profile/Profile";
 import OrderDetail from "./pages/Order Detail/OrderDetail";
 
-export default function App() {
-
 function AppContent() {
   const location = useLocation();
   const hideNavAndFooter = location.pathname === "/login" || location.pathname === "/register"|| location.pathname === "/profile" || location.pathname === "/order-detail";
