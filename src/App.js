@@ -8,8 +8,15 @@ import Help from "./pages/Help/Help";
 import Login from "./pages/Login/Login";
 import Register from "./pages/Register/Register"
 import Customizer from "./pages/Customizer";
+import ARViewer from "./pages/ARViewer";
+import Address from "./pages/Address/Address";
+import Confirmation from "./pages/Confirmation/Confirmation";
+import Payment from "./pages/Payment/Payment";
+import Temp from "./pages/Temp/Temp";
 import Profile from "./pages/Profile/Profile";
 import OrderDetail from "./pages/Order Detail/OrderDetail";
+
+export default function App() {
 
 function AppContent() {
   const location = useLocation();
@@ -27,6 +34,11 @@ function AppContent() {
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
           <Route path="/customizer" element={<Customizer />} />
+            <Route path="/ar/:id" element={<ARViewer />} />
+            <Route path="/address" element={<Address />} />
+            <Route path="/confirmation" element={<Confirmation />} />
+            <Route path="/payment" element={<Payment />} />
+            <Route path="/temp" element={<Temp />} />
           <Route path="/profile" element={<Profile />} />
           <Route path="/order-detail" element={<OrderDetail />} />
         </Routes>
