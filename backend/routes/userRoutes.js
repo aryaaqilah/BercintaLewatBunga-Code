@@ -7,6 +7,7 @@ const router = express.Router();
 router.post("/", async (req, res) => {
   try {
     const user = new User(req.body);
+    console.log("Membuat user baru:", user);
     await user.save();
     res.status(201).json(user);
   } catch (err) {

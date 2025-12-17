@@ -193,3 +193,14 @@ h3,
 .button-ternary-fill:hover {
   opacity: 0.9;
 }
+
+.rounded-button-primary:disabled,
+.button-primary:disabled,
+.rounded-button-primary-fill:disabled,
+.button-primary-fill:disabled,
+.rounded-button-ternary:disabled,
+.button-ternary:disabled,
+.rounded-button-ternary-fill:disabled,
+.button-ternary-fill:disabled {
+  opacity: 0.1;
+}
