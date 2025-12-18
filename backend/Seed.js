@@ -15,7 +15,7 @@ import ThreeDModel from './models/3DModel.js';
 import AdministrationFee from './models/AdministrationFee.js';
 
 // Ganti dengan URI database MongoDB Anda
-const MONGODB_URI = 'mongodb+srv://aryaaqilah2020_db_user:s8jglFJcnRB45mX7@cluster0.spugfgw.mongodb.net/blb?retryWrites=true&w=majority&appName=Cluster0'; 
+const MONGODB_URI = 'mongodb+srv://bercintalewatbunga_db_user:7F29fbo7G1zgkQnf@bercintalewatbunga.wzelzbn.mongodb.net/?appName=bercintalewatbunga'; 
 
 const seedDatabase = async () => {
     try {

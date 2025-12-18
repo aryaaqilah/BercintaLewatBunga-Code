@@ -15,6 +15,7 @@ import Payment from "./pages/Payment/Payment";
 import Temp from "./pages/Temp/Temp";
 import Profile from "./pages/Profile/Profile";
 import OrderDetail from "./pages/Order Detail/OrderDetail";
+import { AuthProvider } from './AuthContext';
 
 function AppContent() {
   const location = useLocation();
@@ -48,8 +49,10 @@ function AppContent() {
 
 export default function App() {
   return (
-    <Router>
-      <AppContent />
-    </Router>
+    <AuthProvider>
+      <Router>
+        <AppContent />
+      </Router>
+    </AuthProvider>
   );
 }

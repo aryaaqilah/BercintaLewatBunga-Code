@@ -25,6 +25,21 @@ router.get("/", async (req, res) => {
   }
 });
 
+router.post("/login", async (req, res) => {
+  try {
+    const { email, password } = req.body;
+    const user = await User.findOne({ "Email": email, "Password": password });
+    
+    if (!user) {
+      return res.status(404).json({ error: "Input Tidak Valid" });
+    }
+
+    res.json(user);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
 // 🔎 Ambil User Berdasarkan ID (GET /api/users/:id)
 router.get("/:id", async (req, res) => {
   try {
