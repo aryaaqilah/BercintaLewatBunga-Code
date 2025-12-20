@@ -1,56 +1,46 @@
-import React, { useState } from 'react';
-import { CardModel } from '../../models/CardModel';
+import React, { useState , useContext} from 'react';
+import { useNavigate } from 'react-router-dom'; // Import hook navigasi
 import Card from './Card';
-import bouquetImage from '../../assets/Logo/Logo_Primary_Light.png';
-import logo from '../../assets/Logo/Logo_Primary_Dark.png';
 import './Card.css';
+import { AuthContext } from "../../AuthContext";
 
-const CardSet = () => {
+const CardSet = ({ cards }) => {
+  const { user } = useContext(AuthContext);
   const [activeIndex, setActiveIndex] = useState(0);
+  const navigate = useNavigate(); // Inisialisasi fungsi navigasi
 
   const handleCardClick = (index) => {
     setActiveIndex(index);
   };
 
-  const cardData = [
-    new CardModel(
-      'Kreasikan buketmu',
-      'IDR 300',
-      'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
-      logo,
-      bouquetImage
-    ),
-    new CardModel(
-      'Buket Mawar Merah',
-      'IDR 350',
-      'Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
-      logo,
-      bouquetImage
-    ),
-    new CardModel(
-      'Buket Bunga Matahari',
-      'IDR 400',
-      'Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.',
-      logo,
-      bouquetImage
-    ),
-    new CardModel(
-      'Buket Tulip Putih',
-      'IDR 450',
-      'Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
-      logo,
-      bouquetImage
-    ),
-  ];
+  const handleCardSelect = (card) => {
+     // Berpindah ke halaman /order
+    // Opsi: Kirim data produk yang dipilih melalui state agar bisa dibaca di halaman Order
+    if (user) {
+      console.log("Selected card:", card);
+      navigate('/confirmation', { 
+      state: { selectedProduct: card } 
+    });
+    }
+    else{
+      alert("Silakan login terlebih dahulu untuk melakukan pembelian.");
+      navigate('/login');
+    }
+  }
+
+  // Proteksi jika data cards belum termuat
+  if (!cards || cards.length === 0) return null;
 
   return (
     <div className="card-set">
-      {cardData.map((card, index) => (
+      {cards.map((card, index) => (
         <Card
-          key={index}
+          key={card.id || index}
           isActive={index === activeIndex}
+          // Kirim index dan data card ke fungsi handler
           onClick={() => handleCardClick(index)}
           cardModel={card}
+          onSelect={() => handleCardSelect(card)}
         />
       ))}
     </div>

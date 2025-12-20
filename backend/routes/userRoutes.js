@@ -62,6 +62,29 @@ router.put("/:id", async (req, res) => {
   }
 });
 
+router.put("/:id/add-order", async (req, res) => {
+  try {
+    const userId = req.params.id;
+    const { OrderId } = req.body;
+
+    console.log("User ID:", userId);
+    console.log("Order ID:", OrderId);
+
+    const updatedUser = await User.findByIdAndUpdate(
+      userId,
+      { 
+        // DI SINI LETAK $PUSH
+        $push: { Orders: OrderId } 
+      },
+      { new: true } // Mengembalikan data user yang sudah terupdate
+    );
+
+    res.status(200).json(updatedUser);
+  } catch (error) {
+    res.status(500).json({ message: "Gagal update user", error });
+  }
+});
+
 // 🗑️ Hapus User Berdasarkan ID (DELETE /api/users/:id)
 router.delete("/:id", async (req, res) => {
   try {

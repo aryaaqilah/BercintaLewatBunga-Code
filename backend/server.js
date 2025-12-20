@@ -18,7 +18,7 @@ import itemRoutes from "./routes/ItemRoutes.js";
 import componentRoutes from "./routes/ComponentRoutes.js";
 import deliveryRoutes from "./routes/DeliveryRoutes.js";
 import discountRoutes from "./routes/DiscountRoutes.js";
-import administrationFeeRoutes from "./routes/AddressRoutes.js";
+import administrationFeeRoutes from "./routes/AdministrationFeeRoutes.js";
 import provinceRoutes from "./routes/ProvinceRoutes.js";
 import cityRoutes from "./routes/CityRoutes.js";
 import districtRoutes from "./routes/DiscountRoutes.js";
@@ -63,9 +63,10 @@ app.use("/api/provinces", provinceRoutes);
 app.use("/api/cities", cityRoutes);
 app.use("/api/districts", districtRoutes);
 app.use("/api/postalcodes", postalCodeRoutes);
+app.use(express.static('public'));
 
 // === Tes koneksi backend ===
-app.get("/", (req, res) => {
+  app.get("/", (req, res) => {
   res.send("✅ Backend florist-3d API is running!");
 });
 

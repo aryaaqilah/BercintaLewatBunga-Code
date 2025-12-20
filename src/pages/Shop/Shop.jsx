@@ -1,15 +1,35 @@
 import { div } from "three/tsl";
 import CardSet from "../../components/Card/CardSet";
 import "./Shop.css";
+import { useEffect, useState, useRef, useContext } from "react";
+import { CardModel } from "../../models/CardModel";
+import { useNavigate } from "react-router-dom";
+import { AuthContext } from "../../AuthContext";
 
-function LandingSection() {
+
+// const productData = [];
+function LandingSection({productData}) {
+  const cards = productData.map(product => {
+    return new CardModel(
+      product.Name,
+      product.Price,
+      product.Memo,
+      product.Image,
+      product.Image
+    );
+  });
+
+  console.log('cards:', cards);
+  console.log('productData:', productData);
+
   return (
+
     <section className="ShopLandingSection">
       <div className="ShopLandingDescription">
         <h1 className="txt-color-primary">Ukir Kisah Cintamu</h1>
         <h3 className="txt-color-ternary">Yang terbaik untuk yang terkasih</h3>
       </div>
-      <CardSet />
+      <CardSet cards={cards} navigate={useNavigate()}/>
     </section>
   );
 }
@@ -18,10 +38,41 @@ function MostPopularSection() {
   return <section></section>;
 }
 
-export default function Home() {
+export default function Shop() {
+    const [productData, setProductData] = useState([]);
+    const API_URL = "http://localhost:5000/api/products"; 
+    const handleSubmit = async (e) => {
+    try{
+      const response = await fetch(API_URL, { 
+      method: 'GET' ,
+      headers: {
+          'Content-Type': 'application/json',
+      },
+    });
+    const data = await response.json();
+    const latestData = data.reverse().slice(0, 3); 
+    
+    setProductData(latestData);
+    console.log(data);
+    console.log("Fetch successful");
+    }catch (error) { 
+      console.log("Error:", error);
+    } finally {
+    }
+  };
+
+const hasFetched = useRef(false);
+
+useEffect(() => {
+  if (!hasFetched.current) {
+    handleSubmit();
+    hasFetched.current = true;
+  }
+}, []);
+
   return (
     <div>
-      <LandingSection />
+      <LandingSection productData={productData} />
       <MostPopularSection />
     </div>
   );
