@@ -11,11 +11,13 @@ import { AuthContext } from "../../AuthContext";
 function LandingSection({productData}) {
   const cards = productData.map(product => {
     return new CardModel(
+      product._id,
       product.Name,
       product.Price,
       product.Memo,
       product.Image,
-      product.Image
+      product.Image,
+      false
     );
   });
 

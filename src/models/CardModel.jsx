@@ -1,6 +1,7 @@
 
 export class CardModel {
-  constructor(title, price, description, logo, image, isCustomizable) {
+  constructor(id, title, price, description, logo, image, isCustomizable) {
+    this.id = id;
     this.title = title;
     this.price = price;
     this.description = description;
