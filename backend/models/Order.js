@@ -1,14 +1,14 @@
 import mongoose from "mongoose";
 
 const orderSchema = new mongoose.Schema({
-  Status: { type: String, required: true },
-  AddressId: { type: mongoose.Schema.Types.ObjectId, ref: 'Address', required: true },
-  DeliveryId: { type: mongoose.Schema.Types.ObjectId, ref: 'Delivery', required: true },
-  ProductId: { type: mongoose.Schema.Types.ObjectId, ref: 'Product', required: true },
+  Status: { type: Number, required: true },
+  Address: { type: mongoose.Schema.Types.ObjectId, ref: 'Address', required: true },
+  Delivery: { type: mongoose.Schema.Types.ObjectId, ref: 'Delivery', required: true },
+  Product: { type: mongoose.Schema.Types.ObjectId, ref: 'Product', required: true },
   Notes: { type: String, required: false },
   ProductPrice: { type: Number, required: true },
   AdministrationFee: { type: mongoose.Schema.Types.ObjectId, ref: 'AdministrationFee', required: true },
-  DiscountId: { type: mongoose.Schema.Types.ObjectId, ref: 'Discount', required: false },
+  Discount: { type: mongoose.Schema.Types.ObjectId, ref: 'Discount', required: false },
   Total: { type: Number, required: true },
 });
 

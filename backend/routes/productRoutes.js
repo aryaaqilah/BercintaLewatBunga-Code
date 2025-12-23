@@ -2,7 +2,7 @@ import express from "express";
 import Product from "../models/Product.js";
 
 const router = express.Router();
-const POPULATE_FIELDS = ['3DModelId', 'Items'];
+const POPULATE_FIELDS = ['3DModel', 'Items'];
 
 // 🛍️ Tambah Product Baru (POST /api/products)
 router.post("/", async (req, res) => {

@@ -21,29 +21,47 @@
 }
 
 .ProfileSection {
-    margin: 0 4.375rem;
+  margin: 0 4.375rem;
 }
 
 .ProfileHeader {
   display: flex;
   align-items: center;
-  gap: 20px;
+  justify-content: space-between;
   margin-bottom: 40px;
 }
 
-.ProfilePicture img {
-  width: 5rem;
-  height: 5rem;
+.ProfileInfo {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.ProfileIcon {
+  width: 2.5rem;
+  height: 2.5rem;
   border-radius: 50%;
   object-fit: cover;
+  color: var(--color-background-dark);
+}
+
+.ProfileActions {
+  display: flex;
+  gap: 15px;
+  font-size: 1.5rem;
+  color: var(--color-background-dark);
+  cursor: pointer;
 }
 
 .UserName {
   margin: 0;
+  font-family: 'Playfair Display', serif; /* Assuming the font from design */
 }
 
 .UserDetail {
-  margin-bottom: 3.125rem;
+  margin-bottom: 2rem;
+  display: flex;
+  flex-direction: column;
 }
 
 .DetailRow {
@@ -56,24 +74,105 @@
   flex: 1;
   display: flex;
   flex-direction: column;
+  gap: 8px;
+}
+
+.Label label {
+  font-size: 0.9rem;
+  opacity: 0.8;
 }
 
 .Label input {
-  background-color: rgba(212, 190, 167, 0.3);
+  background-color: rgba(212, 190, 167, 0.5);
   border: none;
   padding: 1rem;
-  border-radius: 1svh;
+  border-radius: 8px;
+}
+
+.Label input::placeholder {
+  color: #a0a0a0;
 }
 
 .Label input:focus {
   outline: 0;
 }
 
+.Label input.read-only-input {
+  cursor: default;
+  background-color: rgba(212, 190, 167, 0.3);
+}
+
+.Label input.read-only-input:focus {
+  outline: none;
+}
+
+.ButtonContainer {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 2rem;
+  gap: 1rem;
+  transition: opacity 0.3s ease;
+}
+
+.SaveButtonContainer {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 3.125rem;
+}
+
+.SaveButton {
+  background-color: var(--color-primary);
+  color: white;
+  border: none;
+  padding: 0.6rem 3rem;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 1rem;
+}
+
+.SaveButton:hover {
+  background-color: #8e5c4a;
+}
+
+.SaveButton:disabled {
+  background-color: #cccccc;
+  cursor: not-allowed;
+  opacity: 0.7;
+}
+
 .MyOrderSection {
   background-color: rgba(212, 190, 167, 0.3);
   padding: 1.875rem;
-  border-radius: 2.5svh;
+  border-radius: 15px;
   display: flex;
   flex-direction: column;
-  gap: 1rem;
+  gap: 1.5rem;
+}
+
+.ErrorMessage {
+  color: #d93025;
+  font-size: 0.75rem;
+  margin-top: -15px; /* Pulls it up closer to the inputs */
+  margin-bottom: 15px;
+  font-weight: 500;
+}
+
+.SaveButton:disabled {
+  background-color: #cccccc;
+  cursor: not-allowed;
+  opacity: 0.7;
+}
+
+.Label input.invalid {
+  border: 1px solid #d93025;
+}
+
+.CancelButton {
+  background-color: var(--color-ternary);
+  color: white;
+  border: none;
+  padding: 0.6rem 3rem;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 1rem;
 }

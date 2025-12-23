@@ -15,7 +15,7 @@ router.post("/", async (req, res) => {
 // 📚 Ambil Semua PostalCode (GET /api/postalcodes)
 router.get("/", async (req, res) => {
   try {
-    const postalCodes = await PostalCode.find().populate('DistrictId');
+    const postalCodes = await PostalCode.find().populate('District');
     res.json(postalCodes);
   } catch (err) { res.status(500).json({ error: err.message }); }
 });
@@ -23,7 +23,7 @@ router.get("/", async (req, res) => {
 // 📖 Ambil PostalCode Berdasarkan ID (GET /api/postalcodes/:id)
 router.get("/:id", async (req, res) => {
   try {
-    const postalCode = await PostalCode.findById(req.params.id).populate('DistrictId');
+    const postalCode = await PostalCode.findById(req.params.id).populate('District');
     if (!postalCode) return res.status(404).json({ error: "PostalCode not found" });
     res.json(postalCode);
   } catch (err) { res.status(400).json({ error: err.message }); }
@@ -32,7 +32,7 @@ router.get("/:id", async (req, res) => {
 // ✏️ Update PostalCode (PUT /api/postalcodes/:id)
 router.put("/:id", async (req, res) => {
   try {
-    const postalCode = await PostalCode.findByIdAndUpdate(req.params.id, req.body, { new: true, runValidators: true }).populate('DistrictId');
+    const postalCode = await PostalCode.findByIdAndUpdate(req.params.id, req.body, { new: true, runValidators: true }).populate('District');
     if (!postalCode) return res.status(404).json({ error: "PostalCode not found" });
     res.json(postalCode);
   } catch (err) { res.status(400).json({ error: err.message }); }

@@ -15,7 +15,7 @@ router.post("/", async (req, res) => {
 // 📚 Ambil Semua City (GET /api/cities)
 router.get("/", async (req, res) => {
   try {
-    const cities = await City.find().populate('ProvinceId');
+    const cities = await City.find().populate('Province');
     res.json(cities);
   } catch (err) { res.status(500).json({ error: err.message }); }
 });
@@ -23,7 +23,7 @@ router.get("/", async (req, res) => {
 // 📖 Ambil City Berdasarkan ID (GET /api/cities/:id)
 router.get("/:id", async (req, res) => {
   try {
-    const city = await City.findById(req.params.id).populate('ProvinceId');
+    const city = await City.findById(req.params.id).populate('Province');
     if (!city) return res.status(404).json({ error: "City not found" });
     res.json(city);
   } catch (err) { res.status(400).json({ error: err.message }); }
@@ -32,7 +32,7 @@ router.get("/:id", async (req, res) => {
 // ✏️ Update City (PUT /api/cities/:id)
 router.put("/:id", async (req, res) => {
   try {
-    const city = await City.findByIdAndUpdate(req.params.id, req.body, { new: true, runValidators: true }).populate('ProvinceId');
+    const city = await City.findByIdAndUpdate(req.params.id, req.body, { new: true, runValidators: true }).populate('Province');
     if (!city) return res.status(404).json({ error: "City not found" });
     res.json(city);
   } catch (err) { res.status(400).json({ error: err.message }); }

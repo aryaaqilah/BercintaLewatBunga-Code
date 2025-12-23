@@ -76,13 +76,13 @@ const seedDatabase = async () => {
         // 3. --- Buat Data Level 1 (Menggunakan FK dari Level 0) ---
         console.log('\n--- Memasukkan Data Level 1 ---');
 
-        const city1 = await City.create({ Name: 'Jakarta Selatan', ProvinceId: province1._id });
+        const city1 = await City.create({ Name: 'Jakarta Selatan', Province: province1._id });
         console.log(`- City: ID ${city1._id}`);
 
-        const district1 = await District.create({ Name: 'Kebayoran Baru', CityId: city1._id });
+        const district1 = await District.create({ Name: 'Kebayoran Baru', City: city1._id });
         console.log(`- District: ID ${district1._id}`);
         
-        const postalCode1 = await PostalCode.create({ Name: '12120', DistrictId: district1._id });
+        const postalCode1 = await PostalCode.create({ Name: '12120', District: district1._id });
         console.log(`- PostalCode: ID ${postalCode1._id}`);
 
         const item1 = await Item.create({ ComponentId: componentA._id, Quantity: 2 });
@@ -92,10 +92,10 @@ const seedDatabase = async () => {
         const address1 = await Address.create({
             RecipientNumber: '0812111222',
             RecipientName: 'Budi Santoso',
-            ProvinceId: province1._id,
-            CityId: city1._id,
-            DistrictId: district1._id,
-            PostalCodeId: postalCode1._id,
+            Province: province1._id,
+            City: city1._id,
+            District: district1._id,
+            PostalCode: postalCode1._id,
             Detail: 'Jalan Senopati No. 5'
         });
         console.log(`- Address: ID ${address1._id}`);
@@ -108,7 +108,7 @@ const seedDatabase = async () => {
             Price: 500000,
             Quantity: 10,
             Image: '/img/robot.png',
-            '3DModelId': model3D._id,
+            '3DModel': model3D._id,
             Items: [item1._id, item2._id] // Array of Item IDs
         });
         console.log(`- Product: ID ${productA._id}`);
@@ -124,13 +124,13 @@ const seedDatabase = async () => {
         console.log('\n--- Memasukkan Data Level 3 ---');
 
         const order1 = await Order.create({
-            Status: 'PENDING',
-            AddressId: address1._id,
-            DeliveryId: deliveryService._id,
-            ProductId: productA._id,
+            Status: 2,
+            Address: address1._id,
+            Delivery: deliveryService._id,
+            Product: productA._id,
             ProductPrice: productA.Price * 1.0, // Quantity 1
             AdministrationFee: adminFee._id,
-            DiscountId: discountPromo._id,
+            Discount: discountPromo._id,
             Total: (productA.Price + adminFee.Fee) * (1 - discountPromo.Percentage) 
             // Total: 507500 * 0.9 = 456750
         });

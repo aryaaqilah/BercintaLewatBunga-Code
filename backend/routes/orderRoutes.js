@@ -2,7 +2,7 @@ import express from "express";
 import Order from "../models/Order.js";
 
 const router = express.Router();
-const POPULATE_FIELDS = ['AddressId', 'DeliveryId', 'ProductId', 'AdministrationFee', 'DiscountId'];
+const POPULATE_FIELDS = ['Address', 'Delivery', 'Product', 'AdministrationFee', 'Discount'];
 
 // 📦 Buat Order Baru (POST /api/orders)
 router.post("/", async (req, res) => {
