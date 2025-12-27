@@ -20,6 +20,25 @@ router.get("/", async (req, res) => {
   } catch (err) { res.status(500).json({ error: err.message }); }
 });
 
+// 📚 Ambil Province by province_id (GET /api/provinces)
+router.get("/get-by-id/", async (req, res) => {
+  try {
+        const { provinsi_id } = req.query;
+        
+        let filter = {};
+        if (provinsi_id) {
+            // Penting: Gunakan Number() karena data di gambar Anda adalah tipe angka
+            filter = { provinsi_id: Number(provinsi_id) };
+        }
+
+        // Mencari ke database menggunakan model yang sudah ada di backend
+        const data = await Province.find(filter); 
+        res.status(200).json(data);
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+});
+
 // 📖 Ambil Province Berdasarkan ID (GET /api/provinces/:id)
 router.get("/:id", async (req, res) => {
   try {
