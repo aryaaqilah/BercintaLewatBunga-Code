@@ -12,8 +12,13 @@ import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
 function MainSection({selectedProduct, modelScene, meta}) {
     const { user } = useContext(AuthContext);
     const navigate = useNavigate(); // Inisialisasi fungsi navigasi
-     const [data, setData] = useState();
-     let tempData = {};
+    const [data, setData] = useState();
+    let tempData = {};
+
+    const [pesan, setPesan] = useState("");
+    const [catatan, setCatatan] = useState("");
+    const [voucher, setVoucher] = useState("");
+
     const handleCardSelect = (selectedProduct) => {
   const summaryText = meta?.summary
     .filter(item => item.qty > 0)
@@ -28,12 +33,18 @@ function MainSection({selectedProduct, modelScene, meta}) {
     finalDataToSend = {
       id: "",
       isCustomizable: true,
-      title: "Customized Bouquet",
+      title: meta.modelName,
       description: summaryText,
       price: meta?.totalPrice,
       image: "",
       // modelScene: modelScene, // ❌ HAPUS BARIS INI (Penyebab Error)
-      quantity: 1
+      quantity: 1,
+      catatan : catatan,
+      voucher : voucher,
+      question : meta.question,
+      answer : meta.answer,
+      pesan : pesan,
+      items : meta.items
     };
   }
 
@@ -84,26 +95,62 @@ function MainSection({selectedProduct, modelScene, meta}) {
         /* Hanya tampilkan jika qty lebih besar dari 0 */
         item.qty > 0 && (
           <div key={index} className="summary-item">
-            <p style={{ fontSize: '15px', fontWeight: '500' }}>
+            {/* <p style={{ fontSize: '15px', fontWeight: '500' }}> */}
               {item.name} x{item.qty}
-            </p>
+            {/* </p> */}
           </div>
         )
       ))}<br /></p>
                 </div>
                 <div className="SummaryBox">
-                  <div className="QuantityBox">
+                  <div className="QtyBox">
                     <h2>x 1</h2>
                   </div>
                   <div className="PriceBox">
-                    <h2>{selectedProduct?.price || meta?.totalPrice.toLocaleString('id-ID')}</h2>
+                    <h2>Rp. {selectedProduct?.price || meta?.totalPrice.toLocaleString('id-ID')}</h2>
                   </div>
                 </div>
-                <div className="NotesBox">
+                <div className="CustomizerMessage">
+                  <div className="input-group">
+                    <label htmlFor="pesan" className="input-label label-pesan">pesan untuknya</label>
+                    <input 
+                      type="text" 
+                      id="pesan" 
+                      className="input-field-customizer input-pesan" 
+                      value={pesan}
+                      onChange={(e) => setPesan(e.target.value)}
+                    />
+                  </div>                        
+                </div>
+                <div className="CustomizerMessage">
+                  <div className="input-group">
+                    <label htmlFor="catatan" className="input-label label-catatan">catatan pesanan</label>
+                    <input 
+                      type="text" 
+                      id="catatan" 
+                      className="input-field-customizer input-catatan"
+                      value={catatan}
+                      onChange={(e) => setCatatan(e.target.value)}
+                    />
+                  </div>                        
+                </div>
+                <div className="CustomizerMessage">
+                  <div className="input-group">
+                    <label htmlFor="voucher" className="input-label label-voucher">kode voucher</label>
+                    <input 
+                      type="text" 
+                      id="voucher" 
+                      className="input-field-customizer input-voucher" 
+                      value={voucher}
+                      onChange={(e) => setVoucher(e.target.value)}
+                    />
+                  </div>                        
+                </div>
+                {/* <div className="NotesBox">
                   Notes :
                   <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Voluptatem, magni?</p>
-                </div>
-                <div className="btnContainer" style={{display: 'flex', justifyContent: 'center'}}>
+                </div> */}
+                <div className="btnContainer" style={{display: 'flex', justifyContent: 'center', paddingTop : "30px"}}>
                   <button className="btnConfirm" onClick={() => handleCardSelect(selectedProduct)}>Konfirmasi</button>
                 </div>
               </div>
@@ -125,49 +172,15 @@ export default function Confirmation() {
   const [modelScene, setModelScene] = useState(null);
   const [meta, setMeta] = useState(null);
 
-
-
   useEffect(() => {
-  const syncProvinces = async () => {
-  try {
-    const response = await fetch("https://api-regional-indonesia.vercel.app/api/provinces");
-        const result = await response.json();
-        const provinces = result.data;
-
-    const provincesPayload = provinces.map(prov => ({
-            _id: prov.id, // Menggunakan ID asli sebagai _id di MongoDB
-            name: prov.name
-        }));
-
-        console.log("Provinces Payload:", provincesPayload);
-
-        const testProv = provincesPayload[0];
-
-        // 3. POST ke API lokal Anda
-        const res = await fetch("http://localhost:5000/api/provinces", { // Sesuaikan endpoint Anda
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(testProv), 
-        });
-
-        const savedData = await res.json();
-
-        if (!res.ok) {
-            throw new Error(savedData.message || "Gagal menyimpan data provinsi");
-        }
-
-        console.log("Berhasil menyimpan semua provinsi:", savedData);
-        alert("Data berhasil disinkronisasi!");
-  } catch (error) {
-    console.error("Gagal simpan data:", error);
-  }
-}
-
-    syncProvinces();
   const loadFromDB = async () => {
     // 1. Ambil Metadata
     const savedMeta = await getDb('pending_order_meta');
     setMeta(savedMeta);
+
+    console.log("Nama Buket : ", savedMeta.modelName);
+    console.log("Question : ", savedMeta.question);
+    console.log("Answer : ", savedMeta.answer);
 
     // 2. Ambil Data Model
     const data = await getDb('pending_order_model');

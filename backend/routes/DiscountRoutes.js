@@ -20,6 +20,23 @@ router.get("/", async (req, res) => {
   } catch (err) { res.status(500).json({ error: err.message }); }
 });
 
+router.get("/get-voucher/", async (req, res) => {
+  try {
+        const { Name } = req.query;
+        let filter = {};
+        if (Name) {
+            // Penting: Gunakan Number() karena data di gambar Anda adalah tipe angka
+            filter = { Name: Name };
+        }
+        // Mencari ke database menggunakan model yang sudah ada di backend
+        const data = await Discount.find(filter); 
+        console.log("Discount : ", data);
+        res.status(200).json(data);
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+});
+
 // 📖 Ambil Discount Berdasarkan ID (GET /api/discounts/:id)
 router.get("/:id", async (req, res) => {
   try {

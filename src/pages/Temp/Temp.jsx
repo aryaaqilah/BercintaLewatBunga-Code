@@ -586,16 +586,21 @@ const getGroupedSummary = () => {
     const count = objects.filter((obj) => obj.modelPath === comp.Asset).length;
     const subTotal = count * (comp.Price || 0);
 
+    let tempId = ""
+
     return {
       name: comp.Name,
       qty: count,
       price: subTotal,
+      ComponentId : comp._id
     };
   });
 };
 
 const summaryData = getGroupedSummary();
 const totalPrice = summaryData.reduce((sum, item) => sum + item.price, 0);
+
+const formattedSummary = summaryData.map(item => [item.ComponentId, item.qty]);
 
     const handleSaveDesign = async () => {
       if (!modelName.trim())
@@ -867,6 +872,28 @@ const totalPrice = summaryData.reduce((sum, item) => sum + item.price, 0);
       onlyVisible: true,
     };
 
+    console.log("formattedSummary ", formattedSummary)
+
+    // let formattedItems = [{
+    //   ComponentId : "",
+    //   Quantity : 0
+    // }];
+
+    const formattedItems = summaryData.map(formattedSummary => [{ComponentId : formattedSummary.ComponentId, Quantity : formattedSummary.qty}]);
+
+    // formattedItems[0].ComponentId = '694e44be85890620cea2e86e';
+    // formattedItems[1].ComponentId = '694e44b185890620cea2e86c';
+    // formattedItems[2].ComponentId = '694e448285890620cea2e86a';
+    // formattedItems[3].ComponentId = '694e44d385890620cea2e870';
+
+    // formattedItems[0].Quantity = formattedSummary[0][1];
+    // formattedItems[1].Quantity = formattedSummary[1][1];
+    // formattedItems[2].Quantity = formattedSummary[2][1];
+    // formattedItems[3].Quantity = formattedSummary[3][1];
+
+    
+    console.log("FORMATTED ITEMS ", formattedItems)
+
     console.log("📦 Memulai proses export ke IndexedDB...");
 
     exporter.parse(
@@ -885,6 +912,10 @@ const totalPrice = summaryData.reduce((sum, item) => sum + item.price, 0);
           parcelColor,
           ribbonColor,
           cardText,
+          modelName,
+          question,
+          answer,
+          items : formattedItems,
           timestamp: Date.now()
         };
           await setDb('pending_order_meta', orderMeta);
@@ -942,6 +973,8 @@ const totalPrice = summaryData.reduce((sum, item) => sum + item.price, 0);
 
   resumeDesign();
 }, [setObjects, setParcelColor, setRibbonColor, setCardText]);
+
+
 
   return (
     
@@ -1053,21 +1086,41 @@ const totalPrice = summaryData.reduce((sum, item) => sum + item.price, 0);
                 Sampaikan Bunga Mu
             </div>
               <div className="CustomizerMessage">
-                <div class="input-group">
-                  <label for="pesan" class="input-label label-pesan">pesan untuknya</label>
-                  <input type="text" id="pesan" class="input-field-customizer input-pesan" name="pesan"></input>
+                <div className="input-group">
+                  <label htmlFor="nama" className="input-label label-nama">nama buket</label>
+                  <input 
+                    type="text" 
+                    id="nama" 
+                    className="input-field-customizer input-nama" 
+                    value={modelName}
+                    onChange={(e) => setModelName(e.target.value)} // Update state saat diketik
+                  />
                 </div>                        
               </div>
-                            <div className="CustomizerQuestion">
-                <div class="input-group">
-                  <label for="question" class="input-label">pertanyaan konfirmasi</label>
-                  <input type="text" id="question" class="input-field-customizer" name="question"></input>
+
+              <div className="CustomizerQuestion">
+                <div className="input-group">
+                  <label htmlFor="question" className="input-label">pertanyaan konfirmasi</label>
+                  <input 
+                    type="text" 
+                    id="question" 
+                    className="input-field-customizer"
+                    value={question}
+                    onChange={(e) => setQuestion(e.target.value)}
+                  />
                 </div> 
               </div>
+
               <div className="CustomizerAnswer">
-                <div class="input-group">
-                  <label for="answer" class="input-label">jawaban</label>
-                  <input type="text" id="answer" class="input-field-customizer" name="answer"></input>
+                <div className="input-group">
+                  <label htmlFor="answer" className="input-label">jawaban</label>
+                  <input 
+                    type="text" 
+                    id="answer" 
+                    className="input-field-customizer"
+                    value={answer}
+                    onChange={(e) => setAnswer(e.target.value)}
+                  />
                 </div> 
               </div>
               <div className="CustomizerAddModel">

@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
 
 const deliverySchema = new mongoose.Schema({
-  ShippingCode: { type: String, required: true, unique: true },
+  ShippingCode: { type: String, required: true},
   Service: { type: String, required: true },
   EstimatedArrival: { type: Date, required: true },
   TrackingLink: { type: String, required: true },

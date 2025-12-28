@@ -40,8 +40,8 @@ function MainSection({selectedProduct, addressData, adminFee, discountData, mode
   const tempDistrict = 3202170;
   const tempPostalCode = 43192;
 
-  const tempQuestion = "u love me?";
-  const tempAnswer = "yes"
+  const tempQuestion = selectedProduct.question;
+  const tempAnswer = selectedProduct.answer
 
   const [model, setModel] = useState([]);
 
@@ -110,10 +110,10 @@ function MainSection({selectedProduct, addressData, adminFee, discountData, mode
         // const formattedDate = date.toISOString().split('T')[0];
 
         const deliveryPayload = {
-          ShippingCode : "GRAB-12022152223232784222182420222221",
+          ShippingCode : "To be inputed 12345678912345678",
           Service : "GrabSend",
           EstimatedArrival : date,
-          TrackingLink : "https://grab.send.com",
+          TrackingLink : "To be inputed",
           Notes : addressData.Note || "No notes available"
         }
 
@@ -158,7 +158,7 @@ function MainSection({selectedProduct, addressData, adminFee, discountData, mode
 
         const modelUpdatePayload = {
           ModelId : modelId,
-          Path : currentModelPath
+          Path : modelUrl
         }
 
         console.log("modelUpdatePayload ", modelUpdatePayload)
@@ -173,17 +173,55 @@ function MainSection({selectedProduct, addressData, adminFee, discountData, mode
 
         console.log(savedModel);
 
+      //SECTION POST ITEMS
+      let collectedIds = [{}];
+      // const itemsData = selectedProduct.items;
+      const postItems = async (itemsData) => {
+        // itemsData adalah array utama dari gambar tersebut
+        for (const itemArray of itemsData) {
+          // Karena tiap item adalah array berisi 1 objek, kita ambil indeks ke-0
+          const payload = {
+            ComponentId: itemArray[0].ComponentId,
+            Quantity: itemArray[0].Quantity
+          };
+
+          try {
+            const response = await fetch("http://localhost:5000/api/items", {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(payload),
+          });
+            const savedItems = await response.json();
+            const newId = savedItems._id;
+            if (newId) {
+              collectedIds.push({tempId : newId});
+              console.log(`✅ Tersimpan: ${newId}`);
+            }
+            console.log(`✅ Berhasil simpan ComponentId: ${payload.ComponentId}`);
+          } catch (error) {
+            console.error(`❌ Gagal simpan ${payload.ComponentId}:`, error);
+          }
+        }
+      };
+
+      await postItems(selectedProduct.items);
+
+      console.log("======= collectedIds : ", collectedIds)
+      console.log("======= collectedIds : ", collectedIds[1].tempId)
+      const testItem = [{id : '567890'}]
+      console.log("======= testItem : ", testItem)
+
       // SECTION POST PRODUCT =========================================================================
       let productIdTemp = "";
       if (selectedProduct.isCustomizable && modelScene){
         const productPayload = {
-          Name : "Customized Bouquet",
+          Name : selectedProduct.title,
           Price : productPrice,
           Quantity : 1,
           Image : "kosong",
           ThreeDModel : modelId,
-          Memo : "PESAN UNTUKNYA",
-          Items :[]
+          Memo : selectedProduct.pesan,
+          Items : [collectedIds[1].tempId, collectedIds[2].tempId, collectedIds[3].tempId, collectedIds[4].tempId]
         }
 
         console.log("PRODUCT PAYLOAD : ", productPayload);
@@ -215,7 +253,7 @@ function MainSection({selectedProduct, addressData, adminFee, discountData, mode
             ProductId: productIdTemp,
             ProductPrice: productPrice,
             AdministrationFee: adminFee[0]._id,
-            DiscountId: discountData[0]._id || null,
+            DiscountId: discountData.percentage === 0.0 ? null : (discountData._id || null),
             Total: totalOrder,
         };
         console.log("Order Payload:", orderPayload);
@@ -276,8 +314,8 @@ function MainSection({selectedProduct, addressData, adminFee, discountData, mode
   
   // 1. Validasi Input (Gunakan data yang ada atau nilai default)
   const name = selectedProduct?.title || "Customized Bouquet";
-  const finalQuestion = "What is this?"; // Sesuaikan jika ada state question
-  const finalAnswer = "Flower";        // Sesuaikan jika ada state answer
+  const finalQuestion = selectedProduct?.question; // Sesuaikan jika ada state question
+  const finalAnswer = selectedProduct?.answer;        // Sesuaikan jika ada state answer
 
   // 2. Siapkan Data Metadata (JSON)
   const designData = {
@@ -382,7 +420,7 @@ function MainSection({selectedProduct, addressData, adminFee, discountData, mode
                   </div>
                   <div className="PaymentNotes" style={{ fontSize : "12px" , height : "30%"}}>
                     Notes : <br />
-                    {addressData?.Note || "No notes available"}
+                    {selectedProduct?.catatan || "No notes available"}
                   </div>
                 </div>
               </div>
@@ -447,29 +485,6 @@ export default function Payment() {
   const hasFetched = useRef(false);
   const [modelScene, setModelScene] = useState(null);
 
-  const fetchData = async () => {
-    try {
-      // Fetch Admin Fee
-      const resFee = await fetch("http://localhost:5000/api/adminfees/");
-      const dataFee = await resFee.json();
-      setAdminFee(dataFee.reverse().slice(0, 1));
-
-      // Fetch Discount
-      const resDisc = await fetch("http://localhost:5000/api/discounts/");
-      const dataDisc = await resDisc.json();
-      setDiscountData(dataDisc.reverse().slice(0, 1));
-    } catch (error) { 
-      console.log("Error fetching data:", error);
-    }
-  };
-
-  useEffect(() => {
-    if (!hasFetched.current) {
-      fetchData();
-      hasFetched.current = true;
-    }
-  }, []);
-
   useEffect(() => {
     const loadAndParseModel = async () => {
       const data = await getDb('pending_order_model'); 
@@ -483,6 +498,41 @@ export default function Payment() {
     };
     loadAndParseModel();
     fetchData(); // Fungsi fetch admin fee & discount Anda
+  }, []);
+
+    const fetchData = async () => {
+    try {
+      // Fetch Admin Fee
+      const resFee = await fetch("http://localhost:5000/api/adminfees/");
+      const dataFee = await resFee.json();
+      setAdminFee(dataFee.reverse().slice(0, 1));
+
+      const response = await fetch(`http://localhost:5000/api/discounts/get-voucher?name=${selectedProduct.voucher}`);
+        if (!response.ok) {
+            throw new Error("Gagal mengambil data voucher");
+        }
+        const dataDisc = await response.json();
+      // Fetch Discount
+      // const resDisc = await fetch("http://localhost:5000/api/discounts/");
+      // const dataDisc = await resDisc.json();
+      setDiscountData(dataDisc);
+
+      console.log("DISCOUNT DATA : ", discountData)
+    } catch (error) { 
+      console.log("Error fetching data:", error);
+      const discountNA = {
+        Name : "VOUCHER NOT FOUND",
+        Percentage : 0.0
+      }
+      setDiscountData(discountNA);
+    }
+  };
+
+  useEffect(() => {
+    if (!hasFetched.current) {
+      fetchData();
+      hasFetched.current = true;
+    }
   }, []);
 
   console.log("selected ",selectedProduct);
