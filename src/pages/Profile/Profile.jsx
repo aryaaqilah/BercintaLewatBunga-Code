@@ -4,10 +4,12 @@ import OrderCard from "../../components/Order Card/OrderCard";
 import { FaUser, FaEdit, FaSignOutAlt } from "react-icons/fa";
 import { useAuth } from "../../contexts/AuthContext";
 import { useAlert } from "../../contexts/AlertContext";
+import { useLoading } from "../../contexts/LoadingContext";
 
 const Profile = () => {
   const { user, logout, login } = useAuth();
   const { showAlert } = useAlert();
+  const { showLoading, hideLoading } = useLoading();
   const [isEditing, setIsEditing] = useState(false);
   const [orders, setOrders] = useState([]);
   const [error, setError] = useState("");
@@ -101,6 +103,7 @@ const Profile = () => {
   useEffect(() => {
     const fetchUserData = async () => {
       if (!user?._id) return;
+      showLoading("Memuat Data User...");
       try {
         // NOTE: Ensure backend uses .populate({ path: 'Orders', populate: ['Product', 'Address', 'Delivery'] })
         const response = await fetch(
@@ -120,6 +123,8 @@ const Profile = () => {
       } catch (err) {
         console.error("Fetch error:", err);
         setOrders([]);
+      } finally {
+        hideLoading();
       }
     };
     fetchUserData();

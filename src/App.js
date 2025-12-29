@@ -20,6 +20,7 @@ import AlertModal from "./components/AlertModal/AlertModal";
 import IdleTimer from "./components/IdleTimer";
 import { AuthProvider, useAuth } from './contexts/AuthContext';
 import { AlertProvider } from './contexts/AlertContext';
+import { LoadingProvider } from './contexts/LoadingContext';
 
 function AppContent() {
   const location = useLocation();
@@ -60,7 +61,9 @@ export default function App() {
     <AuthProvider>
       <Router>
         <AlertProvider> 
-          <AppContent />
+          <LoadingProvider>
+            <AppContent />
+          </LoadingProvider>
         </AlertProvider>
       </Router>
     </AuthProvider>
