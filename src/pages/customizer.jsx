@@ -4,6 +4,7 @@ import { OrbitControls, Text, useGLTF } from "@react-three/drei";
 import { useEffect, useRef, useState } from "react";
 import * as THREE from "three";
 import { GLTFExporter } from "three/examples/jsm/exporters/GLTFExporter.js";
+import { useAlert } from "../contexts/AlertContext";
 
 // ✅ Daftar warna yang diizinkan untuk Wrapper dan Ribbon
 const ALLOWED_COLORS = [
@@ -235,14 +236,15 @@ export default function FlowerScene() {
   const [modelName, setModelName] = useState("");
   const [question, setQuestion] = useState("");
   const [answer, setAnswer] = useState("");
+  const { showAlert } = useAlert();
 
   const sceneRef = useRef();
 
   const handleSaveDesign = async () => {
     if (!modelName.trim())
-      return alert("⚠️ Masukkan nama model terlebih dahulu!");
+      return showAlert("⚠️ Masukkan nama model terlebih dahulu!");
     if (!question.trim() || !answer.trim())
-      return alert("⚠️ Isi pertanyaan dan jawaban untuk proteksi AR!");
+      return showAlert("⚠️ Isi pertanyaan dan jawaban untuk proteksi AR!");
 
     const flowers = objects
       .filter((obj) => obj.type === "flower")
@@ -321,26 +323,26 @@ export default function FlowerScene() {
 
       if (res.ok) {
         setDesignId(data._id || data.designId);
-        alert("✅ Desain berhasil disimpan!");
+        showAlert("✅ Desain berhasil disimpan!");
         // reset field pertanyaan
         setQuestion("");
         setAnswer("");
       } else {
-        alert(`❌ Gagal: ${data.message}`);
+        showAlert(`❌ Gagal: ${data.message}`);
       }
     } catch (err) {
       console.error("❌ Error saat menyimpan desain:", err);
-      alert("❌ Gagal menyimpan desain ke server");
+      showAlert("❌ Gagal menyimpan desain ke server");
     }
   };
 
   const handleExportGLB = async () => {
     if (!sceneRef.current) {
-      alert("⚠️ Model belum siap untuk diekspor!");
+      showAlert("⚠️ Model belum siap untuk diekspor!");
       return;
     }
     if (!designId) {
-      alert("💾 Simpan desain terlebih dahulu sebelum ekspor!");
+      showAlert("💾 Simpan desain terlebih dahulu sebelum ekspor!");
       return;
     }
 
@@ -361,7 +363,7 @@ export default function FlowerScene() {
           console.error(
             "❌ Export GAGAL menghasilkan objek JSON (GLTF). Cek konsol Three.js."
           );
-          alert("❌ Export Gagal GLTF. Hasil bukan format JSON.");
+          showAlert("❌ Export Gagal GLTF. Hasil bukan format JSON.");
           return;
         }
 
@@ -389,15 +391,15 @@ export default function FlowerScene() {
           const data = await res.json();
 
           if (res.ok) {
-            alert(
+            showAlert(
               "✅ Model berhasil diekspor dan diunggah ke server sebagai GLTF!"
             );
           } else {
-            alert(`❌ Gagal: ${data.message}`);
+            showAlert(`❌ Gagal: ${data.message}`);
           }
         } catch (err) {
           console.error("❌ Gagal upload model:", err);
-          alert("❌ Gagal mengirim file GLTF ke server.");
+          showAlert("❌ Gagal mengirim file GLTF ke server.");
         }
       },
       options
@@ -446,7 +448,7 @@ export default function FlowerScene() {
   };
 
   const deleteSelected = () => {
-    if (!selectedId) return alert("Tidak ada objek yang dipilih!");
+    if (!selectedId) return showAlert("Tidak ada objek yang dipilih!");
     setObjects((prev) => prev.filter((o) => o.id !== selectedId));
     setSelectedId(null);
   };

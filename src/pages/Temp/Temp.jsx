@@ -10,6 +10,7 @@ import { OrbitControls, Text, useGLTF } from "@react-three/drei";
 import { Canvas, useThree } from "@react-three/fiber";
 import { set as setDb, get as getDb, del as delDb } from 'idb-keyval';
 import { useNavigate } from 'react-router-dom';
+import { useAlert } from "../../contexts/AlertContext";
 
 <script src="https://kit.fontawesome.com/4700816e81.js" crossorigin="anonymous"></script>
 const ALLOWED_COLORS = [
@@ -278,14 +279,14 @@ const GalleryCard = ({ name, imageSrc, onAddObject, path }) => {
 
 // --- 3. Komponen Utama Galeri ---
 const FlowerGallery = ({onAddObject, components}) => {
-
+  const { showAlert } = useAlert();
   console.log("component di gallery", components);
   console.log("component di gallery", components[0]?.Name);
   
   // Fungsi yang dijalankan saat tombol diklik
   const handleAddObject = (objectName) => {
     console.log(`Menambahkan objek ${objectName} ke scene...`);
-    alert(`Objek '${objectName}' Berhasil Ditambahkan!`);
+    showAlert(`Objek '${objectName}' Berhasil Ditambahkan!`);
   };
 
   // Data objek yang akan ditampilkan
@@ -510,6 +511,7 @@ const ColorChoose = ({ parcelColor, setParcelColor, ribbonColor, setRibbonColor 
 };
 
 function MainSection() {
+  const { showAlert } = useAlert();
   const [objects, setObjects] = useState([]);
     const [selectedId, setSelectedId] = useState(null);
     const [isDragging, setIsDragging] = useState(false);
@@ -604,9 +606,9 @@ const formattedSummary = summaryData.map(item => [item.ComponentId, item.qty]);
 
     const handleSaveDesign = async () => {
       if (!modelName.trim())
-        return alert("⚠️ Masukkan nama model terlebih dahulu!");
+        return showAlert("⚠️ Masukkan nama model terlebih dahulu!");
       if (!question.trim() || !answer.trim())
-        return alert("⚠️ Isi pertanyaan dan jawaban untuk proteksi AR!");
+        return showAlert("⚠️ Isi pertanyaan dan jawaban untuk proteksi AR!");
   
       const flowers = objects
         .filter((obj) => obj.type === "flower")
@@ -685,26 +687,26 @@ const formattedSummary = summaryData.map(item => [item.ComponentId, item.qty]);
   
         if (res.ok) {
           setDesignId(data._id || data.designId);
-          alert("✅ Desain berhasil disimpan!");
+          showAlert("✅ Desain berhasil disimpan!");
           // reset field pertanyaan
           setQuestion("");
           setAnswer("");
         } else {
-          alert(`❌ Gagal: ${data.message}`);
+          showAlert(`❌ Gagal: ${data.message}`);
         }
       } catch (err) {
         console.error("❌ Error saat menyimpan desain:", err);
-        alert("❌ Gagal menyimpan desain ke server");
+        showAlert("❌ Gagal menyimpan desain ke server");
       }
     };
   
     const handleExportGLB = async () => {
       if (!sceneRef.current) {
-        alert("⚠️ Model belum siap untuk diekspor!");
+        showAlert("⚠️ Model belum siap untuk diekspor!");
         return;
       }
       if (!designId) {
-        alert("💾 Simpan desain terlebih dahulu sebelum ekspor!");
+        showAlert("💾 Simpan desain terlebih dahulu sebelum ekspor!");
         return;
       }
   
@@ -725,7 +727,7 @@ const formattedSummary = summaryData.map(item => [item.ComponentId, item.qty]);
             console.error(
               "❌ Export GAGAL menghasilkan objek JSON (GLTF). Cek konsol Three.js."
             );
-            alert("❌ Export Gagal GLTF. Hasil bukan format JSON.");
+            showAlert("❌ Export Gagal GLTF. Hasil bukan format JSON.");
             return;
           }
   
@@ -753,15 +755,15 @@ const formattedSummary = summaryData.map(item => [item.ComponentId, item.qty]);
             const data = await res.json();
   
             if (res.ok) {
-              alert(
+              showAlert(
                 "✅ Model berhasil diekspor dan diunggah ke server sebagai GLTF!"
               );
             } else {
-              alert(`❌ Gagal: ${data.message}`);
+              showAlert(`❌ Gagal: ${data.message}`);
             }
           } catch (err) {
             console.error("❌ Gagal upload model:", err);
-            alert("❌ Gagal mengirim file GLTF ke server.");
+            showAlert("❌ Gagal mengirim file GLTF ke server.");
           }
         },
         options
@@ -810,7 +812,7 @@ const formattedSummary = summaryData.map(item => [item.ComponentId, item.qty]);
     };
   
     const deleteSelected = () => {
-      if (!selectedId) return alert("Tidak ada objek yang dipilih!");
+      if (!selectedId) return showAlert("Tidak ada objek yang dipilih!");
       setObjects((prev) => prev.filter((o) => o.id !== selectedId));
       setSelectedId(null);
     };
@@ -849,8 +851,8 @@ const formattedSummary = summaryData.map(item => [item.ComponentId, item.qty]);
   };
   const navigate = useNavigate();
   const handleSave = async () => {
-    if (objects.length === 0) return alert("⚠️ Tambahkan bunga terlebih dahulu!");
-    if (!sceneRef.current) return alert("⚠️ Scene belum siap!");
+    if (objects.length === 0) return showAlert("⚠️ Tambahkan bunga terlebih dahulu!");
+    if (!sceneRef.current) return showAlert("⚠️ Scene belum siap!");
 
     const summary = components.map((comp) => {
     const count = objects.filter((obj) => obj.modelPath === comp.Asset).length;
@@ -926,7 +928,7 @@ const formattedSummary = summaryData.map(item => [item.ComponentId, item.qty]);
           navigate('/confirmation'); 
         } catch (err) {
           console.error("❌ Gagal menyimpan ke IndexedDB:", err);
-          alert("Gagal memproses model 3D.");
+          showAlert("Gagal memproses model 3D.");
         }
       },
       options

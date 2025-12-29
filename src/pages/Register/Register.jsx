@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import PrimaryLogoLight from '../../assets/Logo/Logo_Primary_Dark.png';
 import { FaUser, FaLock, FaEnvelope } from 'react-icons/fa';
+import { useAlert } from "../../contexts/AlertContext";
 
 // --- Komponen Umpan Balik Validasi Inline (Dibiarkan untuk kebutuhan tampilan Anda) ---
 const ValidationMessage = ({ field, isValid, message, isTouched }) => {
@@ -15,6 +16,7 @@ const ValidationMessage = ({ field, isValid, message, isTouched }) => {
 };
 
 export default function Register() {
+    const { showAlert } = useAlert();
     const [formData, setFormData] = useState({
         name: '',
         email: '',
@@ -193,7 +195,7 @@ export default function Register() {
                 if (response.ok) {
                     // Status 200-299: Berhasil
                     console.log("Registrasi/Penyimpanan Berhasil:", responseData);
-                    alert("Data Berhasil Disimpan! Silakan lanjutkan.");
+                    showAlert("Data Berhasil Disimpan! Silakan lanjutkan.");
                     // Opsional: Reset form atau redirect
                     // setFormData({ name: '', email: '', password: '', confirmPassword: '' });
                 } else {

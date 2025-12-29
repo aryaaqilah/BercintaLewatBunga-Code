@@ -2,10 +2,12 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import OrderCard from "../../components/Order Card/OrderCard";
 import { FaUser, FaEdit, FaSignOutAlt } from "react-icons/fa";
-import { useAuth } from "../../AuthContext";
+import { useAuth } from "../../contexts/AuthContext";
+import { useAlert } from "../../contexts/AlertContext";
 
 const Profile = () => {
   const { user, logout, login } = useAuth();
+  const { showAlert } = useAlert();
   const [isEditing, setIsEditing] = useState(false);
   const [orders, setOrders] = useState([]);
   const [error, setError] = useState("");
@@ -170,17 +172,17 @@ const Profile = () => {
         login(updatedUser);
         setIsEditing(false);
         setFormData((prev) => ({ ...prev, password: "", confirmPassword: "" }));
-        alert("Profile updated!");
+        showAlert("Profile updated!");
       }
     } catch (error) {
-      alert("Save error occurred.");
+      showAlert("Save error occurred.");
     }
   };
 
   const handleLogout = () => {
     logout();
-    alert("Berhasil keluar.");
-    navigate("/login"); // Redirect ke login setelah logout
+    showAlert("Berhasil keluar.");
+    navigate("/");
   };
 
   return (

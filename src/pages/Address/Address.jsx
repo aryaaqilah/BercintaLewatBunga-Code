@@ -1,12 +1,14 @@
 import React, { useState, useContext, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
-import { AuthContext } from "../../AuthContext";
+import { AuthContext } from "../../contexts/AuthContext";
+import { useAlert } from "../../contexts/AlertContext";
 import { get as getDb } from "idb-keyval";
 
 function AddressSection({ selectedProduct, modelData }) {
   const { user } = useContext(AuthContext);
   const navigate = useNavigate();
-  
+  const { showAlert } = useAlert();
+
   const [addressData, setAddressData] = useState({
     RecipientName: "",
     RecipientEmail: "",
@@ -20,25 +22,39 @@ function AddressSection({ selectedProduct, modelData }) {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setAddressData(prev => ({ ...prev, [name]: value }));
+    setAddressData((prev) => ({ ...prev, [name]: value }));
   };
 
   const handleCheckout = (e) => {
     e.preventDefault();
 
-    const { RecipientName, RecipientNumber, ProvinceId, CityId, PostalCodeId, Detail } = addressData;
+    const {
+      RecipientName,
+      RecipientNumber,
+      ProvinceId,
+      CityId,
+      PostalCodeId,
+      Detail,
+    } = addressData;
 
-    if (!RecipientName || !RecipientNumber || !ProvinceId || !CityId || !PostalCodeId || !Detail) {
-      alert("Mohon lengkapi semua data alamat yang bertanda wajib!");
+    if (
+      !RecipientName ||
+      !RecipientNumber ||
+      !ProvinceId ||
+      !CityId ||
+      !PostalCodeId ||
+      !Detail
+    ) {
+      showAlert("Mohon lengkapi semua data alamat yang bertanda wajib!");
       return;
     }
 
     if (user) {
       navigate("/payment", {
-        state: { selectedProduct, addressData, modelData }
+        state: { selectedProduct, addressData, modelData },
       });
     } else {
-      alert("Silakan login terlebih dahulu untuk melakukan pembelian.");
+      showAlert("Silakan login terlebih dahulu untuk melakukan pembelian.");
       navigate("/login");
     }
   };
@@ -47,10 +63,9 @@ function AddressSection({ selectedProduct, modelData }) {
     <section className="AddressSection">
       <div className="AddressSectionContainer">
         <h1 className="txt-color-primary">Alamat Pengiriman</h1>
-        
+
         <div className="AddressBox txt-color-ternary">
           <form onSubmit={handleCheckout} className="AddressFormGrid">
-            
             {/* Column 1: Contact Info */}
             <div className="FormColumn">
               <div className="AddressFormGroup">
@@ -102,7 +117,11 @@ function AddressSection({ selectedProduct, modelData }) {
 
               <div className="AddressFormGroup">
                 <label>Kota/Kabupaten</label>
-                <select name="CityId" value={addressData.CityId} onChange={handleChange}>
+                <select
+                  name="CityId"
+                  value={addressData.CityId}
+                  onChange={handleChange}
+                >
                   <option value="">Pilih Kota</option>
                   <option value="city_01">Jakarta</option>
                   <option value="city_02">Bandung</option>

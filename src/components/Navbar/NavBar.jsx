@@ -1,18 +1,20 @@
 import React, { useContext } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
-import { AuthContext } from "../../AuthContext";
+import { AuthContext } from "../../contexts/AuthContext";
+import { useAlert } from "../../contexts/AlertContext";
 import "./Navbar.css";
 import PrimaryLogoLight from "../../assets/Logo/Logo_Primary_Light.png";
-import { FaUser, FaSignOutAlt } from 'react-icons/fa';
+import { FaUser, FaSignOutAlt } from "react-icons/fa";
 
 const Navbar = () => {
   const { user, logout } = useContext(AuthContext);
+  const { showAlert } = useAlert();
   const navigate = useNavigate();
 
   const handleLogout = () => {
     logout();
-    alert("Berhasil keluar.");
-    navigate("/login"); // Redirect ke login setelah logout
+    navigate("/login"); 
+    showAlert("Berhasil keluar.");
   };
 
   return (
@@ -22,9 +24,21 @@ const Navbar = () => {
       </NavLink>
 
       <ul>
-        <li><NavLink to="/shop" className="NavBarItem">Shop</NavLink></li>
-        <li><NavLink to="/about" className="NavBarItem">About</NavLink></li>
-        <li><NavLink to="/help" className="NavBarItem">Help</NavLink></li>
+        <li>
+          <NavLink to="/shop" className="NavBarItem">
+            Shop
+          </NavLink>
+        </li>
+        <li>
+          <NavLink to="/about" className="NavBarItem">
+            About
+          </NavLink>
+        </li>
+        <li>
+          <NavLink to="/help" className="NavBarItem">
+            Help
+          </NavLink>
+        </li>
 
         {user ? (
           <>

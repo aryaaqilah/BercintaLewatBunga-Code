@@ -1,17 +1,17 @@
 import React, { useRef, useState, useLayoutEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
+import { useAlert } from "../../contexts/AlertContext";
 
 const OrderDetail = () => {
   const location = useLocation();
   const navigate = useNavigate();
+  const { showAlert } = useAlert();
 
-  // The order object comes from the Profile page via navigate state
   const currentOrder = location.state?.orderData;
 
   const [progressWidth, setProgressWidth] = useState(0);
   const trackerRef = useRef(null);
 
-  // Use the integer passed from the presentation model (0-4)
   const activeStepIndex = currentOrder?.statusInt ?? 0;
   const totalSteps = 5;
 
@@ -50,7 +50,7 @@ const OrderDetail = () => {
   const handleCopyCode = () => {
     if (currentOrder?.shippingCode) {
       navigator.clipboard.writeText(currentOrder.shippingCode);
-      alert("Shipping code copied!");
+      showAlert("Shipping code copied!");
     }
   };
 

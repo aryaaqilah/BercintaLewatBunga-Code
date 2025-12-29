@@ -1,15 +1,23 @@
-import './Payment.css'
+import "./Payment.css";
 import { useEffect, useState, useRef, useContext } from "react";
-import { AuthContext } from "../../AuthContext";
-import { useNavigate } from 'react-router-dom'; 
-import { GLTFExporter } from 'three/examples/jsm/exporters/GLTFExporter';
-import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
-import { get as getDb } from 'idb-keyval';
+import { AuthContext } from "../../contexts/AuthContext";
+import { useAlert } from "../../contexts/AlertContext";
+import { useNavigate } from "react-router-dom";
+import { GLTFExporter } from "three/examples/jsm/exporters/GLTFExporter";
+import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader";
+import { get as getDb } from "idb-keyval";
 
-function MainSection({selectedProduct, addressData, adminFee, discountData, modelScene}) {
+function MainSection({
+  selectedProduct,
+  addressData,
+  adminFee,
+  discountData,
+  modelScene,
+}) {
   // 1. Fungsi Helper untuk Format Titik (Rp. 10.000)
   const formatRupiah = (number) => {
-    if (number === undefined || number === null || isNaN(number)) return "Rp. 0";
+    if (number === undefined || number === null || isNaN(number))
+      return "Rp. 0";
     return "Rp. " + number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
   };
 
@@ -26,14 +34,18 @@ function MainSection({selectedProduct, addressData, adminFee, discountData, mode
 
   // 2. Perhitungan variabel harga (sebelum total)
   const productPrice = selectedProduct?.price || 0;
-  
+
   // Hitung Diskon
   const discountPercentage = discountData[0]?.Percentage || 0;
   const discountMax = discountData[0]?.Maximum || 0;
-  const calculatedDiscount = Math.min(Math.floor(discountPercentage * productPrice), discountMax);
+  const calculatedDiscount = Math.min(
+    Math.floor(discountPercentage * productPrice),
+    discountMax
+  );
 
   // 3. Total Harga (Hanya menjumlahkan variabel yang sudah ada)
-  const totalOrder = productPrice + shippingFee + adminFeeAmount - calculatedDiscount;
+  const totalOrder =
+    productPrice + shippingFee + adminFeeAmount - calculatedDiscount;
 
   const tempProvince = 32;
   const tempCity = 3202;
@@ -41,137 +53,148 @@ function MainSection({selectedProduct, addressData, adminFee, discountData, mode
   const tempPostalCode = 43192;
 
   const tempQuestion = selectedProduct.question;
-  const tempAnswer = selectedProduct.answer
+  const tempAnswer = selectedProduct.answer;
 
   const [model, setModel] = useState([]);
 
   const [currentModelPath, setCurrentModelPath] = useState("");
 
   const { user } = useContext(AuthContext);
-    const navigate = useNavigate(); // Inisialisasi fungsi navigasi
-    const handleCardSelect = async () => {
+  const navigate = useNavigate();
+  const { showAlert } = useAlert();
+  
+  const handleCardSelect = async () => {
     if (!user) {
-        alert("Silakan login terlebih dahulu untuk melakukan pembelian.");
-        navigate('/login');
-        return;
+      showAlert("Silakan login terlebih dahulu untuk melakukan pembelian.");
+      navigate("/login");
+      return;
     }
     try {
       // SECTION GET PROVINCE, CITY, DISTRICT =========================================================================
-        const response = await fetch(`http://localhost:5000/api/provinces/get-by-id?provinsi_id=${tempProvince}`);
-        if (!response.ok) {
-            throw new Error("Gagal mengambil data provinsi");
-        }
-        const dataProv = await response.json();
+      const response = await fetch(
+        `http://localhost:5000/api/provinces/get-by-id?provinsi_id=${tempProvince}`
+      );
+      if (!response.ok) {
+        throw new Error("Gagal mengambil data provinsi");
+      }
+      const dataProv = await response.json();
 
-        const response2 = await fetch(`http://localhost:5000/api/cities/get-by-id?kabupaten_id=${tempCity}`);
-        if (!response2.ok) {
-            throw new Error("Gagal mengambil data kota");
-        }
-        const dataCity = await response2.json();
-        console.log("Hasil pencarian:", dataProv);
+      const response2 = await fetch(
+        `http://localhost:5000/api/cities/get-by-id?kabupaten_id=${tempCity}`
+      );
+      if (!response2.ok) {
+        throw new Error("Gagal mengambil data kota");
+      }
+      const dataCity = await response2.json();
+      console.log("Hasil pencarian:", dataProv);
 
-        const response3 = await fetch(`http://localhost:5000/api/districts/get-by-id?kecamatan_id=${tempDistrict}`);
-        if (!response3.ok) {
-            throw new Error("Gagal mengambil data kecamatan");
-        }
-        const dataDistrict = await response3.json();
+      const response3 = await fetch(
+        `http://localhost:5000/api/districts/get-by-id?kecamatan_id=${tempDistrict}`
+      );
+      if (!response3.ok) {
+        throw new Error("Gagal mengambil data kecamatan");
+      }
+      const dataDistrict = await response3.json();
 
-        console.log("Hasil pencarian:", dataProv);
-        console.log("Hasil pencarian:", dataCity);
-        console.log("Hasil pencarian:", dataDistrict);
+      console.log("Hasil pencarian:", dataProv);
+      console.log("Hasil pencarian:", dataCity);
+      console.log("Hasil pencarian:", dataDistrict);
 
-        // SECTION POST ADDRESS =========================================================================
-        const addressPayload = {
-            RecipientName: addressData.RecipientName,
-            RecipientNumber: 89522222333, // Contoh nomor tetap
-            ProvinceId: dataProv[0]._id,
-            CityId: dataCity[0]._id,
-            DistrictId: dataDistrict[0]._id, // Sementara disamakan jika input District tidak ada
-            PostalCodeId: "6942b33b502f86ae7fc21acc",
-            Detail: addressData.Detail
-        };
-        console.log("Address Payload:", addressPayload);
-        const addressRes = await fetch("http://localhost:5000/api/addresses", {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(addressPayload),
-        });
+      // SECTION POST ADDRESS =========================================================================
+      const addressPayload = {
+        RecipientName: addressData.RecipientName,
+        RecipientNumber: 89522222333, // Contoh nomor tetap
+        ProvinceId: dataProv[0]._id,
+        CityId: dataCity[0]._id,
+        DistrictId: dataDistrict[0]._id, // Sementara disamakan jika input District tidak ada
+        PostalCodeId: "6942b33b502f86ae7fc21acc",
+        Detail: addressData.Detail,
+      };
+      console.log("Address Payload:", addressPayload);
+      const addressRes = await fetch("http://localhost:5000/api/addresses", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(addressPayload),
+      });
 
-        const savedAddress = await addressRes.json();
+      const savedAddress = await addressRes.json();
 
-        if (!addressRes.ok) {
-            throw new Error(savedAddress.message || "Gagal menyimpan alamat");
-        }
-        console.log("Berhasil menyimpan alamat:", savedAddress);
+      if (!addressRes.ok) {
+        throw new Error(savedAddress.message || "Gagal menyimpan alamat");
+      }
+      console.log("Berhasil menyimpan alamat:", savedAddress);
 
       //SECTION POST DELIVERY =========================================================================
-        const date = new Date();
-        date.setDate(date.getDate() + 3);
-        // const formattedDate = date.toISOString().split('T')[0];
+      const date = new Date();
+      date.setDate(date.getDate() + 3);
+      // const formattedDate = date.toISOString().split('T')[0];
 
-        const deliveryPayload = {
-          ShippingCode : "To be inputed 12345678912345678",
-          Service : "GrabSend",
-          EstimatedArrival : date,
-          TrackingLink : "To be inputed",
-          Notes : addressData.Note || "No notes available"
-        }
+      const deliveryPayload = {
+        ShippingCode: "To be inputed 12345678912345678",
+        Service: "GrabSend",
+        EstimatedArrival: date,
+        TrackingLink: "To be inputed",
+        Notes: addressData.Note || "No notes available",
+      };
 
-        console.log("Delivery Payload:", deliveryPayload);
-        const deliveryRes = await fetch("http://localhost:5000/api/deliveries", {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(deliveryPayload),
-        });
+      console.log("Delivery Payload:", deliveryPayload);
+      const deliveryRes = await fetch("http://localhost:5000/api/deliveries", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(deliveryPayload),
+      });
 
-        const savedDelivery = await deliveryRes.json();
+      const savedDelivery = await deliveryRes.json();
 
-        if (!deliveryRes.ok) {
-            throw new Error(savedAddress.message || "Gagal menyimpan delivery");
-        }
-        console.log("Berhasil menyimpan delivery :", savedDelivery);
+      if (!deliveryRes.ok) {
+        throw new Error(savedAddress.message || "Gagal menyimpan delivery");
+      }
+      console.log("Berhasil menyimpan delivery :", savedDelivery);
 
       //SECTION POST 3D MODEL =========================================================================
-      let finalData = selectedProduct; 
+      let finalData = selectedProduct;
       let currentModelUrl = selectedProduct.modelUrl || "";
 
       let modelUrl = "";
-      
+
       if (selectedProduct.isCustomizable && modelScene) {
         console.log("Exporting 3D Model...");
         const result = await handleSaveAndExport();
         console.log("RESULT : ", result);
         modelUrl = result.modelUrl;
         if (!result.success) {
-          console.log("gagal simpan")
+          console.log("gagal simpan");
         }
       }
 
-        const resModel = await fetch("http://localhost:5000/api/design3d/");
-        const dataModel = await resModel.json();
-        const modelId = dataModel.reverse().slice(0, 1)[0]._id
-        // setModel(dataModel.reverse().slice(0, 1)[0]);
+      const resModel = await fetch("http://localhost:5000/api/design3d/");
+      const dataModel = await resModel.json();
+      const modelId = dataModel.reverse().slice(0, 1)[0]._id;
+      // setModel(dataModel.reverse().slice(0, 1)[0]);
 
-        console.log("DATA MODEL : ", dataModel);
-        console.log("DATA MODEL2 : ", modelId);
-        console.log("DATA URL : ", modelUrl);
+      console.log("DATA MODEL : ", dataModel);
+      console.log("DATA MODEL2 : ", modelId);
+      console.log("DATA URL : ", modelUrl);
 
-        const modelUpdatePayload = {
-          ModelId : modelId,
-          Path : modelUrl
+      const modelUpdatePayload = {
+        ModelId: modelId,
+        Path: modelUrl,
+      };
+
+      console.log("modelUpdatePayload ", modelUpdatePayload);
+
+      const modelRes = await fetch(
+        `http://localhost:5000/api/design3d/${dataModel._id}/add-path`,
+        {
+          method: "PUT", // Menggunakan PUT/PATCH untuk update data
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(modelUpdatePayload),
         }
+      );
 
-        console.log("modelUpdatePayload ", modelUpdatePayload)
+      const savedModel = await modelRes.json();
 
-        const modelRes = await fetch(`http://localhost:5000/api/design3d/${dataModel._id}/add-path`, {
-            method: 'PUT', // Menggunakan PUT/PATCH untuk update data
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(modelUpdatePayload),
-        });
-
-        const savedModel = await modelRes.json();
-
-        console.log(savedModel);
+      console.log(savedModel);
 
       //SECTION POST ITEMS
       let collectedIds = [{}];
@@ -182,22 +205,24 @@ function MainSection({selectedProduct, addressData, adminFee, discountData, mode
           // Karena tiap item adalah array berisi 1 objek, kita ambil indeks ke-0
           const payload = {
             ComponentId: itemArray[0].ComponentId,
-            Quantity: itemArray[0].Quantity
+            Quantity: itemArray[0].Quantity,
           };
 
           try {
             const response = await fetch("http://localhost:5000/api/items", {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(payload),
-          });
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify(payload),
+            });
             const savedItems = await response.json();
             const newId = savedItems._id;
             if (newId) {
-              collectedIds.push({tempId : newId});
+              collectedIds.push({ tempId: newId });
               console.log(`✅ Tersimpan: ${newId}`);
             }
-            console.log(`✅ Berhasil simpan ComponentId: ${payload.ComponentId}`);
+            console.log(
+              `✅ Berhasil simpan ComponentId: ${payload.ComponentId}`
+            );
           } catch (error) {
             console.error(`❌ Gagal simpan ${payload.ComponentId}:`, error);
           }
@@ -206,274 +231,344 @@ function MainSection({selectedProduct, addressData, adminFee, discountData, mode
 
       await postItems(selectedProduct.items);
 
-      console.log("======= collectedIds : ", collectedIds)
-      console.log("======= collectedIds : ", collectedIds[1].tempId)
-      const testItem = [{id : '567890'}]
-      console.log("======= testItem : ", testItem)
+      console.log("======= collectedIds : ", collectedIds);
+      console.log("======= collectedIds : ", collectedIds[1].tempId);
+      const testItem = [{ id: "567890" }];
+      console.log("======= testItem : ", testItem);
 
       // SECTION POST PRODUCT =========================================================================
       let productIdTemp = "";
-      if (selectedProduct.isCustomizable && modelScene){
+      if (selectedProduct.isCustomizable && modelScene) {
         const productPayload = {
-          Name : selectedProduct.title,
-          Price : productPrice,
-          Quantity : 1,
-          Image : "kosong",
-          ThreeDModel : modelId,
-          Memo : selectedProduct.pesan,
-          Items : [collectedIds[1].tempId, collectedIds[2].tempId, collectedIds[3].tempId, collectedIds[4].tempId]
-        }
+          Name: selectedProduct.title,
+          Price: productPrice,
+          Quantity: 1,
+          Image: "kosong",
+          ThreeDModel: modelId,
+          Memo: selectedProduct.pesan,
+          Items: [
+            collectedIds[1].tempId,
+            collectedIds[2].tempId,
+            collectedIds[3].tempId,
+            collectedIds[4].tempId,
+          ],
+        };
 
         console.log("PRODUCT PAYLOAD : ", productPayload);
 
         const productRes = await fetch("http://localhost:5000/api/products", {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(productPayload),
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(productPayload),
         });
 
         const savedProduct = await productRes.json();
         if (!productRes.ok) throw new Error("Gagal memproses pesanan");
 
-        console.log("SAVED PRODUCT : ", savedProduct)
+        console.log("SAVED PRODUCT : ", savedProduct);
 
         productIdTemp = savedProduct._id;
-      }
-      else{
-        productIdTemp = "69440c04d3e7dc46622edd26"
+      } else {
+        productIdTemp = "69440c04d3e7dc46622edd26";
       }
 
       console.log("PRODUCT ID TEMP : ", productIdTemp);
 
       // SECTION POST ORDER =========================================================================
-        const orderPayload = {
-            Status: 1, 
-            AddressId: savedAddress._id, // Mengambil ID dari hasil POST pertama
-            DeliveryId: savedDelivery._id, 
-            ProductId: productIdTemp,
-            ProductPrice: productPrice,
-            AdministrationFee: adminFee[0]._id,
-            DiscountId: discountData.percentage === 0.0 ? null : (discountData._id || null),
-            Total: totalOrder,
-        };
-        console.log("Order Payload:", orderPayload);
-        const orderRes = await fetch("http://localhost:5000/api/orders", {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(orderPayload),
-        });
+      const orderPayload = {
+        Status: 1,
+        AddressId: savedAddress._id, // Mengambil ID dari hasil POST pertama
+        DeliveryId: savedDelivery._id,
+        ProductId: productIdTemp,
+        ProductPrice: productPrice,
+        AdministrationFee: adminFee[0]._id,
+        DiscountId:
+          discountData.percentage === 0.0 ? null : discountData._id || null,
+        Total: totalOrder,
+      };
+      console.log("Order Payload:", orderPayload);
+      const orderRes = await fetch("http://localhost:5000/api/orders", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(orderPayload),
+      });
 
-        const savedOrder = await orderRes.json();
-        if (!orderRes.ok) throw new Error("Gagal memproses pesanan");
+      const savedOrder = await orderRes.json();
+      if (!orderRes.ok) throw new Error("Gagal memproses pesanan");
 
-        const userUpdatePayload = {
-            OrderId: savedOrder._id // Kirim ID order baru untuk di-push ke array Orders di backend
-        };
+      const userUpdatePayload = {
+        OrderId: savedOrder._id, // Kirim ID order baru untuk di-push ke array Orders di backend
+      };
 
-        console.log("User Update Payload:", userUpdatePayload);
-        console.log("User Info:", user);
+      console.log("User Update Payload:", userUpdatePayload);
+      console.log("User Info:", user);
 
-        const userRes = await fetch(`http://localhost:5000/api/users/${user._id}/add-order`, {
-            method: 'PUT', // Menggunakan PUT/PATCH untuk update data
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(userUpdatePayload),
-        });
-
-        if (userRes.ok) {
-            alert("Transaksi Berhasil! Pesanan telah dicatat di akun Anda.");
-            navigate('/orders', { 
-                state: { 
-                    selectedProduct: selectedProduct,
-                    orderId: savedOrder._id 
-                } 
-            });
-        } else {
-            console.error("Gagal sinkronisasi ke tabel User");
-            // Tetap pindah halaman karena Order utama sudah sukses
-            navigate('/orders');
+      const userRes = await fetch(
+        `http://localhost:5000/api/users/${user._id}/add-order`,
+        {
+          method: "PUT", // Menggunakan PUT/PATCH untuk update data
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(userUpdatePayload),
         }
-
-        if (userRes.ok) {
-            alert("Pembayaran Berhasil Diproses!");
-            navigate('/orders', { 
-                state: { 
-                    selectedProduct: selectedProduct,
-                    orderId: savedOrder._id 
-                } 
-            });
-        } else {
-            alert("Gagal memproses order: " + savedOrder.message);
-        }
-
-    } catch (error) {
-        console.error("Error Transaction:", error);
-        alert("Terjadi kesalahan: " + error.message);
-    }
-};
-  const handleSaveAndExport = async () => {
-  
-  // 1. Validasi Input (Gunakan data yang ada atau nilai default)
-  const name = selectedProduct?.title || "Customized Bouquet";
-  const finalQuestion = selectedProduct?.question; // Sesuaikan jika ada state question
-  const finalAnswer = selectedProduct?.answer;        // Sesuaikan jika ada state answer
-
-  // 2. Siapkan Data Metadata (JSON)
-  const designData = {
-    path: "test-path",
-    question: finalQuestion,
-    answer: finalAnswer,
-    // Tambahkan field lain yang dibutuhkan backend /api/design3d/save
-  };
-
-  try {
-    console.log("1. Menyimpan metadata desain...");
-    const saveRes = await fetch("http://localhost:5000/api/design3d/save", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(designData),
-    });
-    
-    const savedData = await saveRes.json();
-    if (!saveRes.ok) throw new Error(savedData.message || "Gagal simpan metadata");
-
-    const newDesignId = savedData._id || savedData.designId;
-    console.log("✅ Metadata tersimpan. ID:", newDesignId);
-
-    // 3. Proses Ekspor modelScene ke GLTF (JSON)
-    if (!modelScene) throw new Error("modelScene tidak ditemukan!");
-
-    console.log("2. Memulai ekspor modelScene ke GLTF...");
-    
-    const exporter = new GLTFExporter();
-    const options = { binary: false, embedImages: true, onlyVisible: true };
-
-    // Bungkus exporter ke Promise agar bisa di-await
-    const exportResult = await new Promise((resolve, reject) => {
-      exporter.parse(
-        modelScene,
-        (result) => resolve(result),
-        (error) => reject(error),
-        options
       );
-    });
 
-    // 4. Konversi hasil ke Blob & Upload
-    const outputJSON = JSON.stringify(exportResult, null, 2);
-    const blob = new Blob([outputJSON], { type: "application/json" });
-    const formData = new FormData();
-    formData.append("model", blob, `${newDesignId}.gltf`);
+      if (userRes.ok) {
+        showAlert("Transaksi Berhasil! Pesanan telah dicatat di akun Anda.");
+        navigate("/orders", {
+          state: {
+            selectedProduct: selectedProduct,
+            orderId: savedOrder._id,
+          },
+        });
+      } else {
+        console.error("Gagal sinkronisasi ke tabel User");
+        // Tetap pindah halaman karena Order utama sudah sukses
+        navigate("/orders");
+      }
 
-    console.log("3. Mengunggah file GLTF ke server...");
-    const exportRes = await fetch(`http://localhost:5000/api/design3d/${newDesignId}/export`, {
-      method: "POST",
-      body: formData,
-    });
-
-    const exportData = await exportRes.json();
-    if (!exportRes.ok) throw new Error(exportData.message || "Gagal upload file GLTF");
-
-    console.log("✅ Semua proses berhasil!", exportData.modelUrl);
-
-    if (exportData.success) {
-      // Simpan URL yang dikembalikan backend: "/models/exported/ID.gltf"
-      setCurrentModelPath(exportData.modelUrl); 
+      if (userRes.ok) {
+        showAlert("Pembayaran Berhasil Diproses!");
+        navigate("/orders", {
+          state: {
+            selectedProduct: selectedProduct,
+            orderId: savedOrder._id,
+          },
+        });
+      } else {
+        showAlert("Gagal memproses order: " + savedOrder.message);
+      }
+    } catch (error) {
+      console.error("Error Transaction:", error);
+      showAlert("Terjadi kesalahan: " + error.message);
     }
-    setCurrentModelPath(exportData.modelUrl); 
-    console.log(exportData.modelUrl);
-    
-    // 5. Lanjutkan ke alur pembayaran/navigasi
-    return { success: true, designId: newDesignId, modelUrl: exportData.modelUrl };
+  };
+  const handleSaveAndExport = async () => {
+    // 1. Validasi Input (Gunakan data yang ada atau nilai default)
+    const name = selectedProduct?.title || "Customized Bouquet";
+    const finalQuestion = selectedProduct?.question; // Sesuaikan jika ada state question
+    const finalAnswer = selectedProduct?.answer; // Sesuaikan jika ada state answer
 
-  } catch (err) {
-    console.error("❌ Error dalam proses Save & Export:", err);
-    alert(err.message);
-    return { success: false };
-  }
-};
+    // 2. Siapkan Data Metadata (JSON)
+    const designData = {
+      path: "test-path",
+      question: finalQuestion,
+      answer: finalAnswer,
+      // Tambahkan field lain yang dibutuhkan backend /api/design3d/save
+    };
+
+    try {
+      console.log("1. Menyimpan metadata desain...");
+      const saveRes = await fetch("http://localhost:5000/api/design3d/save", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(designData),
+      });
+
+      const savedData = await saveRes.json();
+      if (!saveRes.ok)
+        throw new Error(savedData.message || "Gagal simpan metadata");
+
+      const newDesignId = savedData._id || savedData.designId;
+      console.log("✅ Metadata tersimpan. ID:", newDesignId);
+
+      // 3. Proses Ekspor modelScene ke GLTF (JSON)
+      if (!modelScene) throw new Error("modelScene tidak ditemukan!");
+
+      console.log("2. Memulai ekspor modelScene ke GLTF...");
+
+      const exporter = new GLTFExporter();
+      const options = { binary: false, embedImages: true, onlyVisible: true };
+
+      // Bungkus exporter ke Promise agar bisa di-await
+      const exportResult = await new Promise((resolve, reject) => {
+        exporter.parse(
+          modelScene,
+          (result) => resolve(result),
+          (error) => reject(error),
+          options
+        );
+      });
+
+      // 4. Konversi hasil ke Blob & Upload
+      const outputJSON = JSON.stringify(exportResult, null, 2);
+      const blob = new Blob([outputJSON], { type: "application/json" });
+      const formData = new FormData();
+      formData.append("model", blob, `${newDesignId}.gltf`);
+
+      console.log("3. Mengunggah file GLTF ke server...");
+      const exportRes = await fetch(
+        `http://localhost:5000/api/design3d/${newDesignId}/export`,
+        {
+          method: "POST",
+          body: formData,
+        }
+      );
+
+      const exportData = await exportRes.json();
+      if (!exportRes.ok)
+        throw new Error(exportData.message || "Gagal upload file GLTF");
+
+      console.log("✅ Semua proses berhasil!", exportData.modelUrl);
+
+      if (exportData.success) {
+        // Simpan URL yang dikembalikan backend: "/models/exported/ID.gltf"
+        setCurrentModelPath(exportData.modelUrl);
+      }
+      setCurrentModelPath(exportData.modelUrl);
+      console.log(exportData.modelUrl);
+
+      // 5. Lanjutkan ke alur pembayaran/navigasi
+      return {
+        success: true,
+        designId: newDesignId,
+        modelUrl: exportData.modelUrl,
+      };
+    } catch (err) {
+      console.error("❌ Error dalam proses Save & Export:", err);
+      showAlert(err.message);
+      return { success: false };
+    }
+  };
   return (
     <div>
-      <section className='PaymentSection'>
+      <section className="PaymentSection">
         <div className="box"></div>
         <div className="PaymentContainer">
-          <div style={{ alignSelf: "flex-start", color : "#A95C4C" }}>
-            <h1>Pembayaran</h1> 
+          <div style={{ alignSelf: "flex-start", color: "#A95C4C" }}>
+            <h1>Pembayaran</h1>
           </div>
-          <div className="MainBoxPayment" style={{ color : "#404C4C" }}>
+          <div className="MainBoxPayment" style={{ color: "#404C4C" }}>
             <div className="LeftMainBox">
-              <p style={{ paddingLeft: "2rem", alignSelf: "flex-start" , fontSize : "20px" }}>Order Summary</p>
+              <p
+                style={{
+                  paddingLeft: "2rem",
+                  alignSelf: "flex-start",
+                  fontSize: "20px",
+                }}
+              >
+                Order Summary
+              </p>
               <div className="PaymentProduct">
-                <div className="PaymentProductPicture" style={{ display : "flex", justifyContent : "center", alignItems : "flex-start" }}>
-                  <img src={`http://localhost:5000${selectedProduct?.image}`} alt="Product" style={{ width : "70%" , height : "70%" }} />  
+                <div
+                  className="PaymentProductPicture"
+                  style={{
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "flex-start",
+                  }}
+                >
+                  <img
+                    src={`http://localhost:5000${selectedProduct?.image}`}
+                    alt="Product"
+                    style={{ width: "70%", height: "70%" }}
+                  />
                 </div>
-                <div className="PaymentProductInfo" >
-                  <div className="PaymentProductName" style={{ fontSize : "20px" , height : "20%"}}>
+                <div className="PaymentProductInfo">
+                  <div
+                    className="PaymentProductName"
+                    style={{ fontSize: "20px", height: "20%" }}
+                  >
                     {selectedProduct?.title || "FAILED TO LOAD"}
                   </div>
-                  <div className="PaymentProductDetails" style={{ fontSize : "12px" , height : "30%"}}>
+                  <div
+                    className="PaymentProductDetails"
+                    style={{ fontSize: "12px", height: "30%" }}
+                  >
                     {selectedProduct?.description || "No description available"}
                   </div>
-                  <div className="PaymentPriceBox" style={{ fontSize : "16px" , height : "20%"}}>
+                  <div
+                    className="PaymentPriceBox"
+                    style={{ fontSize: "16px", height: "20%" }}
+                  >
                     <div className="PaymentQuantity">x 1</div>
-                    <div className="PaymentPrice" style={{ color : "#A95C4C" }}>
+                    <div className="PaymentPrice" style={{ color: "#A95C4C" }}>
                       {formatRupiah(productPrice)}
                     </div>
                   </div>
-                  <div className="PaymentNotes" style={{ fontSize : "12px" , height : "30%"}}>
+                  <div
+                    className="PaymentNotes"
+                    style={{ fontSize: "12px", height: "30%" }}
+                  >
                     Notes : <br />
                     {selectedProduct?.catatan || "No notes available"}
                   </div>
                 </div>
               </div>
-              
-              <div className="PaymentSummary" style={{ fontSize : "16px" }}>
-                  <div className="PaymentSummaryItem">
-                    <div className="PaymentSummaryLeft">Subtotal Produk</div>
-                    <div className="PaymentSummaryRight">{formatRupiah(productPrice)}</div>
+
+              <div className="PaymentSummary" style={{ fontSize: "16px" }}>
+                <div className="PaymentSummaryItem">
+                  <div className="PaymentSummaryLeft">Subtotal Produk</div>
+                  <div className="PaymentSummaryRight">
+                    {formatRupiah(productPrice)}
                   </div>
-                  
-                  <div className="PaymentSummaryItem">
-                    <div className="PaymentSummaryLeft">Subtotal Pengiriman</div>
-                    <div className="PaymentSummaryRight">{formatRupiah(shippingFee)}</div>
+                </div>
+
+                <div className="PaymentSummaryItem">
+                  <div className="PaymentSummaryLeft">Subtotal Pengiriman</div>
+                  <div className="PaymentSummaryRight">
+                    {formatRupiah(shippingFee)}
                   </div>
-                  
-                  <div className="PaymentSummaryItem">
-                    <div className="PaymentSummaryLeft">Biaya Layanan</div>
-                    <div className="PaymentSummaryRight">{formatRupiah(adminFeeAmount)}</div>
+                </div>
+
+                <div className="PaymentSummaryItem">
+                  <div className="PaymentSummaryLeft">Biaya Layanan</div>
+                  <div className="PaymentSummaryRight">
+                    {formatRupiah(adminFeeAmount)}
                   </div>
-                  
-                  <div className="PaymentSummaryItem">
-                    <div className="PaymentSummaryLeft">Total Diskon</div>
-                    <div className="PaymentSummaryRight" style={{ color: "red" }}>
-                      - {formatRupiah(calculatedDiscount)}
-                    </div>
+                </div>
+
+                <div className="PaymentSummaryItem">
+                  <div className="PaymentSummaryLeft">Total Diskon</div>
+                  <div className="PaymentSummaryRight" style={{ color: "red" }}>
+                    - {formatRupiah(calculatedDiscount)}
                   </div>
-                  
-                  <div className="PaymentSummaryItem">
-                    <div className="PaymentSummaryLeft">Total Pesanan</div>
-                    <div className="PaymentSummaryRight" style={{ color : "#A95C4C", fontWeight: "bold" }}>
-                      {formatRupiah(totalOrder)}
-                    </div>
+                </div>
+
+                <div className="PaymentSummaryItem">
+                  <div className="PaymentSummaryLeft">Total Pesanan</div>
+                  <div
+                    className="PaymentSummaryRight"
+                    style={{ color: "#A95C4C", fontWeight: "bold" }}
+                  >
+                    {formatRupiah(totalOrder)}
                   </div>
-                  
-                  <div className="PaymentSummaryItem">
-                    <div className="PaymentSummaryLeft">Metode Pembayaran</div>
-                    <div className="PaymentSummaryRight">QRIS</div>
-                  </div>
+                </div>
+
+                <div className="PaymentSummaryItem">
+                  <div className="PaymentSummaryLeft">Metode Pembayaran</div>
+                  <div className="PaymentSummaryRight">QRIS</div>
+                </div>
               </div>
             </div>
-            
-            <div className="RightMainBox" style={{ display : "flex", alignItems : "center", justifyContent : "center" }}>
-              <img src="https://upload.wikimedia.org/wikipedia/commons/d/d0/QR_code_for_mobile_English_Wikipedia.svg" alt="QR Code" style={{ width : "70%" , height : "70%" }} />  
+
+            <div
+              className="RightMainBox"
+              style={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+              }}
+            >
+              <img
+                src="https://upload.wikimedia.org/wikipedia/commons/d/d0/QR_code_for_mobile_English_Wikipedia.svg"
+                alt="QR Code"
+                style={{ width: "70%", height: "70%" }}
+              />
             </div>
           </div>
-          <div className="btnContainer" style={{display: 'flex', alignSelf : 'flex-end'}}>
-              <button className="btnConfirm" onClick={handleCardSelect}>Detail Order</button>
+          <div
+            className="btnContainer"
+            style={{ display: "flex", alignSelf: "flex-end" }}
+          >
+            <button className="btnConfirm" onClick={handleCardSelect}>
+              Detail Order
+            </button>
           </div>
         </div>
         <div className="box"></div>
       </section>
     </div>
-  )
+  );
 }
 
 export default function Payment() {
@@ -487,11 +582,11 @@ export default function Payment() {
 
   useEffect(() => {
     const loadAndParseModel = async () => {
-      const data = await getDb('pending_order_model'); 
+      const data = await getDb("pending_order_model");
       if (data) {
         const loader = new GLTFLoader();
         // Parse data biner menjadi objek Three.js
-        loader.parse(data, '', (gltf) => {
+        loader.parse(data, "", (gltf) => {
           setModelScene(gltf.scene);
         });
       }
@@ -500,30 +595,32 @@ export default function Payment() {
     fetchData(); // Fungsi fetch admin fee & discount Anda
   }, []);
 
-    const fetchData = async () => {
+  const fetchData = async () => {
     try {
       // Fetch Admin Fee
       const resFee = await fetch("http://localhost:5000/api/adminfees/");
       const dataFee = await resFee.json();
       setAdminFee(dataFee.reverse().slice(0, 1));
 
-      const response = await fetch(`http://localhost:5000/api/discounts/get-voucher?name=${selectedProduct.voucher}`);
-        if (!response.ok) {
-            throw new Error("Gagal mengambil data voucher");
-        }
-        const dataDisc = await response.json();
+      const response = await fetch(
+        `http://localhost:5000/api/discounts/get-voucher?name=${selectedProduct.voucher}`
+      );
+      if (!response.ok) {
+        throw new Error("Gagal mengambil data voucher");
+      }
+      const dataDisc = await response.json();
       // Fetch Discount
       // const resDisc = await fetch("http://localhost:5000/api/discounts/");
       // const dataDisc = await resDisc.json();
       setDiscountData(dataDisc);
 
-      console.log("DISCOUNT DATA : ", discountData)
-    } catch (error) { 
+      console.log("DISCOUNT DATA : ", discountData);
+    } catch (error) {
       console.log("Error fetching data:", error);
       const discountNA = {
-        Name : "VOUCHER NOT FOUND",
-        Percentage : 0.0
-      }
+        Name: "VOUCHER NOT FOUND",
+        Percentage: 0.0,
+      };
       setDiscountData(discountNA);
     }
   };
@@ -535,15 +632,15 @@ export default function Payment() {
     }
   }, []);
 
-  console.log("selected ",selectedProduct);
+  console.log("selected ", selectedProduct);
 
   return (
     <div>
-      <MainSection 
-        selectedProduct={selectedProduct} 
-        addressData={addressData} 
-        adminFee={adminFee} 
-        discountData={discountData} 
+      <MainSection
+        selectedProduct={selectedProduct}
+        addressData={addressData}
+        adminFee={adminFee}
+        discountData={discountData}
         modelScene={modelScene}
       />
     </div>

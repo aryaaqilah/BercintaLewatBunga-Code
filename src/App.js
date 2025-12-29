@@ -1,5 +1,5 @@
 import { BrowserRouter as Router, Routes, Route, useLocation, useNavigate } from "react-router-dom";
-import React, { useEffect, useCallback, useRef } from "react";
+import React, { useEffect, useCallback, useRef, useState } from "react";
 import Navbar from "./components/Navbar/NavBar";
 import Footer from "./components/footer";
 import Home from "./pages/Home/Home";
@@ -16,65 +16,22 @@ import Payment from "./pages/Payment/Payment";
 import Temp from "./pages/Temp/Temp";
 import Profile from "./pages/Profile/Profile";
 import OrderDetail from "./pages/Order Detail/OrderDetail";
-import { AuthProvider, useAuth } from './AuthContext';
-
-/**
- * IdleTimer Component:
- * Automatically logs out user after 5 minutes of inactivity.
- */
-const IdleTimer = ({ timeout = 300000 }) => {
-  const { logout, user } = useAuth();
-  const navigate = useNavigate();
-  const timerRef = useRef(null);
-
-  const handleLogout = useCallback(() => {
-    if (user) {
-      logout();
-      alert("Sesi anda telah berakhir karena tidak ada aktivitas.");
-      navigate("/"); // Redirect to Home
-    }
-  }, [logout, navigate, user]);
-
-  const resetTimer = useCallback(() => {
-    if (timerRef.current) clearTimeout(timerRef.current);
-    timerRef.current = setTimeout(handleLogout, timeout);
-  }, [handleLogout, timeout]);
-
-  useEffect(() => {
-    const events = ['mousedown', 'mousemove', 'keypress', 'scroll', 'touchstart'];
-
-    if (user) {
-      resetTimer();
-      events.forEach(event => document.addEventListener(event, resetTimer));
-    }
-
-    return () => {
-      if (timerRef.current) clearTimeout(timerRef.current);
-      events.forEach(event => document.removeEventListener(event, resetTimer));
-    };
-  }, [user, resetTimer]);
-
-  return null;
-};
+import AlertModal from "./components/AlertModal/AlertModal";
+import IdleTimer from "./components/IdleTimer";
+import { AuthProvider, useAuth } from './contexts/AuthContext';
+import { AlertProvider } from './contexts/AlertContext';
 
 function AppContent() {
   const location = useLocation();
   
-  // Define paths where Navbar and Footer should be hidden
   const hideNavAndFooter = [
-    "/login", 
-    "/register", 
-    "/profile", 
-    "/order-detail"
+    "/login", "/register", "/profile", "/order-detail"
   ].includes(location.pathname);
 
   return (
     <>
-      {/* Idle Timer logic inside the Auth provider and Router context */}
-      <IdleTimer timeout={300000} /> 
-
+      <IdleTimer timeout={300000} />
       {!hideNavAndFooter && <Navbar />}
-      
       <main>
         <Routes>
           <Route path="/" element={<Home />} />
@@ -93,7 +50,6 @@ function AppContent() {
           <Route path="/order-detail" element={<OrderDetail />} />
         </Routes>
       </main>
-
       {!hideNavAndFooter && <Footer />}
     </>
   );
@@ -103,7 +59,9 @@ export default function App() {
   return (
     <AuthProvider>
       <Router>
-        <AppContent />
+        <AlertProvider> 
+          <AppContent />
+        </AlertProvider>
       </Router>
     </AuthProvider>
   );
