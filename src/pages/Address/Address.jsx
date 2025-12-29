@@ -1,194 +1,174 @@
-import React, { useState , useContext, useEffect} from 'react';
-import { useNavigate } from 'react-router-dom'; 
+import React, { useState, useContext, useEffect } from "react";
+import { useNavigate, useLocation } from "react-router-dom";
 import { AuthContext } from "../../AuthContext";
-import './Address.css';
-import { useLocation } from 'react-router-dom';
-import { get as getDb } from 'idb-keyval';
+import { get as getDb } from "idb-keyval";
 
-function MainSection({ selectedProduct, modelData }) {
+function AddressSection({ selectedProduct, modelData }) {
   const { user } = useContext(AuthContext);
-  const navigate = useNavigate(); // Inisialisasi fungsi navigasi
-  // State untuk menyimpan data alamat sesuai model
+  const navigate = useNavigate();
+  
   const [addressData, setAddressData] = useState({
-    RecipientName: '',
-    RecipientEmail: '', // Tambahan dari form Anda
-    RecipientNumber: '',
-    ProvinceId: '', // Diasumsikan ID dari dropdown/input
-    CityId: '',
-    PostalCodeId: '',
-    Detail: '',
-    Note: ''
+    RecipientName: "",
+    RecipientEmail: "",
+    RecipientNumber: "",
+    ProvinceId: "",
+    CityId: "",
+    PostalCodeId: "",
+    Detail: "",
+    Note: "",
   });
 
-  // Handler untuk mendeteksi perubahan input
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setAddressData({
-      ...addressData,
-      [name]: value
-    });
+    setAddressData(prev => ({ ...prev, [name]: value }));
   };
 
-  // Fungsi Validasi dan Submit
   const handleCheckout = (e) => {
     e.preventDefault();
 
-    // Validasi sederhana (Cek apakah field wajib sudah diisi)
     const { RecipientName, RecipientNumber, ProvinceId, CityId, PostalCodeId, Detail } = addressData;
-    
+
     if (!RecipientName || !RecipientNumber || !ProvinceId || !CityId || !PostalCodeId || !Detail) {
       alert("Mohon lengkapi semua data alamat yang bertanda wajib!");
       return;
     }
 
-    console.log("Data Alamat Siap Disimpan:", addressData);
-    console.log("Produk yang dibeli:", selectedProduct);
-    
-    // Di sini Anda bisa memanggil API untuk menyimpan ke database
-    alert("Validasi Berhasil! Melanjutkan ke Pembayaran...");
     if (user) {
-      console.log("Selected card:", selectedProduct);
-      navigate('/payment', { 
-      state: { selectedProduct: selectedProduct, addressData: addressData, modelData: modelData } 
-    });
-    }
-    else{
+      navigate("/payment", {
+        state: { selectedProduct, addressData, modelData }
+      });
+    } else {
       alert("Silakan login terlebih dahulu untuk melakukan pembelian.");
-      navigate('/login');
+      navigate("/login");
     }
   };
 
   return (
-    <div>
-      <section className='MainSection'>
-        <div className='box'></div>
-        <div className='SectionContainer' style={{ justifyContent: "flex-start" }}>
-          <div style={{ alignSelf: 'flex-start', color: '#A95C4C' }}>
-            <h1>Alamat Pengiriman</h1>
-          </div>
-          <div className='AddressBox' style={{ height: "80%", display: "flex", justifyContent: "center" }}>
-            {/* Bungkus semua input dalam satu form utama */}
-            <form onSubmit={handleCheckout} className="FormContainer" style={{  }}>
-              <div style={{ display : 'flex' , width : '100%' , height : '80%' }}>
-                <div className="LeftContainer insideContainer">
+    <section className="AddressSection">
+      <div className="AddressSectionContainer">
+        <h1 className="txt-color-primary">Alamat Pengiriman</h1>
+        
+        <div className="AddressBox txt-color-ternary">
+          <form onSubmit={handleCheckout} className="AddressFormGrid">
+            
+            {/* Column 1: Contact Info */}
+            <div className="FormColumn">
+              <div className="AddressFormGroup">
                 <label>Nama Penerima</label>
-                <input 
-                  type="text" 
-                  name="RecipientName" 
+                <input
+                  type="text"
+                  name="RecipientName"
                   value={addressData.RecipientName}
                   onChange={handleChange}
-                  placeholder="Masukkan nama penerima" 
-                  style={{ borderRadius: "10px", height: "40px", marginBottom: "15px" }} 
-                />
-
-                <label>Email Penerima</label>
-                <input 
-                  type="text" 
-                  name="RecipientEmail" 
-                  value={addressData.RecipientEmail}
-                  onChange={handleChange}
-                  placeholder="Masukkan email penerima" 
-                  style={{ borderRadius: "10px", height: "40px", marginBottom: "15px" }} 
-                />
-
-                <label>Nomor Telepon Penerima</label>
-                <input 
-                  type="text" 
-                  name="RecipientNumber" 
-                  value={addressData.RecipientNumber}
-                  onChange={handleChange}
-                  placeholder="Masukkan nomor telepon" 
-                  style={{ borderRadius: "10px", height: "40px" }} 
+                  placeholder="Masukkan nama penerima"
                 />
               </div>
 
-              <div className="MidContainer insideContainer">
+              <div className="AddressFormGroup">
+                <label>Email Penerima</label>
+                <input
+                  type="email"
+                  name="RecipientEmail"
+                  value={addressData.RecipientEmail}
+                  onChange={handleChange}
+                  placeholder="Masukkan email penerima"
+                />
+              </div>
+
+              <div className="AddressFormGroup">
+                <label>Nomor Telepon Penerima</label>
+                <input
+                  type="text"
+                  name="RecipientNumber"
+                  value={addressData.RecipientNumber}
+                  onChange={handleChange}
+                  placeholder="Masukkan nomor telepon"
+                />
+              </div>
+            </div>
+
+            {/* Column 2: Regional Info */}
+            <div className="FormColumn">
+              <div className="AddressFormGroup">
                 <label>Provinsi</label>
-                <input 
-                  type="text" 
-                  name="ProvinceId" 
+                <input
+                  type="text"
+                  name="ProvinceId"
                   value={addressData.ProvinceId}
                   onChange={handleChange}
-                  placeholder="Masukkan ID Provinsi" 
-                  style={{ borderRadius: "10px", height: "40px", marginBottom: "15px" }} 
+                  placeholder="Masukkan Provinsi"
                 />
+              </div>
 
+              <div className="AddressFormGroup">
                 <label>Kota/Kabupaten</label>
-                <select 
-                  name="CityId" 
-                  value={addressData.CityId} 
-                  onChange={handleChange}
-                  style={{ borderRadius: "10px", height: "40px", marginBottom: "15px" }}
-                >
+                <select name="CityId" value={addressData.CityId} onChange={handleChange}>
                   <option value="">Pilih Kota</option>
                   <option value="city_01">Jakarta</option>
                   <option value="city_02">Bandung</option>
                   <option value="city_03">Surabaya</option>
                 </select>
+              </div>
 
+              <div className="AddressFormGroup">
                 <label>Kode Pos</label>
-                <input 
-                  type="text" 
-                  name="PostalCodeId" 
+                <input
+                  type="text"
+                  name="PostalCodeId"
                   value={addressData.PostalCodeId}
                   onChange={handleChange}
-                  placeholder="Masukkan kode pos" 
-                  style={{ borderRadius: "10px", height: "40px" }} 
+                  placeholder="Masukkan kode pos"
                 />
               </div>
+            </div>
 
-              <div className="RightContainer">
-                <div className='RightForm'>
-                  <label>Alamat Lengkap</label>
-                  <textarea 
-                    name="Detail" 
-                    value={addressData.Detail}
-                    onChange={handleChange}
-                    placeholder="Masukkan alamat lengkap" 
-                  />
-                </div>
-                <div className='RightForm'>
-                  <label>Catatan</label>
-                  <textarea 
-                    name="Note" 
-                    value={addressData.Note}
-                    onChange={handleChange}
-                    placeholder="Masukkan catatan" 
-                  />
-                </div>
+            {/* Column 3: Detail & Notes */}
+            <div className="FormColumn">
+              <div className="AddressFormGroup">
+                <label>Alamat Lengkap</label>
+                <textarea
+                  name="Detail"
+                  value={addressData.Detail}
+                  onChange={handleChange}
+                  placeholder="Contoh: Jl. Mawar No. 123, RT 01/02"
+                />
               </div>
+              <div className="AddressFormGroup">
+                <label>Catatan (Opsional)</label>
+                <textarea
+                  name="Note"
+                  value={addressData.Note}
+                  onChange={handleChange}
+                  placeholder="Contoh: Pagar warna hitam"
+                />
               </div>
-              <div className="btnContainer" style={{ gridColumn: "span 3", display: 'flex', justifyContent: 'center', marginTop: "20px" }}>
-                <button type="submit" className="btnAddress">Lanjut ke Pembayaran</button>
-              </div>
-            </form>
-          </div>
+            </div>
+
+            {/* Center Button */}
+            <div className="AddressButtonContainer">
+              <button type="submit" className="button-ternary">
+                Lanjut ke Pembayaran
+              </button>
+            </div>
+          </form>
         </div>
-        <div className='box'></div>
-      </section>
-    </div>
+      </div>
+    </section>
   );
 }
 
 export default function Address() {
-const location = useLocation();
-  const productInfo = location.state?.selectedProduct; // Data teks aman (Rose x1, dsb)
+  const location = useLocation();
+  const productInfo = location.state?.selectedProduct;
   const [modelData, setModelData] = useState(null);
 
   useEffect(() => {
     const loadModel = async () => {
-      const data = await getDb('pending_order_model'); // Ambil model dari DB, bukan dari state navigate
+      const data = await getDb("pending_order_model");
       if (data) setModelData(data);
     };
     loadModel();
   }, []);
 
-  console.log("Product Info in Address Page:", productInfo);
-  console.log("Model Data in Address Page:", modelData);
-
-  return (
-    <div>
-      <MainSection selectedProduct={productInfo} modelData={modelData} />
-    </div>
-  );
+  return <AddressSection selectedProduct={productInfo} modelData={modelData} />;
 }

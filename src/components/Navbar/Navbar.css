@@ -7,6 +7,7 @@
     justify-content: space-between;
     position: sticky;
     top: 0;
+    z-index: 100;
 }
 
 .NavBarLogo {
@@ -42,7 +43,8 @@ ul {
 .NavBarItem.active {
     color: #fff;
     font-weight: bold;
-    border-bottom: 2px solid #fff;
+    border-bottom: 2px solid green;
+    color: var(--color-primary);
 }
 
 .NavBarButton {
@@ -53,6 +55,10 @@ ul {
     transition: background-color 0.3s ease;
     border-radius: 5svh;
     padding: 0.5rem 1rem;
+    margin: 0 0.25rem;
+    display: flex;
+    justify-items: center;
+    gap: 0.5rem;
 }
 
 .ProfilePicture img {

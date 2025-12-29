@@ -1,35 +1,34 @@
-import "./About.css";
 import AboutImageTop from "../../assets/AboutLandingRight.jpg";
 import AboutImageBottom from "../../assets/AboutLandingLeft.jpg";
-import PhilosophyImage from '../../assets/AboutPhilosophy.jpg';
+import PhilosophyImage from "../../assets/AboutPhilosophy.jpg";
 
 function AboutLanding() {
   return (
-    <div className="landing-container">
-      <section className="landing-section">
+    <div className="AboutLandingContainer">
+      <section className="AboutLandingSection">
         <div>
-          <h1 className="txt-color-bg-light landing-content-title">
+          <h1 className="txt-color-bg-light AboutLandingContentTitle">
             TENTANG <br />
             <span className="txt-color-primary">KITA.</span>
           </h1>
-          <hr className="landing-divider" />
+          <hr className="AboutLandingDivider" />
         </div>
 
-        <div className="landing-content-top">
+        <div className="AboutLandingContentTop">
           <img
             src={AboutImageTop}
             alt="Bouquets of flowers"
-            className="landing-image-top"
+            className="AboutLandingImageTop"
           />
         </div>
 
-        <div className="landing-content-bottom">
+        <div className="AboutLandingContentBottom">
           <img
             src={AboutImageBottom}
             alt="White roses on a book"
-            className="landing-image-bottom"
+            className="AboutLandingImageBottom"
           />
-          <p className="p1 txt-color-bg-dark landing-description">
+          <p className="p1 txt-color-bg-dark AboutLandingDescription">
             ullam bibendum eget turpis nec rhoncus. Integer in sapien neque.
             Phasellus egestas pellentesque ligula tempor vulputate. Sed in
             bibendum quam. Nullam dignissim dui sed metus tincidunt, id
@@ -49,29 +48,36 @@ function AboutLanding() {
 
 function AboutPhilosophy() {
   return (
-    <div className="philosophy-container">
-      <section className="philosophy-section">
-        <div className="philosophy-top-content">
-          <div className="philosophy-header-text">
+    <div className="AboutPhilosophyContainer">
+      <section className="AboutPhilosophySection">
+        <div className="AboutPhilosophyTopContent">
+          <div className="AboutPhilosophyHeaderText">
             <h1 className="txt-color-bg-dark">
               FILOSOFI <br />
               <span className="txt-color-primary">KITA.</span>
             </h1>
           </div>
-          <div className="philosophy-description-wrapper">
-            <p className="philosophy-description">
-              ullam bibendum eget turpis nec rhoncus. Integer in sapien neque. Phasellus egestas pellentesque
-              ligula tempor vulputate. Sed in bibendum quam. Nullam dignissim dui sed metus tincidunt, id
-              consectetur nunc elementum. Vestibulum non vehicula nunc. Proin gravida tellus sed ipsum euismod,
-              id sollicitudin neque efficitur. Maecenas commodo augue ut enim sollicitudin auctor. Donec felis
-              neque, ornare nec pellentesque a, faucibus ac odio. Curabitur porttitor ipsum et scelerisque laoreet.
-              Suspendisse sit amet egestas turpis, ac ornare sem. Maecenas sed diam imperdiet, porta nulla in,
-              dictum.
+          <div className="AboutPhilosophyDescriptionWrapper">
+            <p className="AboutPhilosophyDescription">
+              ullam bibendum eget turpis nec rhoncus. Integer in sapien neque.
+              Phasellus egestas pellentesque ligula tempor vulputate. Sed in
+              bibendum quam. Nullam dignissim dui sed metus tincidunt, id
+              consectetur nunc elementum. Vestibulum non vehicula nunc. Proin
+              gravida tellus sed ipsum euismod, id sollicitudin neque efficitur.
+              Maecenas commodo augue ut enim sollicitudin auctor. Donec felis
+              neque, ornare nec pellentesque a, faucibus ac odio. Curabitur
+              porttitor ipsum et scelerisque laoreet. Suspendisse sit amet
+              egestas turpis, ac ornare sem. Maecenas sed diam imperdiet, porta
+              nulla in, dictum.
             </p>
           </div>
         </div>
-        <div className="philosophy-image-bottom">
-          <img src={PhilosophyImage} alt="Hands holding a bouquet of flowers" className="philosophy-image" />
+        <div className="AboutPhilosophyImageBottom">
+          <img
+            src={PhilosophyImage}
+            alt="Hands holding a bouquet of flowers"
+            className="AboutPhilosophyImage"
+          />
         </div>
       </section>
     </div>
@@ -80,19 +86,21 @@ function AboutPhilosophy() {
 
 const AboutOurStory = () => {
   return (
-    <div className="about-our-story-container">
+    <div className="AboutOurStoryContainer">
       <h1 className="txt-color-primary">CERITA KITA.</h1>
       <p>
-        ullam bibendum eget turpis nec rhoncus. Integer in sapien neque. Phasellus egestas pellentesque
-        ligula tempor vulputate. Sed in bibendum quam. Nullam dignissim dui sed metus tincidunt, id
-        consectetur nunc elementum. Vestibulum non vehicula nunc. Proin gravida tellus sed ipsum euismod,
-        id sollicitudin neque efficitur. Maecenas commodo augue ut enim sollicitudin auctor. Donec felis
-        neque, ornare nec pellentesque a, faucibus ac odio. Curabitur porttitor ipsum et scelerisque laoreet.
-        Suspendisse sit amet egestas turpis, ac ornare sem. Maecenas sed diam imperdiet, porta nulla in,
-        dictum.
+        ullam bibendum eget turpis nec rhoncus. Integer in sapien neque.
+        Phasellus egestas pellentesque ligula tempor vulputate. Sed in bibendum
+        quam. Nullam dignissim dui sed metus tincidunt, id consectetur nunc
+        elementum. Vestibulum non vehicula nunc. Proin gravida tellus sed ipsum
+        euismod, id sollicitudin neque efficitur. Maecenas commodo augue ut enim
+        sollicitudin auctor. Donec felis neque, ornare nec pellentesque a,
+        faucibus ac odio. Curabitur porttitor ipsum et scelerisque laoreet.
+        Suspendisse sit amet egestas turpis, ac ornare sem. Maecenas sed diam
+        imperdiet, porta nulla in, dictum.
       </p>
-      <div className="video-wrapper">
-        <video controls className="story-video">
+      <div className="AboutVideoWrapper">
+        <video controls className="AboutOurStoryVideo">
           <source src="your-video-source.mp4" type="video/mp4" />
           Your browser does not support the video tag.
         </video>

@@ -1,14 +1,15 @@
 import { div } from "three/tsl";
 import CardSet from "../../components/Card/CardSet";
-import "./Shop.css";
 import { useEffect, useState, useRef, useContext } from "react";
 import { CardModel } from "../../models/CardModel";
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../../AuthContext";
 
+function LandingSection() {
+  
+}
 
-// const productData = [];
-function LandingSection({productData}) {
+function MostPopularSection({productData}) {
   const cards = productData.map(product => {
     return new CardModel(
       product._id,
@@ -26,18 +27,14 @@ function LandingSection({productData}) {
 
   return (
 
-    <section className="ShopLandingSection">
-      <div className="ShopLandingDescription">
+    <section className="ShopMostPopularSection">
+      <div className="ShopMostPopularDescription">
         <h1 className="txt-color-primary">Ukir Kisah Cintamu</h1>
         <h3 className="txt-color-ternary">Yang terbaik untuk yang terkasih</h3>
       </div>
       <CardSet cards={cards} navigate={useNavigate()}/>
     </section>
   );
-}
-
-function MostPopularSection() {
-  return <section></section>;
 }
 
 export default function Shop() {
@@ -74,8 +71,8 @@ useEffect(() => {
 
   return (
     <div>
-      <LandingSection productData={productData} />
-      <MostPopularSection />
+      <LandingSection />
+      <MostPopularSection productData={productData} />
     </div>
   );
 }

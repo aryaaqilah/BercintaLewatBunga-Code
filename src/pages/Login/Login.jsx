@@ -1,5 +1,4 @@
 import { useState, useEffect } from 'react';
-import './Login.css';
 import PrimaryLogoLight from '../../assets/Logo/Logo_Primary_Dark.png';
 import { FaUser, FaLock } from 'react-icons/fa';
 import { Route, useNavigate } from 'react-router-dom';
@@ -182,7 +181,7 @@ export default function Login() {
 
                 <div className='AlignCenter'>
                     <button 
-                        className='button-primary' 
+                        className='button-primary-fill' 
                         type='submit'
                         disabled={isButtonDisabled || isLoading}
                     >

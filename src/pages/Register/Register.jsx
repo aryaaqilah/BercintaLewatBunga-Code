@@ -1,5 +1,4 @@
 import { useState, useEffect } from 'react';
-import './Register.css';
 import PrimaryLogoLight from '../../assets/Logo/Logo_Primary_Dark.png';
 import { FaUser, FaLock, FaEnvelope } from 'react-icons/fa';
 
@@ -271,7 +270,7 @@ export default function Register() {
 
                 <div className='AlignCenter'>
                     <button
-                        className='button-primary'
+                        className='button-primary-fill'
                         type='submit'
                         // Tombol disabled jika validasi gagal ATAU sedang loading
                         disabled={isButtonDisabled || isLoading} 

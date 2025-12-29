@@ -1,4 +1,3 @@
-import "./Home.css";
 import HeroPicture from "../../assets/Landing.jpg";
 import OurStoryImage from "../../assets/OurStory.jpg";
 import CustomizeYourOwnImage from "../../assets/CustomizeYourOwn.jpg";
