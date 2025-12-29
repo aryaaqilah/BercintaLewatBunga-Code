@@ -1,9 +1,11 @@
-import React, { useState, useContext } from "react";
-import { useNavigate } from "react-router-dom";
+import React, { useState , useContext, useEffect} from 'react';
+import { useNavigate } from 'react-router-dom'; 
 import { AuthContext } from "../../AuthContext";
-import "./Address.css";
+import './Address.css';
+import { useLocation } from 'react-router-dom';
+import { get as getDb } from 'idb-keyval';
 
-function MainSection({ selectedProduct }) {
+function MainSection({ selectedProduct, modelData }) {
   const { user } = useContext(AuthContext);
   const navigate = useNavigate(); // Inisialisasi fungsi navigasi
   // State untuk menyimpan data alamat sesuai model
@@ -60,10 +62,11 @@ function MainSection({ selectedProduct }) {
     alert("Validasi Berhasil! Melanjutkan ke Pembayaran...");
     if (user) {
       console.log("Selected card:", selectedProduct);
-      navigate("/payment", {
-        state: { selectedProduct: selectedProduct, addressData: addressData },
-      });
-    } else {
+      navigate('/payment', { 
+      state: { selectedProduct: selectedProduct, addressData: addressData, modelData: modelData } 
+    });
+    }
+    else{
       alert("Silakan login terlebih dahulu untuk melakukan pembelian.");
       navigate("/login");
     }
@@ -218,10 +221,24 @@ function MainSection({ selectedProduct }) {
 }
 
 export default function Address() {
-  const selectedProduct = window.history.state?.usr?.selectedProduct;
+const location = useLocation();
+  const productInfo = location.state?.selectedProduct; // Data teks aman (Rose x1, dsb)
+  const [modelData, setModelData] = useState(null);
+
+  useEffect(() => {
+    const loadModel = async () => {
+      const data = await getDb('pending_order_model'); // Ambil model dari DB, bukan dari state navigate
+      if (data) setModelData(data);
+    };
+    loadModel();
+  }, []);
+
+  console.log("Product Info in Address Page:", productInfo);
+  console.log("Model Data in Address Page:", modelData);
+
   return (
     <div>
-      <MainSection selectedProduct={selectedProduct} />
+      <MainSection selectedProduct={productInfo} modelData={modelData} />
     </div>
   );
 }

@@ -8,6 +8,7 @@ const POPULATE_FIELDS = ['3DModel', 'Items'];
 router.post("/", async (req, res) => {
   try {
     const product = new Product(req.body);
+    console.log(product);
     await product.save();
     res.status(201).json(product);
   } catch (err) { res.status(400).json({ error: err.message }); }

@@ -21,11 +21,11 @@ import discountRoutes from "./routes/DiscountRoutes.js";
 import administrationFeeRoutes from "./routes/AdministrationFeeRoutes.js";
 import provinceRoutes from "./routes/ProvinceRoutes.js";
 import cityRoutes from "./routes/CityRoutes.js";
-import districtRoutes from "./routes/DiscountRoutes.js";
+import districtRoutes from "./routes/DistrictRoutes.js";
 import postalCodeRoutes from "./routes/PostalCodeRoutes.js";
 
 // Load environment variables
-dotenv.config();
+dotenv.config();  
 
 const app = express();
 const PORT = process.env.PORT || 5000;

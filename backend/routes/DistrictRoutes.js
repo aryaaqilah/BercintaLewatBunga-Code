@@ -20,6 +20,25 @@ router.get("/", async (req, res) => {
   } catch (err) { res.status(500).json({ error: err.message }); }
 });
 
+// 📚 Ambil kecamatan by kecamatan_id (GET /api/districts)
+router.get("/get-by-id/", async (req, res) => {
+  try {
+        const { kecamatan_id } = req.query;
+        
+        let filter = {};
+        if (kecamatan_id) {
+            // Penting: Gunakan Number() karena data di gambar Anda adalah tipe angka
+            filter = { kecamatan_id: Number(kecamatan_id) };
+        }
+
+        // Mencari ke database menggunakan model yang sudah ada di backend
+        const data = await District.find(filter); 
+        res.status(200).json(data);
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+});
+
 // 📖 Ambil District Berdasarkan ID (GET /api/districts/:id)
 router.get("/:id", async (req, res) => {
   try {
