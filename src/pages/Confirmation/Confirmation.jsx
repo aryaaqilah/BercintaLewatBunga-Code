@@ -63,11 +63,11 @@ function MainSection({ selectedProduct, modelScene, meta }) {
   console.log("Selected Product:", selectedProduct);
   return (
     <div>
-      <section className="MainSection">
-        <div className="box"></div>
-        <div className="SectionContainer">
-          <div className="MainBox">
-            <div className="ModelBox">
+      <section className="Confirmation-MainSection">
+        <div className="Confirmation-box"></div>
+        <div className="Confirmation-SectionContainer">
+          <div className="Confirmation-MainBox">
+            <div className="Confirmation-ModelBox">
               <div
                 style={{ height: "100%", width: "100%", borderRadius: "15px" }}
               >
@@ -95,20 +95,20 @@ function MainSection({ selectedProduct, modelScene, meta }) {
                 )}
               </div>
             </div>
-            <div className="InfoBox">
-              <div className="FillerBox"></div>
-              <div className="InsideBox">
-                <div className="NameBox">
+            <div className="Confirmation-InfoBox">
+              <div className="Confirmation-FillerBox"></div>
+              <div className="Confirmation-InsideBox">
+                <div className="Confirmation-NameBox">
                   <h1>{selectedProduct?.title || "Customized Bouquet"}</h1>
                 </div>
-                <div className="DetailBox">
+                <div className="Confirmation-DetailBox">
                   <p>
                     {selectedProduct?.description ||
                       meta?.summary.map(
                         (item, index) =>
                           /* Hanya tampilkan jika qty lebih besar dari 0 */
                           item.qty > 0 && (
-                            <div key={index} className="summary-item">
+                            <div key={index} className="Confirmation-summary-item">
                               {/* <p style={{ fontSize: '15px', fontWeight: '500' }}> */}
                               {item.name} x{item.qty}
                               {/* </p> */}
@@ -118,11 +118,11 @@ function MainSection({ selectedProduct, modelScene, meta }) {
                     <br />
                   </p>
                 </div>
-                <div className="SummaryBox">
-                  <div className="QtyBox">
+                <div className="Confirmation-SummaryBox">
+                  <div className="Confirmation-QtyBox">
                     <h2>x 1</h2>
                   </div>
-                  <div className="PriceBox">
+                  <div className="Confirmation-PriceBox">
                     <h2>
                       Rp.{" "}
                       {selectedProduct?.price ||
@@ -130,60 +130,60 @@ function MainSection({ selectedProduct, modelScene, meta }) {
                     </h2>
                   </div>
                 </div>
-                <div className="CustomizerMessage">
-                  <div className="input-group">
-                    <label htmlFor="pesan" className="input-label label-pesan">
+                <div className="Confirmation-Message">
+                  <div className="Confirmation-input-group">
+                    <label htmlFor="pesan" className="Confirmation-input-label Confirmation-label">
                       pesan untuknya
                     </label>
                     <input
                       type="text"
                       id="pesan"
-                      className="input-field-customizer input-pesan"
+                      className="Confirmation-input-field-customizer Confirmation-input"
                       value={pesan}
                       onChange={(e) => setPesan(e.target.value)}
                     />
                   </div>
                 </div>
-                <div className="CustomizerMessage">
-                  <div className="input-group">
+                <div className="Confirmation-Message">
+                  <div className="Confirmation-input-group">
                     <label
                       htmlFor="catatan"
-                      className="input-label label-catatan"
+                      className="Confirmation-input-label Confirmation-label"
                     >
                       catatan pesanan
                     </label>
                     <input
                       type="text"
                       id="catatan"
-                      className="input-field-customizer input-catatan"
+                      className="Confirmation-input-field-customizer Confirmation-input"
                       value={catatan}
                       onChange={(e) => setCatatan(e.target.value)}
                     />
                   </div>
                 </div>
-                <div className="CustomizerMessage">
-                  <div className="input-group">
+                <div className="Confirmation-CustomizerMessage">
+                  <div className="Confirmation-input-group">
                     <label
                       htmlFor="voucher"
-                      className="input-label label-voucher"
+                      className="Confirmation-input-label Confirmation-label"
                     >
                       kode voucher
                     </label>
                     <input
                       type="text"
                       id="voucher"
-                      className="input-field-customizer input-voucher"
+                      className="Confirmation-input-field-customizer Confirmation-input"
                       value={voucher}
                       onChange={(e) => setVoucher(e.target.value)}
                     />
                   </div>
                 </div>
-                {/* <div className="NotesBox">
+                {/* <div className="Confirmation-NotesBox">
                   Notes :
                   <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Voluptatem, magni?</p>
                 </div> */}
                 <div
-                  className="btnContainer"
+                  className="Confirmation-btnContainer"
                   style={{
                     display: "flex",
                     justifyContent: "center",
@@ -191,18 +191,18 @@ function MainSection({ selectedProduct, modelScene, meta }) {
                   }}
                 >
                   <button
-                    className="btnConfirm"
+                    className="Confirmation-btnConfirm"
                     onClick={() => handleCardSelect(selectedProduct)}
                   >
                     Konfirmasi
                   </button>
                 </div>
               </div>
-              <div className="FillerBox"></div>
+              <div className="Confirmation-FillerBox"></div>
             </div>
           </div>
         </div>
-        <div className="box"></div>
+        <div className="Confirmation-box"></div>
       </section>
     </div>
   );
@@ -263,7 +263,7 @@ export default function Confirmation() {
       if (!data && !selectedProduct) {
         // Jika tidak ada data, arahkan kembali ke customizer
         showAlert("Keranjang kosong, silakan buat desain terlebih dahulu.");
-        navigate("/temp");
+        navigate("/customizer");
         return;
       }
 
@@ -287,7 +287,7 @@ export default function Confirmation() {
   const handleBackToEditor = () => {
     // Navigasi balik saja, data di IndexedDB tidak dihapus
     // agar MainSection bisa memuatnya kembali.
-    navigate("/temp");
+    navigate("/customizer");
   };
 
   console.log("Meta Data:", meta);

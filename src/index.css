@@ -1741,3 +1741,424 @@ h3,
     gap: 2rem;
   }
 }
+
+.Confirmation-MainSection {
+  height: 90vh;
+  width: 100vw;
+  overflow: hidden;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  /* background-color: aqua; */
+}
+
+.Confirmation-SectionContainer {
+  height: (56.25rem * 2) + 40vh;
+  width: 76vw;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  
+  margin: 0;
+  /* background-color: aquamarine; */
+}
+
+.Confirmation-box{
+    width: 12vw;
+    /* background-color: coral; */
+}
+
+.Confirmation-MainBox{
+    /* background-color: lightblue; */
+    width: 100%;
+    height: 80%;
+    /* border: 2px solid #404C4C; */
+    display: flex;
+    /* flex-direction: column; */
+    justify-content: center;
+    border-top-left-radius: 200px;
+    border-bottom-right-radius: 200px;
+}
+
+.Confirmation-ModelBox{
+    background-color: #D4BEA7;
+    width: 35%;
+    height: 100%;
+    border-top-left-radius: 200px;
+}
+
+.Confirmation-InfoBox{
+    /* background-color: lightpink; */
+    border-bottom-right-radius: 200px;
+    border: 2px solid #404C4C;
+    box-sizing: border-box;
+    width: 65%;
+    height: 100%;
+    display: flex;
+}
+
+.Confirmation-FillerBox{
+    width: 15%;
+    height: 100%;
+    /* background-color: turquoise; */
+}
+
+.Confirmation-InsideBox{
+  width: 70%;
+  height: 85%;
+  /* background-color: yellow; */
+  align-self: center;
+}
+
+.Confirmation-btnConfirm {
+  background-color: #404C4C;
+  border: none;
+  color: white;
+  /* padding: 1px 32px; */
+  text-decoration: none;
+  margin: 4px 2px;
+  cursor: pointer;
+  border-radius: 10px;
+  height: 45px;
+  width: 244px;
+  font-size: 20px;
+}
+
+.Confirmation-NameBox{
+  /* background-color: greenyellow; */
+  height: 15%;
+  display: flex;
+  align-items: center;
+  font-size: 2rem;
+  color: #A95C4C;
+}
+
+.Confirmation-DetailBox{
+  /* background-color: orange; */
+  height: 20%;
+  color: #D4BEA7;
+}
+
+.Confirmation-SummaryBox{
+  /* background-color: pink; */
+  height: 10%;
+  display: flex;
+}
+
+.Confirmation-NotesBox{
+  /* background-color: lightgray; */
+  height: 25%;
+  color: #D4BEA7;
+}
+
+.Confirmation-QtyBox{
+  /* background-color: lightcoral; */
+  width: 40%;
+  height: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  /* color: #404C4C; */
+}
+
+.Confirmation-PriceBox{
+  /* background-color: magenta; */
+  height: 50%;
+  width: 50%;
+  text-align: right;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  color: #404C4C;
+}
+
+.Confirmation-Message{
+    width: 90%;
+    height: 12%;
+    /* background-color: lightgreen; */
+}
+
+.Confirmation-input-group {
+  display: flex;             /* Menyusun label & input bersebelahan */
+  height: 80%;
+  width: 100%;
+  max-width: 600px;          /* Lebar maksimal */
+       /* Sudut melengkung */
+  overflow: hidden;          /* Memotong sudut anak elemen */
+  /* font-family: 'Times New Roman', serif; Font Serif sesuai gambar */
+}
+
+/* Bagian Label (Kiri) */
+.Confirmation-input-label {
+  background-color: #7f8381; /* Abu-abu gelap */
+  color: white;
+  padding: 10px 10px;        /* Spasi di sekitar teks label */
+  white-space: nowrap;       /* Mencegah teks turun baris */
+  display: flex;
+  align-items: center;       /* Tengah vertikal */
+  font-size: 16px;
+  cursor: pointer;           /* Kursor berubah saat hover label */
+  border-bottom-left-radius: 10px;
+  border-top-left-radius: 10px;
+  width: 30%;
+}
+
+/* Bagian Input (Kanan) */
+.Confirmation-input-field-customizer{
+  background-color: #c4c3bf; /* Abu-abu muda/beige */
+  border: none;              /* HAPUS border bawaan browser */
+  outline: none;             /* HAPUS garis biru saat diklik */
+  flex-grow: 1;              /* Mengisi sisa ruang */
+  padding: 10px 15px;        /* Spasi di dalam ketikan */
+  font-size: 16px;
+  color: #333;               /* Warna teks saat mengetik */
+  /* border: 1px solid #404C4C; */
+  border-bottom-right-radius: 10px;
+  border-top-right-radius: 10px;
+}
+
+/* Opsional: Efek saat input diklik/aktif */
+.Confirmation-input-field:focus {
+  background-color: #dcdbd7; /* Sedikit lebih terang saat mengetik */
+  border-radius: 0px;
+
+}
+
+.Confirmation-label{
+   background-color: #A95C4C
+}
+
+.Confirmation-input{
+    background-color: #D4BEA7
+}
+
+.Customizer-MainSection {
+  height: 90vh;
+  width: 100vw;
+  overflow: hidden;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  /* background-color: aqua; */
+}
+
+.Customizer-SectionContainer {
+  height: (56.Customizer-25rem * 2) + 40vh;
+  width: 76vw;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  
+  margin: 0;
+  /* background-color: aquamarine; */
+}
+
+.Customizer-box{
+    width: 12vw;
+    /* background-color: coral; */
+}
+
+.Customizer-MainBox{
+    /* background-color: lightblue; */
+    width: 100%;
+    height: 85%;
+    /* border: 2px solid #404C4C; */
+    display: flex;
+    /* flex-direction: column; */
+    justify-content: center;
+
+}
+
+.Customizer-ModelBox{
+    background-color: #000000;
+    width: 50%;
+    height: 100%;
+    border-top-left-radius: 200px;
+    border-bottom-right-radius: 200px;
+}
+
+.Customizer-InfoBox{
+    /* background-color: lightpink; */
+    /* border-bottom-right-radius: 200px; */
+    /* border: 2px solid #404C4C; */
+    box-sizing: border-box;
+    width: 50%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.Customizer-Message{
+    width: 90%;
+    height: 12%;
+    /* background-color: lightgreen; */
+}
+
+.Customizer-AddModel{
+    width: 90%;
+    height: 28%;
+    /* background-color: lightyellow; */
+}
+
+.Customizer-Color{
+    width: 45%;
+    height: 15%;
+    /* background-color: lightgreen; */
+}
+
+.Customizer-Question{
+    width: 90%;
+    height: 10%;
+    /* background-color: lightseagreen; */
+}
+
+.Customizer-Answer{
+    width: 90%;
+    height: 10%;
+    /* background-color: lightsalmon; */
+}
+
+/* Container Utama */
+.Customizer-input-group {
+  display: flex;             /* Menyusun label & input bersebelahan */
+  height: 80%;
+  width: 100%;
+  max-width: 600px;          /* Lebar maksimal */
+       /* Sudut melengkung */
+  overflow: hidden;          /* Memotong sudut anak elemen */
+  /* font-family: 'Times New Roman', serif; Font Serif sesuai gambar */
+}
+
+/* Bagian Label (Kiri) */
+.Customizer-input-label {
+  background-color: #7f8381; /* Abu-abu gelap */
+  color: white;
+  padding: 10px 10px;        /* Spasi di sekitar teks label */
+  white-space: nowrap;       /* Mencegah teks turun baris */
+  display: flex;
+  align-items: center;       /* Tengah vertikal */
+  font-size: 16px;
+  cursor: pointer;           /* Kursor berubah saat hover label */
+  border-bottom-left-radius: 10px;
+  border-top-left-radius: 10px;
+  width: 30%;
+}
+
+/* Bagian Input (Kanan) */
+.Customizer-input-field-customizer{
+  background-color: #c4c3bf; /* Abu-abu muda/beige */
+  border: none;              /* HAPUS border bawaan browser */
+  outline: none;             /* HAPUS garis biru saat diklik */
+  flex-grow: 1;              /* Mengisi sisa ruang */
+  padding: 10px 15px;        /* Spasi di dalam ketikan */
+  font-size: 16px;
+  color: #333;               /* Warna teks saat mengetik */
+  /* border: 1px solid #404C4C; */
+  border-bottom-right-radius: 10px;
+  border-top-right-radius: 10px;
+}
+
+/* Opsional: Efek saat input diklik/aktif */
+.Customizer-input-field:focus {
+  background-color: #dcdbd7; /* Sedikit lebih terang saat mengetik */
+  border-radius: 0px;
+
+}
+
+.Customizer-label-nama{
+   background-color: #A95C4C
+}
+
+.Customizer-input-nama{
+    background-color: #D4BEA7
+}
+
+/* Container Utama Toolbar */
+.Customizer-canvas-toolbar {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  z-index: 20;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 8px;
+  
+  /* Efek Visual Warna Taupe/Abu-abu seperti gambar */
+  background-color: rgba(121, 117, 107, 0.8); 
+  backdrop-filter: blur(8px);
+  border-radius: 12px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.-1);
+}
+
+/* Styling Tombol Individual */
+.Customizer-toolbar-btn {
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.Customizer-2s ease;
+  color: white;
+}
+
+.Customizer-toolbar-btn .Customizer-icon {
+  font-size: 20px;
+  filter: brightness(0) invert(1); /* Membuat emoji/icon jadi putih jika perlu */
+  opacity: 0.Customizer-8;
+}
+
+/* Hover Effect */
+.Customizer-toolbar-btn:hover {
+  background-color: rgba(255, 255, 255, 0.Customizer-15);
+  transform: translateY(-2px);
+}
+
+/* Active State */
+.Customizer-toolbar-btn.Customizer-active {
+  background-color: rgba(255, 255, 255, 0.Customizer-3);
+  box-shadow: inset 0 0 5px rgba(0,0,0,0.Customizer-1);
+}
+
+.Customizer-toolbar-btn .Customizer-active .Customizer-icon {
+  opacity: 1;
+  transform: scale(1.Customizer-1);
+}
+
+/* Garis Pemisah Halus */
+.Customizer-toolbar-divider {
+  width: 20px;
+  height: 1px;
+  background-color: rgba(255, 255, 255, 0.Customizer-2);
+  margin: 4px 0;
+}
+
+.Customizer-colorAndPrice{
+    display: flex;
+    width: 90%;
+    height: 10%;
+    /* background-color: lightcoral; */
+}
+
+.Customizer-btnAddress {
+  background-color: #404C4C;
+  border: none;
+  color: white;
+  /* padding: 1px 32px; */
+  text-decoration: none;
+  margin: 4px 2px;
+  cursor: pointer;
+  border-radius: 10px;
+  height: 45px;
+  width: 10%;
+  font-size: 20px;
+}

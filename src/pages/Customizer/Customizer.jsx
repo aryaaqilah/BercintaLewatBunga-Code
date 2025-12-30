@@ -1,4 +1,3 @@
-import './Temp.css'
 import LilyImage from '../../assets/png/lilly.png';
 import TulipImage from '../../assets/png/tulip.png';
 import RoseImage from '../../assets/png/rose.png';
@@ -252,17 +251,17 @@ const GalleryCard = ({ name, imageSrc, onAddObject, path }) => {
 
   return (
     <div 
-      className="gallery-card-btn" 
+      className="Customizer-gallery-card-btn" 
       onClick={() => onAddObject(name, path)}
       role="button"
       tabIndex={0}
       style={{ boxShadow: isWrapper ? '0 4px 6px rgba(0,0,0,0.3)' : '0 4px 6px rgba(0,0,0,0.1)' }} // Shadow sedikit lebih gelap untuk Wrapper
     >
       {/* Layer Background */}
-      <div className="card-bg">
-        <div className="bg-top" style={{ backgroundColor: topBgColor }}></div>
-        <div className="bg-bottom" style={{ backgroundColor: bottomBgColor }}>
-          <span className="label-text">{`+ ${name}`}</span>
+      <div className="Customizer-card-bg">
+        <div className="Customizer-bg-top" style={{ backgroundColor: topBgColor }}></div>
+        <div className="Customizer-bg-bottom" style={{ backgroundColor: bottomBgColor }}>
+          <span className="Customizer-label-text">{`+ ${name}`}</span>
         </div>
       </div>
 
@@ -270,7 +269,7 @@ const GalleryCard = ({ name, imageSrc, onAddObject, path }) => {
       <img 
         src={imageSrc} 
         alt={`Add ${name}`} 
-        className="card-img"
+        className="Customizer-card-img"
         style={{ width: name === 'Wrapper' ? '110%' : '85%' }} // Wrapper sedikit lebih besar
       />
     </div>
@@ -298,7 +297,7 @@ const FlowerGallery = ({onAddObject, components}) => {
   ];
 
   return (
-    <div className="gallery-container">
+    <div className="Customizer-gallery-container">
       {objects.map((obj) => (
         <GalleryCard
           key={obj.name}
@@ -311,7 +310,7 @@ const FlowerGallery = ({onAddObject, components}) => {
 
       {/* Style CSS Internal */}
       <style>{`
-        .gallery-container {
+        .Customizer-gallery-container {
           display: flex;
           gap: 20px; /* Jarak antar kartu */
           padding-top: 10px;
@@ -319,7 +318,7 @@ const FlowerGallery = ({onAddObject, components}) => {
         }
         
         /* Gaya Tombol Dasar */
-        .gallery-card-btn {
+        .Customizer-gallery-card-btn {
           position: relative;
           width: 140px;
           height: 160px;
@@ -329,16 +328,16 @@ const FlowerGallery = ({onAddObject, components}) => {
           transition: transform 0.2s ease, box-shadow 0.2s ease;
         }
 
-        .gallery-card-btn:hover {
+        .Customizer-gallery-card-btn:hover {
           transform: translateY(-5px);
           box-shadow: 0 8px 15px rgba(0,0,0,0.25);
         }
 
-        .gallery-card-btn:active {
+        .Customizer-gallery-card-btn:active {
           transform: scale(0.98);
         }
 
-        .card-bg {
+        .Customizer-card-bg {
           position: absolute;
           top: 0;
           left: 0;
@@ -349,11 +348,11 @@ const FlowerGallery = ({onAddObject, components}) => {
           z-index: 1;
         }
 
-        .bg-top {
+        .Customizer-bg-top {
           flex: 65;
         }
 
-        .bg-bottom {
+        .Customizer-bg-bottom {
           flex: 35;
           display: flex;
           justify-content: center;
@@ -361,7 +360,7 @@ const FlowerGallery = ({onAddObject, components}) => {
           padding-top: 10px;
         }
 
-        .label-text {
+        .Customizer-label-text {
           font-family: 'Times New Roman', serif;
           color: white;
           font-size: 18px;
@@ -370,9 +369,9 @@ const FlowerGallery = ({onAddObject, components}) => {
         }
 
         /* Gambar objek */
-        .card-img {
+        .Customizer-card-img {
           position: absolute;
-          top: 45%; 
+          top: 55%; 
           left: 50%;
           transform: translate(-50%, -50%);
           height: auto;
@@ -412,20 +411,20 @@ const ColorSelector = ({ title, colors, selectedColor, onColorChange }) => {
 
   return (
     <>
-      <div className="color-selector-group">
-        <h3 className="selector-title">{title}</h3>
-        <div className="color-bar-container">
+      <div className="Customizer-color-selector-group">
+        <h3 className="Customizer-selector-title">{title}</h3>
+        <div className="Customizer-color-bar-container">
           {colors.map((color) => {
             // Karena sekarang menggunakan format hex string dari state utama
             const isSelected = color.hex === selectedColor;
             return (
               <div
                 key={color.id}
-                className="color-swatch-Wrapper"
+                className="Customizer-color-swatch-Wrapper"
                 onClick={() => onColorChange(color.hex)} // Panggil fungsi dari MainSection
               >
                 <div
-                  className={`color-swatch ${isSelected ? 'selected' : ''}`}
+                  className={`Customizer-color-swatch ${isSelected ? 'selected' : ''}`}
                   style={{ backgroundColor: color.hex }}
                   role="button"
                   tabIndex={0}
@@ -438,13 +437,13 @@ const ColorSelector = ({ title, colors, selectedColor, onColorChange }) => {
 
       {/* Style CSS Internal */}
       <style>{`
-        .color-selector-group {
+        .Customizer-color-selector-group {
           display: flex;
           flex-direction: column;
           align-items: flex-start;
         }
 
-        .selector-title {
+        .Customizer-selector-title {
           font-family: 'Times New Roman', serif;
           font-size: 18px;
           font-weight: normal;
@@ -452,7 +451,7 @@ const ColorSelector = ({ title, colors, selectedColor, onColorChange }) => {
           color: #333;
         }
 
-        .color-bar-container {
+        .Customizer-color-bar-container {
           display: flex;
           align-items: center;
           background-color: #808080; /* Warna abu-abu latar belakang bar */
@@ -461,16 +460,16 @@ const ColorSelector = ({ title, colors, selectedColor, onColorChange }) => {
           gap: 10px; /* Jarak antar lingkaran warna */
         }
 
-        .color-swatch-Wrapper {
+        .Customizer-color-swatch-Wrapper {
           cursor: pointer;
           transition: transform 0.15s ease;
         }
 
-        .color-swatch-Wrapper:hover {
+        .Customizer-color-swatch-Wrapper:hover {
           transform: scale(1.1); /* Efek saat di-hover */
         }
 
-        .color-swatch {
+        .Customizer-color-swatch {
           width: 30px;
           height: 30px;
           border-radius: 50%;
@@ -480,7 +479,7 @@ const ColorSelector = ({ title, colors, selectedColor, onColorChange }) => {
         }
 
         /* Gaya untuk warna yang dipilih */
-        .color-swatch.selected {
+        .Customizer-color-swatch.selected {
           border-color: #d19077; /* Warna oranye/cokelat untuk border terpilih */
           box-shadow: 0 0 0 1px #d19077; /* Bayangan tipis untuk mempertegas */
         }
@@ -982,210 +981,207 @@ const formattedSummary = summaryData.map(item => [item.ComponentId, item.qty]);
     
     <div>
       <script src="https://kit.fontawesome.com/4700816e81.js" crossorigin="anonymous"></script>
-      <section className='Temp-MainSection'>
-        <div className="box"></div>
-        <div className="Temp-SectionContainer">
-          <div className="Temp-MainBox">
-            <div className="Temp-ModelBox border-4 border-gray-400 rounded-lg overflow-hidden" style={{ position: "relative" }}>
+      <section className='Customizer-MainSection'>
+        <div className="Customizer-box"></div>
+        <div className="Customizer-SectionContainer">
+          <div className="Customizer-MainBox">
+            <div className="Customizer-ModelBox border-4 border-gray-1000 rounded-lg overflow-hidden" style={{ position: "relative" }}>
               {/* --- TOMBOL MODE (Melayang di kiri atas) --- */}
               {/* Floating Action Toolbar (Sisi Kanan) */}
-  <div className="canvas-toolbar">
-    {/* Tombol Kamera/Mode */}
-    <button 
-      className={`toolbar-btn ${mode === 'camera' ? 'active' : ''}`}
-      onClick={() => setMode('camera')}
-      title="Camera Mode"
-    >
-     <i class="fa-solid fa-camera"></i>
-    </button>
+              <div className="Customizer-canvas-toolbar">
+                {/* Tombol Kamera/Mode */}
+                <button 
+                  className={`Customizer-toolbar-btn ${mode === 'camera' ? 'active' : ''}`}
+                  onClick={() => setMode('camera')}
+                  title="Camera Mode"
+                >
+                <span className="Customizer-icon">📷</span>
+                </button>
 
-    <div className="toolbar-divider"></div>
+                <div className="Customizer-toolbar-divider"></div>
 
-    {/* Tombol Hapus */}
-    <button className="toolbar-btn" onClick={deleteSelected} title="Hapus Objek">
-      <span className="icon">🗑️</span>
-    </button>
+                {/* Tombol Hapus */}
+                <button className="Customizer-toolbar-btn" onClick={deleteSelected} title="Hapus Objek">
+                  <span className="Customizer-icon">🗑️</span>
+                </button>
 
-    {/* Tombol Reset */}
-    <button className="toolbar-btn" onClick={resetAll} title="Reset Semua">
-      <span className="icon">🔄</span>
-    </button>
+                {/* Tombol Reset */}
+                <button className="Customizer-toolbar-btn" onClick={resetAll} title="Reset Semua">
+                  <span className="Customizer-icon">❌</span>
+                </button>
 
-    <div className="toolbar-divider"></div>
+                <div className="Customizer-toolbar-divider"></div>
 
-    {/* Tombol Drag / Move */}
-<button 
-  className={`toolbar-btn ${mode === 'drag' ? 'active' : ''}`}
-  onClick={() => {
-    setMode('drag');
-    setShowRotateMenu(false); // Tutup menu rotasi jika pilih drag
-  }}
-  title="Move Mode"
->
-  <span className="icon">✋</span>
-</button>
+                {/* Tombol Drag / Move */}
+            <button 
+              className={`Customizer-toolbar-btn ${mode === 'drag' ? 'active' : ''}`}
+              onClick={() => {
+                setMode('drag');
+                setShowRotateMenu(false); // Tutup menu rotasi jika pilih drag
+              }}
+              title="Move Mode"
+            >
+              <span className="Customizer-icon">✋</span>
+            </button>
 
-{/* Group Tombol Rotasi */}
-<div className="rotate-menu-Wrapper">
-  <button 
-    className={`toolbar-btn ${['rotateX', 'rotateY', 'rotateZ'].includes(mode) ? 'active' : ''}`}
-    onClick={() => setShowRotateMenu(!showRotateMenu)}
-    title="Rotate Mode"
-  >
-    <span className="icon">🔄</span>
-  </button>
+            {/* Group Tombol Rotasi */}
+            <div className="Customizer-rotate-menu-Wrapper">
+              <button 
+                className={`Customizer-toolbar-btn ${['rotateX', 'rotateY', 'rotateZ'].includes(mode) ? 'active' : ''}`}
+                onClick={() => setShowRotateMenu(!showRotateMenu)}
+                title="Rotate Mode"
+              >
+                <span className="Customizer-icon">🔁</span>
+              </button>
 
-  {/* Sub-menu X, Y, Z yang muncul jika showRotateMenu true */}
-  {showRotateMenu && (
-    <div className="rotate-submenu">
-      {['X', 'Y', 'Z'].map((axis) => (
-        <button
-          key={axis}
-          className={`submenu-btn ${mode === `rotate${axis}` ? 'active' : ''}`}
-          onClick={() => setMode(`rotate${axis}`)}
-        >
-          {axis}
-        </button>
-      ))}
-    </div>
-  )}
-</div>
-  </div>
-              <Canvas camera={{ position: [5, 5, 10], fov: 50 }}>
-                        <color attach="background" args={["#fdfdfd"]} />
-                        <ambientLight intensity={0.6} />
-                        <directionalLight position={[5, 10, 5]} intensity={1} />
-              
-                        <SceneContent sceneRef={sceneRef}>
-                          {objects.map((obj) => (
-                            <Object3DModel
-                              key={obj.id}
-                              id={obj.id}
-                              type={obj.type}
-                              modelPath={obj.modelPath}
-                              position={obj.position}
-                              mode={mode}
-                              setDragging={setIsDragging}
-                              color={obj.type === "card" ? cardColor : undefined}
-                              text={obj.type === "card" ? cardText : undefined}
-                              parcelColor={parcelColor}
-                              ribbonColor={ribbonColor}
-                              isSelected={selectedId === obj.id}
-                              onSelect={(id) =>
-                                setSelectedId((prev) => (prev === id ? null : id))
-                              }
-                            />
-                          ))}
-                        </SceneContent>
-              
-                        <gridHelper args={[20, 20, 0x888888, 0x444444]} />
-                        <OrbitControls enabled={mode === "camera" && !isDragging} />
-                      </Canvas>
+              {/* Sub-menu X, Y, Z yang muncul jika showRotateMenu true */}
+              {showRotateMenu && (
+                <div className="Customizer-rotate-submenu">
+                  {['X', 'Y', 'Z'].map((axis) => (
+                    <button
+                      key={axis}
+                      className={`Customizer-submenu-btn ${mode === `rotate${axis}` ? 'active' : ''}`}
+                      onClick={() => setMode(`rotate${axis}`)}
+                    >
+                      {axis}
+                    </button>
+                  ))}
+                </div>
+              )}
             </div>
-            <div className="Temp-InfoBox">
+              </div>
+              <Canvas camera={{ position: [5, 5, 10], fov: 50 }}>
+                <color attach="background" args={["#fdfdfd"]} />
+                <ambientLight intensity={0.6} />
+                <directionalLight position={[5, 10, 5]} intensity={1} />
+      
+                <SceneContent sceneRef={sceneRef}>
+                  {objects.map((obj) => (
+                    <Object3DModel
+                      key={obj.id}
+                      id={obj.id}
+                      type={obj.type}
+                      modelPath={obj.modelPath}
+                      position={obj.position}
+                      mode={mode}
+                      setDragging={setIsDragging}
+                      color={obj.type === "card" ? cardColor : undefined}
+                      text={obj.type === "card" ? cardText : undefined}
+                      parcelColor={parcelColor}
+                      ribbonColor={ribbonColor}
+                      isSelected={selectedId === obj.id}
+                      onSelect={(id) =>
+                        setSelectedId((prev) => (prev === id ? null : id))
+                      }
+                    />
+                  ))}
+                </SceneContent>
+      
+                <gridHelper args={[20, 20, 0x888888, 0x444444]} />
+                <OrbitControls enabled={mode === "camera" && !isDragging} />
+              </Canvas>
+            </div>
+            <div className="Customizer-InfoBox">
 
             <div className="" style={{ display : "flex", alignSelf : "flex-start", paddingLeft : "5%", fontSize : "32px", paddingBottom : "10px"}}>
                 Sampaikan Bunga Mu
             </div>
-              <div className="CustomizerMessage">
-                <div className="input-group">
-                  <label htmlFor="nama" className="input-label label-nama">nama buket</label>
+              <div className="Customizer-Message">
+                <div className="Customizer-input-group">
+                  <label htmlFor="nama" className="Customizer-input-label Customizer-label-nama">nama buket</label>
                   <input 
                     type="text" 
                     id="nama" 
-                    className="input-field-customizer input-nama" 
+                    className="Customizer-input-field-customizer Customizer-input-nama" 
                     value={modelName}
                     onChange={(e) => setModelName(e.target.value)} // Update state saat diketik
                   />
                 </div>                        
               </div>
 
-              <div className="CustomizerQuestion">
-                <div className="input-group">
-                  <label htmlFor="question" className="input-label">pertanyaan konfirmasi</label>
+              <div className="Customizer-Question">
+                <div className="Customizer-input-group">
+                  <label htmlFor="question" className="Customizer-input-label">pertanyaan konfirmasi</label>
                   <input 
                     type="text" 
                     id="question" 
-                    className="input-field-customizer"
+                    className="Customizer-input-field-customizer"
                     value={question}
                     onChange={(e) => setQuestion(e.target.value)}
                   />
                 </div> 
               </div>
 
-              <div className="CustomizerAnswer">
-                <div className="input-group">
-                  <label htmlFor="answer" className="input-label">jawaban</label>
+              <div className="Customizer-Answer">
+                <div className="Customizer-input-group">
+                  <label htmlFor="answer" className="Customizer-input-label">jawaban</label>
                   <input 
                     type="text" 
                     id="answer" 
-                    className="input-field-customizer"
+                    className="Customizer-input-field-customizer"
                     value={answer}
                     onChange={(e) => setAnswer(e.target.value)}
                   />
                 </div> 
               </div>
-              <div className="CustomizerAddModel">
+              <div className="Customizer-AddModel">
                 <FlowerGallery onAddObject={handleAddFromGallery} components={components}/>
               </div>
-              <div className="colorAndPrice">
-                <div className="CustomizerColor">
+              <div className="Customizer-colorAndPrice">
+                <div className="Customizer-Color">
                 <ColorChoose 
-        parcelColor={parcelColor} 
-        setParcelColor={setParcelColor}
-        ribbonColor={ribbonColor}
-        setRibbonColor={setRibbonColor}
-      /> 
-              </div>
-              <div className="order-summary-container" style={{ padding: '20px', fontFamily: 'monospace' }}>
-  <h3 style={{ borderBottom: '1px solid #ccc', paddingBottom: '10px' }}>Rincian Pesanan</h3>
-  
-  {summaryData.map((item, index) => (
-    <div key={index} style={{ marginBottom: '15px' }}>
-      <div style={{ display: 'flex', justifyContent: 'space-between', fontWeight: 'bold' }}>
-        <span>{index + 1}. {item.name}</span>
-      </div>
-      <div style={{ display: 'flex', justifyContent: 'space-between', paddingLeft: '15px' }}>
-        <span>x{item.qty}</span>
-        <span>{item.price.toLocaleString('id-ID')}</span>
-      </div>
-    </div>
-  ))}
+                  parcelColor={parcelColor} 
+                  setParcelColor={setParcelColor}
+                  ribbonColor={ribbonColor}
+                  setRibbonColor={setRibbonColor}
+                /> 
+                </div>
+                  <div className="Customizer-order-summary-container" style={{ padding: '5px' }}>
+                    <h3 style={{ borderBottom: '1px solid #ccc', paddingBottom: '2px' }}>Rincian Pesanan</h3>
+                    
+                    {summaryData.map((item, index) => (
+                      <div key={index} style={{ marginBottom: '5px' }}>
+                        <div style={{ display: 'flex', justifyContent: 'space-between', fontWeight: 'bold' }}>
+                          <span>{'- '} {item.name}</span>
+                        </div>
+                        <div style={{ display: 'flex', justifyContent: 'space-between', paddingLeft: '15px' }}>
+                          <span>x{item.qty}</span>
+                          <span>{item.price.toLocaleString('id-ID')}</span>
+                        </div>
+                      </div>
+                    ))}
 
-  <div style={{ borderTop: '2px solid #000', marginTop: '10px', paddingTop: '10px', display: 'flex', justifyContent: 'space-between', fontWeight: 'bold' }}>
-    <span>Total Harga</span>
-    <span>Rp {totalPrice.toLocaleString('id-ID')}</span>
-  </div>
+                  <div style={{ borderTop: '2px solid #000', marginTop: '10px', paddingTop: '10px', display: 'flex', justifyContent: 'space-between', fontWeight: 'bold' }}>
+                    <span>Total Harga</span>
+                    <span>Rp {totalPrice.toLocaleString('id-ID')}</span>
+                  </div>
 
-  <style>{`
-    .order-summary-container {
-      background: #f9f9f9;
-      border-radius: 8px;
-      width: 100%;
-      max-width: 300px;
-    }
-  `}</style>
-</div>
-              </div>
-              
-
+                  <style>{`
+                    .Customizer-order-summary-container {
+                      border-radius: 8px;
+                      width: 100%;
+                      max-width: 300px;
+                    }
+                  `}</style>
+                </div>
+                </div>
+              </div>                
             </div>
           </div>
-        </div>
-        <div className="box"></div>
+        <div className="Customizer-box"></div>
       </section>
       <div style={{ display:'flex' }}>
-      <div className="box"></div>
-        <div className="btnContainer" style={{display: 'flex', justifyContent: 'center', width: '100%'}}>
-            <button className="btnAddress" onClick={handleSave}>Selesai</button>
+      <div className="Customizer-box"></div>
+        <div className="Customizer-btnContainer" style={{display: 'flex', justifyContent: 'center', width: '100%'}}>
+            <button className="Customizer-btnAddress" onClick={handleSave}>Selesai</button>
         </div>
-      <div className="box"></div>
+      <div className="Customizer-box"></div>
       </div>
     </div>
   )
 }
 
-export default function Temp() {
+export default function Customizer() {
   return (
     <div>
       <MainSection />
