@@ -78,3 +78,68 @@
   justify-content: space-between;
   align-items: center;
 }
+
+@media (max-width: 1024px) {
+  .OrderInfo {
+    padding: 1rem;
+    gap: 1rem;
+  }
+
+  .OrderInfo .LeftItem {
+    gap: 1rem; /* Reduce the large 2rem gap */
+    flex-wrap: wrap; /* Allow ID and Date to stack if needed */
+  }
+
+  .ProductDetail {
+    gap: 1.5rem;
+  }
+
+  .ProductImage {
+    width: 80px; /* Slightly smaller image */
+    height: 80px;
+  }
+}
+
+@media (max-width: 600px) {
+  .OrderInfo {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+  }
+
+  .OrderInfo .RightItem {
+    text-align: left;
+    align-items: flex-start;
+    width: 100%;
+    border-top: 1px dashed var(--color-ternary);
+    padding-top: 0.5rem;
+  }
+
+  .ProductDetail {
+    flex-direction: column; /* Stack image and text */
+    align-items: flex-start;
+  }
+
+  .ProductImage {
+    width: 100%; /* Full width image for mobile impact */
+    height: 200px;
+  }
+
+  .ProductDetail .RightItem {
+    width: 100%;
+    align-items: flex-start; /* Move price/quantity to the left */
+    min-width: unset;
+    gap: 0.5rem;
+  }
+
+  .OrderFooter {
+    flex-direction: column;
+    gap: 1rem;
+    padding: 1rem;
+    text-align: center;
+  }
+
+  .OrderFooter .button-primary {
+    width: 100%; /* Full width action button on mobile */
+  }
+}

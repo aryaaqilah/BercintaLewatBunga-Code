@@ -1,5 +1,16 @@
 import express from "express";
 import User from "../models/User.js";
+import Address from "../models/Address.js"
+import Province from "../models/Province.js"
+import City from "../models/City.js"
+import District from "../models/District.js"
+import PostalCode from "../models/PostalCode.js"
+import Delivery from "../models/Delivery.js"
+import Product from "../models//Product.js"
+import ThreeDModel from "../models/3DModel.js"
+import Item from "../models/Item.js"
+import AdministrationFee from "../models/AdministrationFee.js";
+import Discount from "../models/Discount.js";
 
 const router = express.Router();
 
@@ -93,6 +104,83 @@ router.delete("/:id", async (req, res) => {
     res.status(204).send();
   } catch (err) {
     res.status(400).json({ error: err.message });
+  }
+});
+
+// 💣 Hapus Order (DELETE /api/orders/:id)
+router.delete("/:id", async (req, res) => {
+  try {
+    const order = await Order.findByIdAndDelete(req.params.id);
+    if (!order) return res.status(404).json({ error: "Order not found" });
+    res.status(204).send();
+  } catch (err) { res.status(400).json({ error: err.message }); }
+});
+
+// 💣 Get Orders bedasarkan User Id (GET /api/users/orders/:id)
+router.get("/orders/:id", async (req, res) => {
+  try {
+    console.log("ENTER USER ROUTE FOR PROFILE")
+    const user = await User.findById(req.params.id).populate({
+      path: 'Orders',
+      populate: [
+        { 
+          path: "AddressId", 
+          model: Address,
+          populate: [
+            { 
+              path: "ProvinceId",
+              model: Province
+            },
+            { 
+              path: "CityId",
+              model: City
+            },
+            { 
+              path: "DistrictId",
+              model: District
+            },
+            { 
+              path: "PostalCodeId",
+              model: PostalCode
+            }
+          ]
+        },
+        {
+          path: "DeliveryId",
+          model: Delivery
+        },
+        {
+          path: "ProductId",
+          model: Product,
+          populate: [
+            {
+              path: "ThreeDModel",
+              model: ThreeDModel
+            },
+            {
+              path: "Items",
+              model: Item
+            }
+          ]
+        },
+        {
+          path: "AdministrationFee",
+          model: AdministrationFee
+        },
+        {
+          path: "DiscountId",
+          model: Discount
+        }
+      ]
+    });
+
+    console.log("USERS: ", user)
+    if (!user) return res.status(404).json({ error: "User not found" });
+    res.json(user);
+
+  } catch (err) {
+    console.error("Population Error:", err);
+    res.status(500).json({ error: err.message });
   }
 });
 

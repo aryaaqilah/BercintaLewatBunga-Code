@@ -105,11 +105,11 @@ const Profile = () => {
       if (!user?._id) return;
       showLoading("Memuat Data User...");
       try {
-        // NOTE: Ensure backend uses .populate({ path: 'Orders', populate: ['Product', 'Address', 'Delivery'] })
         const response = await fetch(
           `http://localhost:5000/api/users/orders/${user._id}`
         );
         const data = await response.json();
+        
         if (response.ok) {
           setOrders(data.Orders || []);
           setFormData({
