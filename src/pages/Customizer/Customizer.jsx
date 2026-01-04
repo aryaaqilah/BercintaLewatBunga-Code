@@ -437,6 +437,57 @@ const ColorSelector = ({ title, colors, selectedColor, onColorChange }) => {
 
       {/* Style CSS Internal */}
       <style>{`
+
+      @media (max-width: 600px){
+        .Customizer-color-selector-group {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+        }
+
+        .Customizer-selector-title {
+          font-family: 'Times New Roman', serif;
+          font-size: 18px;
+          font-weight: normal;
+          margin: 0 0 8px 0; /* Jarak antara judul dan bar warna */
+          color: #333;
+        }
+
+        .Customizer-color-bar-container {
+          display: flex;
+          align-items: center;
+          background-color: #808080; /* Warna abu-abu latar belakang bar */
+          border-radius: 20px;
+          padding: 8px 10px;
+          gap: 10px; /* Jarak antar lingkaran warna */
+        }
+
+        .Customizer-color-swatch-Wrapper {
+          cursor: pointer;
+          transition: transform 0.15s ease;
+        }
+
+        .Customizer-color-swatch-Wrapper:hover {
+          transform: scale(1.1); /* Efek saat di-hover */
+        }
+
+        .Customizer-color-swatch {
+          width: 30px;
+          height: 30px;
+          border-radius: 50%;
+          border: 3px solid transparent; /* Border default transparan */
+          box-sizing: border-box;
+          transition: border-color 0.15s ease;
+        }
+
+        /* Gaya untuk warna yang dipilih */
+        .Customizer-color-swatch.selected {
+          border-color: #d19077; /* Warna oranye/cokelat untuk border terpilih */
+          box-shadow: 0 0 0 1px #d19077; /* Bayangan tipis untuk mempertegas */
+        }
+      }
+
+      @media (min-width : 1024px) {
         .Customizer-color-selector-group {
           display: flex;
           flex-direction: column;
@@ -483,6 +534,57 @@ const ColorSelector = ({ title, colors, selectedColor, onColorChange }) => {
           border-color: #d19077; /* Warna oranye/cokelat untuk border terpilih */
           box-shadow: 0 0 0 1px #d19077; /* Bayangan tipis untuk mempertegas */
         }
+      }
+
+      @media (min-width: 600px) {
+        .Customizer-color-selector-group {
+          display: flex;
+          flex-direction: column;
+          align-items: flex-start;
+        }
+
+        .Customizer-selector-title {
+          font-family: 'Times New Roman', serif;
+          font-size: 18px;
+          font-weight: normal;
+          margin: 0 0 8px 0; /* Jarak antara judul dan bar warna */
+          color: #333;
+        }
+
+        .Customizer-color-bar-container {
+          display: flex;
+          align-items: center;
+          background-color: #808080; /* Warna abu-abu latar belakang bar */
+          border-radius: 20px;
+          padding: 8px 10px;
+          gap: 10px; /* Jarak antar lingkaran warna */
+        }
+
+        .Customizer-color-swatch-Wrapper {
+          cursor: pointer;
+          transition: transform 0.15s ease;
+        }
+
+        .Customizer-color-swatch-Wrapper:hover {
+          transform: scale(1.1); /* Efek saat di-hover */
+        }
+
+        .Customizer-color-swatch {
+          width: 30px;
+          height: 30px;
+          border-radius: 50%;
+          border: 3px solid transparent; /* Border default transparan */
+          box-sizing: border-box;
+          transition: border-color 0.15s ease;
+        }
+
+        /* Gaya untuk warna yang dipilih */
+        .Customizer-color-swatch.selected {
+          border-color: #d19077; /* Warna oranye/cokelat untuk border terpilih */
+          box-shadow: 0 0 0 1px #d19077; /* Bayangan tipis untuk mempertegas */
+        }
+      }
+        
       `}</style>
     </>
   );
@@ -1157,11 +1259,22 @@ const formattedSummary = summaryData.map(item => [item.ComponentId, item.qty]);
                   </div>
 
                   <style>{`
+                  @media (min-width : 1024px) {
                     .Customizer-order-summary-container {
                       border-radius: 8px;
                       width: 100%;
                       max-width: 300px;
                     }
+                  }
+
+                  @media (max-width: 600px){
+                    .Customizer-order-summary-container {
+                        border-radius: 8px;
+                        width: 100%;
+                        // max-width: 300px;
+                    }
+                  }
+                    
                   `}</style>
                 </div>
                 </div>

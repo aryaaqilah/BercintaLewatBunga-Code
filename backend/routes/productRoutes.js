@@ -2,7 +2,7 @@ import express from "express";
 import Product from "../models/Product.js";
 
 const router = express.Router();
-const POPULATE_FIELDS = ['3DModelId', 'Items'];
+const POPULATE_FIELDS = ['ThreeDModel', 'Items'];
 
 // 🛍️ Tambah Product Baru (POST /api/products)
 router.post("/", async (req, res) => {
@@ -20,6 +20,18 @@ router.get("/", async (req, res) => {
     const products = await Product.find().populate(POPULATE_FIELDS);
     res.json(products);
   } catch (err) { res.status(500).json({ error: err.message }); }
+});
+
+// 🛒 Ambil Product Non Customized (GET /api/products)
+router.get("/not-customized", async (req, res) => {
+try {
+    // Mencari product yang memiliki array Items dengan panjang 0
+    const products = await Product.find({ Items: { $size: 0 } }).populate(POPULATE_FIELDS);
+    
+    res.json(products);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
 });
 
 // 🔎 Ambil Product Berdasarkan ID (GET /api/products/:id)

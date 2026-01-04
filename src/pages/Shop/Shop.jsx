@@ -36,7 +36,7 @@ function MostPopularSection({ productData }) {
 
 export default function Shop() {
   const [productData, setProductData] = useState([]);
-  const API_URL = "http://localhost:5000/api/products";
+  const API_URL = "http://localhost:5000/api/products/not-customized";
   const handleSubmit = async (e) => {
     try {
       const response = await fetch(API_URL, {
@@ -60,10 +60,11 @@ export default function Shop() {
   const hasFetched = useRef(false);
 
   useEffect(() => {
-    if (!hasFetched.current) {
-      handleSubmit();
-      hasFetched.current = true;
-    }
+    // if (!hasFetched.current) {
+    //   handleSubmit();
+    //   hasFetched.current = true;
+    // }
+    handleSubmit();
   }, []);
 
   return (

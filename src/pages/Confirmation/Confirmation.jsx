@@ -161,7 +161,7 @@ function MainSection({ selectedProduct, modelScene, meta }) {
                     />
                   </div>
                 </div>
-                <div className="Confirmation-CustomizerMessage">
+                <div className="Confirmation-Voucher">
                   <div className="Confirmation-input-group">
                     <label
                       htmlFor="voucher"
@@ -184,11 +184,11 @@ function MainSection({ selectedProduct, modelScene, meta }) {
                 </div> */}
                 <div
                   className="Confirmation-btnContainer"
-                  style={{
-                    display: "flex",
-                    justifyContent: "center",
-                    paddingTop: "30px",
-                  }}
+                  // style={{
+                  //   display: "flex",
+                  //   justifyContent: "center",
+                  //   paddingTop: "30px",
+                  // }}
                 >
                   <button
                     className="Confirmation-btnConfirm"
