@@ -9,6 +9,7 @@ import { OrbitControls, useGLTF } from "@react-three/drei";
 import * as THREE from "three";
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader";
 import { useAlert } from "../../contexts/AlertContext";
+import { useLoading } from "../../contexts/LoadingContext";
 
 function MainSection({ selectedProduct, modelScene, meta }) {
   const { user } = useContext(AuthContext);
@@ -219,7 +220,10 @@ export default function Confirmation() {
   const [modelScene, setModelScene] = useState(null);
   const [meta, setMeta] = useState(null);
 
+  const { showLoading, hideLoading } = useLoading();
+
   useEffect(() => {
+    showLoading("Menyiapkan data ...");
     const loadFromDB = async () => {
       // 1. Ambil Metadata
       const savedMeta = await getDb("pending_order_meta");
@@ -253,6 +257,7 @@ export default function Confirmation() {
     };
 
     loadFromDB();
+    hideLoading();
   }, []);
   const navigate = useNavigate();
   useEffect(() => {

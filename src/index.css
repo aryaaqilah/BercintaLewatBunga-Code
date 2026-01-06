@@ -1279,10 +1279,7 @@ h3,
 /* ============================================================
    REACTIVE STACKING LOGIC (MOBILE & TABLET)
    ============================================================ */
-
-
-@media (min-width: 600px) {
-  /* HOME PAGE */
+@media (max-width: 1024px) {
   .HeroOverlay {
     margin: 2rem;
     top: 20vh;
@@ -1612,6 +1609,11 @@ h3,
   .DeliveryInfoRow .label {
     width: 120px; /* Shrink label space for tighter screens */
   }
+}
+
+@media screen and (min-width: 600px) and (max-width: 1024px) {
+  /* HOME PAGE */
+
   
   .Customizer-MainSection {
     height: auto;
@@ -2970,3 +2972,16 @@ h3,
   }
 }
 
+  .Payment-btnConfirm {
+    background-color: #404C4C;
+    border: none;
+    color: white;
+    /* padding: 1px 32px; */
+    text-decoration: none;
+    margin: 4px 2px;
+    cursor: pointer;
+    border-radius: 10px;
+    height: 45px;
+    width: auto;
+    font-size: 15px;
+  }

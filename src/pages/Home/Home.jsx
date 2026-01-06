@@ -76,7 +76,7 @@ function CustomizeYourOwnSection() {
             Vestibulum non ligula massa.
           </p>
           <button className="button-primary-fill h3">
-            <a href="/about" className="h3 txt-color-white txt-decoration-none">
+            <a href="/customizer" className="h3 txt-color-white txt-decoration-none">
               Kreasikan Buket
             </a>
           </button>

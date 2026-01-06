@@ -1,6 +1,7 @@
 import "./Payment.css";
 import { useEffect, useState, useRef, useContext } from "react";
 import { AuthContext } from "../../contexts/AuthContext";
+import { useLoading } from "../../contexts/LoadingContext";
 import { useAlert } from "../../contexts/AlertContext";
 import { useNavigate } from "react-router-dom";
 import { GLTFExporter } from "three/examples/jsm/exporters/GLTFExporter";
@@ -557,11 +558,11 @@ function MainSection({
             </div>
           </div>
           <div
-            className="btnContainer"
+            className="Payment-btnContainer"
             style={{ display: "flex", alignSelf: "flex-end" }}
           >
-            <button className="btnConfirm" onClick={handleCardSelect}>
-              Detail Order
+            <button className="Payment-btnConfirm" onClick={handleCardSelect}>
+              Process Order
             </button>
           </div>
         </div>
@@ -580,6 +581,9 @@ export default function Payment() {
   const hasFetched = useRef(false);
   const [modelScene, setModelScene] = useState(null);
 
+  const { showLoading, hideLoading } = useLoading();
+  
+
   useEffect(() => {
     const loadAndParseModel = async () => {
       const data = await getDb("pending_order_model");
@@ -596,6 +600,7 @@ export default function Payment() {
   }, []);
 
   const fetchData = async () => {
+    showLoading("Menyiapkan data pembayaran...");
     try {
       // Fetch Admin Fee
       const resFee = await fetch("http://localhost:5000/api/adminfees/");
@@ -614,6 +619,14 @@ export default function Payment() {
       // const dataDisc = await resDisc.json();
       setDiscountData(dataDisc);
 
+      if(dataDisc.length = 0){
+        const discountNA = {
+          Name: "VOUCHER NOT FOUND",
+          Percentage: 0.0,
+        };
+        setDiscountData(discountNA);
+      }
+
       console.log("DISCOUNT DATA : ", discountData);
     } catch (error) {
       console.log("Error fetching data:", error);
@@ -623,6 +636,7 @@ export default function Payment() {
       };
       setDiscountData(discountNA);
     }
+    hideLoading();
   };
 
   useEffect(() => {

@@ -10,6 +10,7 @@ import { Canvas, useThree } from "@react-three/fiber";
 import { set as setDb, get as getDb, del as delDb } from 'idb-keyval';
 import { useNavigate } from 'react-router-dom';
 import { useAlert } from "../../contexts/AlertContext";
+import { useLoading } from "../../contexts/LoadingContext";
 
 <script src="https://kit.fontawesome.com/4700816e81.js" crossorigin="anonymous"></script>
 const ALLOWED_COLORS = [
@@ -636,7 +637,10 @@ function MainSection() {
 
     const [components, setComponents] = useState([]);
 
+    const { showLoading, hideLoading } = useLoading();
+
     const fetchData = async () => {
+      showLoading("Menyiapkan data model...");
       try{
         const roseData = await fetch("http://localhost:5000/api/components/694e448285890620cea2e86a");
         const roseJson = await roseData.json();
@@ -658,6 +662,7 @@ function MainSection() {
       }catch(error){
         console.error("❌ Error fetching data:", error);
       }
+      hideLoading();
     };
 
     useEffect(() => {
