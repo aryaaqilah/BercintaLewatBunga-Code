@@ -4,10 +4,11 @@ import { AuthContext } from "../../contexts/AuthContext";
 import { useAlert } from "../../contexts/AlertContext";
 import { get as getDb } from "idb-keyval";
 
-function AddressSection({ selectedProduct, modelData }) {
+function AddressSection({ selectedProduct, modelData, provinceData, cityData, districtData }) {
   const { user } = useContext(AuthContext);
   const navigate = useNavigate();
   const { showAlert } = useAlert();
+  const handleGoBack = () => window.history.back();
 
   const [addressData, setAddressData] = useState({
     RecipientName: "",
@@ -15,6 +16,7 @@ function AddressSection({ selectedProduct, modelData }) {
     RecipientNumber: "",
     ProvinceId: "",
     CityId: "",
+    DistrictId: "",
     PostalCodeId: "",
     Detail: "",
     Note: "",
@@ -33,6 +35,7 @@ function AddressSection({ selectedProduct, modelData }) {
       RecipientNumber,
       ProvinceId,
       CityId,
+      DistrictId,
       PostalCodeId,
       Detail,
     } = addressData;
@@ -42,6 +45,7 @@ function AddressSection({ selectedProduct, modelData }) {
       !RecipientNumber ||
       !ProvinceId ||
       !CityId ||
+      !DistrictId ||
       !PostalCodeId ||
       !Detail
     ) {
@@ -93,7 +97,7 @@ function AddressSection({ selectedProduct, modelData }) {
               <div className="AddressFormGroup">
                 <label>Nomor Telepon Penerima</label>
                 <input
-                  type="text"
+                  type="number"
                   name="RecipientNumber"
                   value={addressData.RecipientNumber}
                   onChange={handleChange}
@@ -106,13 +110,19 @@ function AddressSection({ selectedProduct, modelData }) {
             <div className="FormColumn">
               <div className="AddressFormGroup">
                 <label>Provinsi</label>
-                <input
-                  type="text"
+                <select
                   name="ProvinceId"
                   value={addressData.ProvinceId}
                   onChange={handleChange}
-                  placeholder="Masukkan Provinsi"
-                />
+                  className="AddressSelect" // Tambahkan styling jika perlu
+                >
+                  <option value="">-- Pilih Provinsi --</option>
+                  {provinceData.map((prov) => (
+                    <option key={prov._id} value={prov._id}>
+                      {prov.provinsi_name}
+                    </option>
+                  ))}
+                </select>
               </div>
 
               <div className="AddressFormGroup">
@@ -121,11 +131,35 @@ function AddressSection({ selectedProduct, modelData }) {
                   name="CityId"
                   value={addressData.CityId}
                   onChange={handleChange}
+                  disabled={!addressData.ProvinceId} // Disable jika provinsi belum dipilih
                 >
                   <option value="">Pilih Kota</option>
-                  <option value="city_01">Jakarta</option>
-                  <option value="city_02">Bandung</option>
-                  <option value="city_03">Surabaya</option>
+                  {cityData
+                    .filter((city) => city.provinsi_id._id === addressData.ProvinceId)
+                    .map((city) => (
+                      <option key={city._id} value={city._id}>
+                        {city.city_name}
+                      </option>
+                    ))}
+                </select>
+              </div>
+
+              <div className="AddressFormGroup">
+                <label>Kecamatan/Kelurahan</label>
+                <select
+                  name="DistrictId"
+                  value={addressData.DistrictId}
+                  onChange={handleChange}
+                  disabled={!addressData.CityId} // Disable jika provinsi belum dipilih
+                >
+                  <option value="">Pilih Kota</option>
+                  {districtData
+                    .filter((district) => district.city_id._id === addressData.CityId)
+                    .map((district) => (
+                      <option key={district._id} value={district._id}>
+                        {district.district_name}
+                      </option>
+                    ))}
                 </select>
               </div>
 
@@ -164,7 +198,10 @@ function AddressSection({ selectedProduct, modelData }) {
             </div>
 
             {/* Center Button */}
-            <div className="AddressButtonContainer">
+            <div className="AddressButtonContainer" style={{ gap : 30 }}>
+              <button type="submit" className="button-ternary" onClick={handleGoBack}>
+                Kembali 
+              </button>
               <button type="submit" className="button-ternary">
                 Lanjut ke Pembayaran
               </button>
@@ -180,6 +217,9 @@ export default function Address() {
   const location = useLocation();
   const productInfo = location.state?.selectedProduct;
   const [modelData, setModelData] = useState(null);
+  const [provinceData, setProvinceData] = useState([]);
+  const [cityData, setCityData] = useState([]);
+  const [districtData, setDistrictData] = useState([]);
 
   useEffect(() => {
     const loadModel = async () => {
@@ -189,5 +229,71 @@ export default function Address() {
     loadModel();
   }, []);
 
-  return <AddressSection selectedProduct={productInfo} modelData={modelData} />;
+  const API_URL_PROVINCE = "http://localhost:5000/api/provinces";
+  const API_URL_CITY = "http://localhost:5000/api/cities";
+  const API_URL_DISTRICT = "http://localhost:5000/api/districts";
+    const handleProvince = async (e) => {
+      try {
+        const response = await fetch(API_URL_PROVINCE, {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        });
+        const data = await response.json();
+        // const latestData = data.reverse().slice(0, 3);
+        setProvinceData(data);
+        console.log(data);
+        console.log("Fetch successful");
+      } catch (error) {
+        console.log("Error:", error);
+      } finally {
+      }
+    };
+
+    const handleCity = async (e) => {
+      try {
+        const response = await fetch(API_URL_CITY, {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        });
+        const data = await response.json();
+        // const latestData = data.reverse().slice(0, 3);
+        setCityData(data);
+        console.log(data);
+        console.log("Fetch successful");
+      } catch (error) {
+        console.log("Error:", error);
+      } finally {
+      }
+    };
+
+    const handleDistrict = async (e) => {
+      try {
+        const response = await fetch(API_URL_DISTRICT, {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        });
+        const data = await response.json();
+        // const latestData = data.reverse().slice(0, 3);
+        setDistrictData(data);
+        console.log(data);
+        console.log("Fetch successful");
+      } catch (error) {
+        console.log("Error:", error);
+      } finally {
+      }
+    };
+  
+    useEffect(() => {
+      handleProvince();
+      handleCity();
+      handleDistrict();
+    }, []);
+
+  return <AddressSection selectedProduct={productInfo} modelData={modelData} provinceData={provinceData} cityData={cityData} districtData={districtData} />;
 }

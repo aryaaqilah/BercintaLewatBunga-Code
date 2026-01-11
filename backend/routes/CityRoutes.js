@@ -15,7 +15,7 @@ router.post("/", async (req, res) => {
 // 📚 Ambil Semua City (GET /api/cities)
 router.get("/", async (req, res) => {
   try {
-    const cities = await City.find().populate('ProvinceId');
+    const cities = await City.find().populate('provinsi_id');
     res.json(cities);
   } catch (err) { res.status(500).json({ error: err.message }); }
 });
@@ -42,7 +42,7 @@ router.get("/get-by-id/", async (req, res) => {
 // 📖 Ambil City Berdasarkan ID (GET /api/cities/:id)
 router.get("/:id", async (req, res) => {
   try {
-    const city = await City.findById(req.params.id).populate('ProvinceId');
+    const city = await City.findById(req.params.id).populate('provinsi_id');
     if (!city) return res.status(404).json({ error: "City not found" });
     res.json(city);
   } catch (err) { res.status(400).json({ error: err.message }); }

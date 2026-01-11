@@ -32,11 +32,11 @@ const Profile = () => {
   const formatCurrency = (amount) => {
     return new Intl.NumberFormat("en-US", {
       style: "currency",
-      currency: "USD",
+      currency: "IDR",
       minimumFractionDigits: 2,
     })
       .format(amount)
-      .replace("$", "$ "); // Adding the space seen in your UI
+      .replace("Rp.", "Rp. "); // Adding the space seen in your UI
   };
 
   // The mapper function for your UI
@@ -57,15 +57,17 @@ const Profile = () => {
     };
 
     const addressParts = [
-      addr.Detail,
-      addr.District?.Name,
-      addr.City?.Name,
-      addr.Province?.Name,
-      addr.PostalCode?.Name,
+      order.AddressId.Detail,
+      order.AddressId.DistrictId.district_name,
+      order.AddressId.CityId.city_name,
+      order.AddressId.ProvinceId.province_name,
+      order.AddressId.PostalCodeId,
     ].filter(Boolean);
 
     const fullAddress =
       addressParts.length > 0 ? addressParts.join(", ") : "No address provided";
+
+    console.log("Mapping order:", order.ProductId.ThreeDModel._id);
 
     return {
       orderId: order._id || "N/A",
@@ -73,17 +75,17 @@ const Profile = () => {
       statusInt: typeof order.Status === "number" ? order.Status : 0,
       status: statusProfileLabels[order.Status] || "Pesanan Dibuat",
 
-      recipientName: addr.RecipientName || "Guest",
-      recipientPhone: addr.RecipientNumber || "-",
+      recipientName: order.AddressId.recipientName || "Guest",
+      recipientPhone: order.AddressId.RecipientNumber || "-",
       fullAddress: fullAddress,
 
-      shippingCode: delivery.ShippingCode || "-",
-      deliveryService: delivery.Service || "Standard",
-      estimatedArrival: formatDate(delivery.EstimatedArrival),
+      shippingCode: order.DeliveryId.ShippingCode || "-",
+      deliveryService: order.DeliveryId.Service || "Standard",
+      estimatedArrival: formatDate(order.DeliveryId.EstimatedArrival),
 
-      productName: product.Name || "Unknown Product",
-      productImageUrl: product.Image || "",
-      quantity: product.Quantity || 0,
+      productName: order.ProductId.Name || "Unknown Product",
+      productImageUrl: order.ProductId.Image || "",
+      quantity: order.ProductId.Quantity || 0,
       customizationDetails: product.Description
         ? product.Description.split("\n")
         : [],
@@ -95,8 +97,9 @@ const Profile = () => {
       serviceFee: formatCurrency(2.0),
       discount: formatCurrency(-2.0),
       totalOrder: formatCurrency(
-        (product.Price || 0) * (product.Quantity || 0) + 5
+        order.Total
       ),
+      threeDPath : order.ProductId.ThreeDModel._id || "",
     };
   };
 

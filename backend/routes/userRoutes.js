@@ -8,6 +8,7 @@ import PostalCode from "../models/PostalCode.js"
 import Delivery from "../models/Delivery.js"
 import Product from "../models//Product.js"
 import ThreeDModel from "../models/3DModel.js"
+import Order from "../models/Order.js"
 import Item from "../models/Item.js"
 import AdministrationFee from "../models/AdministrationFee.js";
 import Discount from "../models/Discount.js";
@@ -138,10 +139,6 @@ router.get("/orders/:id", async (req, res) => {
             { 
               path: "DistrictId",
               model: District
-            },
-            { 
-              path: "PostalCodeId",
-              model: PostalCode
             }
           ]
         },

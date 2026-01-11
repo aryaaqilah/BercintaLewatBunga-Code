@@ -48,10 +48,11 @@ function MainSection({
   const totalOrder =
     productPrice + shippingFee + adminFeeAmount - calculatedDiscount;
 
-  const tempProvince = 32;
-  const tempCity = 3202;
-  const tempDistrict = 3202170;
-  const tempPostalCode = 43192;
+  const tempProvince = addressData.ProvinceId;
+  const tempCity = addressData.CityId;
+  const tempDistrict = addressData.DistrictId;
+  const tempPostalCode = addressData.PostalCodeId;
+  const tempRecipientNumber = addressData.RecipientNumber;
 
   const tempQuestion = selectedProduct.question;
   const tempAnswer = selectedProduct.answer;
@@ -73,7 +74,7 @@ function MainSection({
     try {
       // SECTION GET PROVINCE, CITY, DISTRICT =========================================================================
       const response = await fetch(
-        `http://localhost:5000/api/provinces/get-by-id?provinsi_id=${tempProvince}`
+        `http://localhost:5000/api/provinces/${tempProvince}`
       );
       if (!response.ok) {
         throw new Error("Gagal mengambil data provinsi");
@@ -81,7 +82,7 @@ function MainSection({
       const dataProv = await response.json();
 
       const response2 = await fetch(
-        `http://localhost:5000/api/cities/get-by-id?kabupaten_id=${tempCity}`
+        `http://localhost:5000/api/cities/${tempCity}`
       );
       if (!response2.ok) {
         throw new Error("Gagal mengambil data kota");
@@ -90,7 +91,7 @@ function MainSection({
       console.log("Hasil pencarian:", dataProv);
 
       const response3 = await fetch(
-        `http://localhost:5000/api/districts/get-by-id?kecamatan_id=${tempDistrict}`
+        `http://localhost:5000/api/districts/${tempDistrict}`
       );
       if (!response3.ok) {
         throw new Error("Gagal mengambil data kecamatan");
@@ -104,11 +105,11 @@ function MainSection({
       // SECTION POST ADDRESS =========================================================================
       const addressPayload = {
         RecipientName: addressData.RecipientName,
-        RecipientNumber: 89522222333, // Contoh nomor tetap
-        ProvinceId: dataProv[0]._id,
-        CityId: dataCity[0]._id,
-        DistrictId: dataDistrict[0]._id, // Sementara disamakan jika input District tidak ada
-        PostalCodeId: "6942b33b502f86ae7fc21acc",
+        RecipientNumber: addressData.RecipientNumber, // Contoh nomor tetap
+        ProvinceId: dataProv._id,
+        CityId: dataCity._id,
+        DistrictId: dataDistrict._id, // Sementara disamakan jika input District tidak ada
+        PostalCodeId: tempPostalCode,
         Detail: addressData.Detail,
       };
       console.log("Address Payload:", addressPayload);
@@ -131,7 +132,7 @@ function MainSection({
       // const formattedDate = date.toISOString().split('T')[0];
 
       const deliveryPayload = {
-        ShippingCode: "To be inputed 12345678912345678",
+        ShippingCode: "To be inputed 123456789123456789123",
         Service: "GrabSend",
         EstimatedArrival: date,
         TrackingLink: "To be inputed",
@@ -284,7 +285,7 @@ function MainSection({
         ProductPrice: productPrice,
         AdministrationFee: adminFee[0]._id,
         DiscountId:
-          discountData.percentage === 0.0 ? null : discountData._id || null,
+          discountData.percentage === 0.0 ? null : discountData[0]._id,
         Total: totalOrder,
       };
       console.log("Order Payload:", orderPayload);
@@ -619,7 +620,7 @@ export default function Payment() {
       // const dataDisc = await resDisc.json();
       setDiscountData(dataDisc);
 
-      if(dataDisc.length = 0){
+      if(dataDisc.length === 0){
         const discountNA = {
           Name: "VOUCHER NOT FOUND",
           Percentage: 0.0,

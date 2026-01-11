@@ -1,13 +1,29 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import "./OrderCard.css";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faShare } from "@fortawesome/free-solid-svg-icons";
+import { useAlert } from "../../contexts/AlertContext";
 
 const OrderCard = ({ order }) => {
   const navigate = useNavigate();
+  const { showAlert } = useAlert();
 
   const handleDetailClick = () => {
     // Passing the mapped order object to the detail page
     navigate('/order-detail', { state: { orderData: order } });
+  };
+
+  const handleCopyLink = () => {
+    const linkToCopy = `http://localhost:5000/api/design3d/${order.threeDPath}/ar`;
+    
+    navigator.clipboard.writeText(linkToCopy)
+      .then(() => {
+        showAlert("Link berhasil disalin ke clipboard!");
+      })
+      .catch((err) => {
+        console.error("Gagal menyalin link: ", err);
+      });
   };
 
   return (
@@ -55,14 +71,24 @@ const OrderCard = ({ order }) => {
           </ul>
         </div>
 
-        <div className="RightItem">
-          <div className="Quantity">
-            <span>Qty</span>
-            <div className="QuantityBox">{order.quantity}</div>
+        <div className="RightItemBox">
+          <div className="RightItem">
+            <div className="Quantity">
+              <span>Qty</span>
+              <div className="QuantityBox">{order.quantity}</div>
+            </div>
+            <button className="Order-button-primary-fill button-primary-fill" onClick={handleDetailClick}>
+              Lihat Detail
+            </button>
           </div>
-          <button className="button-primary-fill" onClick={handleDetailClick}>
-            Liat Detail
-          </button>
+          <div 
+            className="ShareSection" 
+            onClick={handleCopyLink} 
+            style={{ cursor: 'pointer' }}
+            title="Salin Link"
+          >
+            <FontAwesomeIcon icon={faShare} />
+          </div>
         </div>
       </div>
 

@@ -11,6 +11,9 @@ import { set as setDb, get as getDb, del as delDb } from 'idb-keyval';
 import { useNavigate } from 'react-router-dom';
 import { useAlert } from "../../contexts/AlertContext";
 import { useLoading } from "../../contexts/LoadingContext";
+import { FaCamera, FaTrash } from "react-icons/fa";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faRotate, faHand } from "@fortawesome/free-solid-svg-icons";
 
 <script src="https://kit.fontawesome.com/4700816e81.js" crossorigin="anonymous"></script>
 const ALLOWED_COLORS = [
@@ -956,9 +959,29 @@ const formattedSummary = summaryData.map(item => [item.ComponentId, item.qty]);
     }
   };
   const navigate = useNavigate();
+  const [BouquetData, setBouquetData] = useState({
+    BouquetName: "",
+    BouquetQuestion: "",
+    BouquetAnswer: ""
+  });
   const handleSave = async () => {
     if (objects.length === 0) return showAlert("⚠️ Tambahkan bunga terlebih dahulu!");
     if (!sceneRef.current) return showAlert("⚠️ Scene belum siap!");
+
+    setBouquetData({
+      BouquetName: modelName,
+      BouquetQuestion: question,
+      BouquetAnswer: answer
+    });
+
+    if (
+      !BouquetData.BouquetName ||
+      !BouquetData.BouquetQuestion ||
+      !BouquetData.BouquetAnswer
+    ) {
+      showAlert("Mohon lengkapi nama buket, pertanyaan, dan jawaban!");
+      return;
+    }
 
     const summary = components.map((comp) => {
     const count = objects.filter((obj) => obj.modelPath === comp.Asset).length;
@@ -1102,14 +1125,14 @@ const formattedSummary = summaryData.map(item => [item.ComponentId, item.qty]);
                   onClick={() => setMode('camera')}
                   title="Camera Mode"
                 >
-                <span className="Customizer-icon">📷</span>
+                <span className="Customizer-icon"><FaCamera /></span>
                 </button>
 
                 <div className="Customizer-toolbar-divider"></div>
 
                 {/* Tombol Hapus */}
                 <button className="Customizer-toolbar-btn" onClick={deleteSelected} title="Hapus Objek">
-                  <span className="Customizer-icon">🗑️</span>
+                  <span className="Customizer-icon"><FaTrash /></span>
                 </button>
 
                 {/* Tombol Reset */}
@@ -1128,7 +1151,7 @@ const formattedSummary = summaryData.map(item => [item.ComponentId, item.qty]);
               }}
               title="Move Mode"
             >
-              <span className="Customizer-icon">✋</span>
+              <span className="Customizer-icon"><FontAwesomeIcon icon={faHand} /></span>
             </button>
 
             {/* Group Tombol Rotasi */}
@@ -1138,12 +1161,12 @@ const formattedSummary = summaryData.map(item => [item.ComponentId, item.qty]);
                 onClick={() => setShowRotateMenu(!showRotateMenu)}
                 title="Rotate Mode"
               >
-                <span className="Customizer-icon">🔁</span>
+                <span className="Customizer-icon"><FontAwesomeIcon icon={faRotate} /></span>
               </button>
 
               {/* Sub-menu X, Y, Z yang muncul jika showRotateMenu true */}
               {showRotateMenu && (
-                <div className="Customizer-rotate-submenu">
+                <div className="Customizer-rotate-submenu" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', marginTop: '8px' }}>
                   {['X', 'Y', 'Z'].map((axis) => (
                     <button
                       key={axis}
@@ -1200,6 +1223,7 @@ const formattedSummary = summaryData.map(item => [item.ComponentId, item.qty]);
                     type="text" 
                     id="nama" 
                     className="Customizer-input-field-customizer Customizer-input-nama" 
+                    name="BouquetName"
                     value={modelName}
                     onChange={(e) => setModelName(e.target.value)} // Update state saat diketik
                   />
@@ -1213,6 +1237,7 @@ const formattedSummary = summaryData.map(item => [item.ComponentId, item.qty]);
                     type="text" 
                     id="question" 
                     className="Customizer-input-field-customizer"
+                    name="BouquetQuestion"
                     value={question}
                     onChange={(e) => setQuestion(e.target.value)}
                   />
@@ -1226,6 +1251,7 @@ const formattedSummary = summaryData.map(item => [item.ComponentId, item.qty]);
                     type="text" 
                     id="answer" 
                     className="Customizer-input-field-customizer"
+                    name="BouquetAnswer"
                     value={answer}
                     onChange={(e) => setAnswer(e.target.value)}
                   />

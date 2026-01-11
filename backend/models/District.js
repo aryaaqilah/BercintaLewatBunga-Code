@@ -1,9 +1,8 @@
 import mongoose from "mongoose";
 
 const districtSchema = new mongoose.Schema({
-  kecamatan_id: { type: Number, required: true, unique: true },
-  kecamatan_name: { type: String, required: true },
-  kabupaten_id: { type: Number, required: true }, // Foreign Key - Mandatory
+  city_id: { type: mongoose.Schema.Types.ObjectId, ref: 'City', required: true }, // Foreign Key - Mandatory
+  district_name: { type: String, required: true },
 });
 
 export default mongoose.model("District", districtSchema);

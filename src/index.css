@@ -797,6 +797,22 @@ h3,
   justify-content: center;
 }
 
+.Customizer-submenu-btn{
+  /* background: var(--color-ternary); */
+  border: none;
+  border-radius: 50%;
+  color: rgba(121, 117, 107, 0.8);
+  width: 2rem;
+  height: 2rem;
+  cursor: pointer;
+  margin-top: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  /* padding-top: 10px; */
+}
+
 
 .TernaryBackButton:hover {
   opacity: 0.5;

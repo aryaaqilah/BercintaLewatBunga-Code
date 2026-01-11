@@ -15,7 +15,7 @@ router.post("/", async (req, res) => {
 // 📚 Ambil Semua District (GET /api/districts)
 router.get("/", async (req, res) => {
   try {
-    const districts = await District.find().populate('CityId');
+    const districts = await District.find().populate('city_id');
     res.json(districts);
   } catch (err) { res.status(500).json({ error: err.message }); }
 });
@@ -42,7 +42,7 @@ router.get("/get-by-id/", async (req, res) => {
 // 📖 Ambil District Berdasarkan ID (GET /api/districts/:id)
 router.get("/:id", async (req, res) => {
   try {
-    const district = await District.findById(req.params.id).populate('CityId');
+    const district = await District.findById(req.params.id).populate('city_id');
     if (!district) return res.status(404).json({ error: "District not found" });
     res.json(district);
   } catch (err) { res.status(400).json({ error: err.message }); }

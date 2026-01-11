@@ -17,6 +17,7 @@ function MainSection({ selectedProduct, modelScene, meta }) {
   const { showAlert } = useAlert();
   const [data, setData] = useState();
   let tempData = {};
+  const handleGoBack = () => window.history.back();
 
   const [pesan, setPesan] = useState("");
   const [catatan, setCatatan] = useState("");
@@ -67,6 +68,11 @@ function MainSection({ selectedProduct, modelScene, meta }) {
       <section className="Confirmation-MainSection">
         <div className="Confirmation-box"></div>
         <div className="Confirmation-SectionContainer">
+          <div className="Confirmation-Back-Container" style={{ display : "flex", justifyContent : "flex-start", alignItems : "center", width : "100%", height : "10px" }}>
+            <button className="TernaryBackButton" onClick={handleGoBack}>
+            ←
+            </button>
+          </div>
           <div className="Confirmation-MainBox">
             <div className="Confirmation-ModelBox">
               <div

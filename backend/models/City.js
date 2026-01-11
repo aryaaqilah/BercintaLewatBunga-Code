@@ -1,9 +1,8 @@
 import mongoose from "mongoose";
 
 const citySchema = new mongoose.Schema({
-  provinsi_id: { type: Number, required: true }, // Foreign Key - Mandatory
-  kabupaten_id: { type: Number, required: true, unique: true },
-  kabupaten_name: { type: String, required: true }
+  provinsi_id: { type: mongoose.Schema.Types.ObjectId, ref: 'Province', required: true }, // Foreign Key - Mandatory
+  city_name: { type: String, required: true }
 });
 
 export default mongoose.model("City", citySchema);
