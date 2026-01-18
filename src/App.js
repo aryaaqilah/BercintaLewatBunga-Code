@@ -1,7 +1,7 @@
 import { BrowserRouter as Router, Routes, Route, useLocation, useNavigate } from "react-router-dom";
 import React, { useEffect, useCallback, useRef, useState } from "react";
 import Navbar from "./components/Navbar/NavBar";
-import Footer from "./components/footer";
+import Footer from "./components/Footer/Footer";
 import Home from "./pages/Home/Home";
 import Shop from "./pages/Shop/Shop";
 import About from "./pages/About/About";

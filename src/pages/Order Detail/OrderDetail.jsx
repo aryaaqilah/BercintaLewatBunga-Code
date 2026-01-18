@@ -79,7 +79,7 @@ const OrderDetail = () => {
             Nomor Pesanan : #{currentOrder.orderId}
           </span>
           <a href="#" className="txt-color-ternary underline">
-            Track your package
+            Lacak Pengiriman
           </a>
         </div>
 
@@ -117,9 +117,9 @@ const OrderDetail = () => {
 
         <div className="OrderDetailDeliverySummaryRow">
           <div className="txt-color-ternary">
-            <h3>Delivery Summary</h3>
+            <h3>Ringkasan Pengiriman</h3>
             <div className="DeliveryInfoRow">
-              <span className="label">Shipping Code</span>
+              <span className="label">Kode Pengiriman</span>
               <span className="value">
                 : {currentOrder.shippingCode}{" "}
                 <button className="CopyButton" onClick={handleCopyCode}>
@@ -128,11 +128,11 @@ const OrderDetail = () => {
               </span>
             </div>
             <div className="DeliveryInfoRow">
-              <span className="label">Services</span>
+              <span className="label">Jasa</span>
               <span className="value">: {currentOrder.deliveryService}</span>
             </div>
             <div className="DeliveryInfoRow">
-              <span className="label">Estimated Delivery</span>
+              <span className="label">Estimasi Pengiriman</span>
               <span className="value">: {currentOrder.estimatedArrival}</span>
             </div>
           </div>
@@ -145,17 +145,17 @@ const OrderDetail = () => {
       {/* BOTTOM CARD: Customer Info and Order Summary */}
       <div className="OrderDetailCard OrderDetailBottomCard txt-color-ternary">
         <div className="OrderDetailCustomerSection">
-          <h3>Customer Info</h3>
+          <h3>Informasi Customer</h3>
           <div className="OrderDetailInfoGrid">
-            <span className="label">Name</span>
+            <span className="label">Nama</span>
             <span className="value">: {currentOrder.recipientName}</span>
             <span className="label">Email</span>
             <span className="value link">
               : {currentOrder.email || "user@email.com"}
             </span>
-            <span className="label">Phone</span>
+            <span className="label">Nomor</span>
             <span className="value">: {currentOrder.recipientPhone}</span>
-            <span className="label">Address</span>
+            <span className="label">Alamat</span>
             <span className="value">: {currentOrder.fullAddress}</span>
           </div>
           <a href="#" className="OrderDetailContactAdmin txt-color-ternary">
@@ -164,7 +164,7 @@ const OrderDetail = () => {
         </div>
 
         <div>
-          <h3>Order Summary</h3>
+          <h3>Ringkasan Pesanan</h3>
           <div className="OrderDetailProductItem">
             <img
               src={currentOrder.productImageUrl}
@@ -185,8 +185,12 @@ const OrderDetail = () => {
                 </span>
               </div>
               <div className="OrderDetailNotes">
-                <span className="p3 OrderDetailNoteLabel">OrderDetailNotes :</span>
-                <p className="p3">{currentOrder.customerRequestNote || "tidak ada catatan"}</p>
+                <span className="p3 OrderDetailNoteLabel">
+                  OrderDetailNotes :
+                </span>
+                <p className="p3">
+                  {currentOrder.customerRequestNote || "tidak ada catatan"}
+                </p>
               </div>
             </div>
           </div>

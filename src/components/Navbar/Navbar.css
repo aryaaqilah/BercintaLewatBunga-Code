@@ -37,7 +37,10 @@
   font-size: 1.25rem;
   transition: all 0.3s ease;
   padding-bottom: 4px;
-  border-bottom: 2px solid transparent;
+}
+
+.NavBarItem:hover {
+  opacity: 0.5;
 }
 
 .NavBarItem.active {
@@ -49,20 +52,23 @@
   background-color: var(--color-primary);
   color: white;
   border: none;
-  padding: 0.7rem 1rem;
-  border-radius: 50px;
+  padding: 0 1rem;
+  border-radius: 5svh;
   cursor: pointer;
   font-family: "Playfair Display"; 
-  font-size: 1.1rem;
+  font-size: 1rem;
+  gap: 0.5rem;
   display: flex;
   align-items: center;
-  gap: 0.5rem;
 }
 
-/* Optional: Active State for the Profile Button */
+.NavBarLinks li a {
+  text-decoration: none !important;
+}
+
 .NavBarButton.active {
   color: #008000;
-  box-shadow: 0 4px 0 0 var(--color-primary); /* Underline effect for button */
+  box-shadow: 0 4px 0 0 var(--color-primary);
 }
 
 .MobileMenuIcon {
@@ -101,7 +107,7 @@
   }
 
   .NavBarLinks.active {
-    right: 0; /* Slide in menu */
+    right: 0;
   }
 
   .NavBarItem {
@@ -109,8 +115,7 @@
   }
 
   .NavBarButton {
-    padding: 1rem 3rem;
-    font-size: 1.2rem;
+    font-size: 1rem;
   }
 }
 

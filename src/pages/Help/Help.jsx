@@ -24,47 +24,33 @@ function FAQ() {
 
   const faqs = [
     {
-      question:
-        "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi dolor ante?",
-      answer:
-        "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
-    },
-    {
-      question:
-        "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi dolor ante?",
-      answer:
-        "Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
-    },
-    {
-      question:
-        "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi dolor ante?",
-      answer:
-        "Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.",
-    },
-    {
-      question:
-        "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi dolor ante?",
-      answer:
-        "Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem.",
-    },
-    {
-      question:
-        "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi dolor ante?",
-      answer:
-        "At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident, similique sunt in culpa qui officia deserunt mollitia animi, id est laborum et dolorum fuga.",
-    },
-    {
-      question:
-        "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi dolor ante?",
-      answer:
-        "Et harum quidem rerum facilis est et expedita distinctio. Nam libero tempore, cum soluta nobis est eligendi optio cumque nihil impedit quo minus id quod maxime placeat facere possimus, omnis voluptas assumenda est, omnis dolor repellendus.",
-    },
-    {
-      question:
-        "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi dolor ante?",
-      answer:
-        "Temporibus autem quibusdam et aut officiis debitis aut rerum necessitatibus saepe eveniet ut et voluptates repudiandae sint et molestiae non recusandae. Itaque earum rerum hic tenetur a sapiente delectus, ut aut reiciendis voluptatibus maiores alias consequatur aut perferendis doloribus asperiores repellat.",
-    },
+    question: "Bagaimana cara saya memesan buket impian di sini?",
+    answer: "Anda dapat memilih koleksi kami melalui galeri produk atau menggunakan fitur kustomisasi untuk merangkai buket sesuai keinginan. Cukup pilih bunga favorit Anda, tentukan jadwal pengiriman, dan kami akan merangkainya dengan penuh cinta."
+  },
+  {
+    question: "Apakah saya bisa menjadwalkan pengiriman untuk hari istimewa?",
+    answer: "Tentu saja. Kami mengerti betapa pentingnya ketepatan waktu untuk momen berharga Anda. Anda bisa menentukan tanggal dan jam pengiriman di halaman pembayaran agar kejutan untuk orang tersayang tiba tepat pada waktunya."
+  },
+  {
+    question: "Bagaimana jika bunga yang saya terima tidak sesuai keinginan?",
+    answer: "Kepuasan Anda adalah prioritas utama kami. Jika terdapat ketidaksesuaian pada rangkaian bunga yang diterima, segera hubungi tim layanan pelanggan kami dalam waktu 24 jam dengan melampirkan foto untuk mendapatkan solusi terbaik."
+  },
+  {
+    question: "Dapatkah saya menambahkan pesan pribadi dalam pesanan?",
+    answer: "Setiap buket adalah pembawa pesan hati. Kami menyediakan kartu ucapan elegan yang bisa Anda isi dengan kata-kata puitis untuk melengkapi keindahan bunga, menjadikannya kado yang lebih personal dan mendalam."
+  },
+  {
+    question: "Apakah tersedia pengiriman di hari yang sama (Same Day)?",
+    answer: "Untuk memastikan kesegaran bunga, kami menyediakan layanan pengiriman di hari yang sama untuk produk tertentu. Pastikan Anda melakukan pemesanan sebelum batas waktu yang ditentukan agar kami memiliki waktu untuk merangkainya dengan sempurna."
+  },
+  {
+    question: "Metode pembayaran apa saja yang tersedia di toko ini?",
+    answer: "Kami menyediakan berbagai metode pembayaran yang aman dan mudah, mulai dari transfer bank, kartu kredit, hingga dompet digital. Seluruh transaksi Anda akan terenkripsi dengan aman demi kenyamanan dan keamanan berbelanja Anda."
+  },
+  {
+    question: "Bagaimana cara melacak status pengiriman bunga saya?",
+    answer: "Setelah pesanan Anda dikonfirmasi, kami akan mengirimkan tautan pelacakan secara otomatis melalui email atau WhatsApp. Anda bisa memantau perjalanan bunga Anda mulai dari tangan perangkai kami hingga tiba di depan pintu tujuan."
+  },
   ];
 
   const toggleFAQ = (index) => {
@@ -79,9 +65,8 @@ function FAQ() {
             <p className="p2 txt-color-bg-light">Support</p>
             <h1 className="txt-color-primary">FAQs</h1>
             <p className="p1">
-              ullam bibendum eget turpis nec rhoncus. Integer in sapien neque.
-              Phasellus egestas pellentesque ligula tempor vulputate. Sed in
-              bibendum quam.
+              Kami hadir untuk memastikan setiap langkah perjalanan Anda senantiasa nyaman dan penuh kemudahan. 
+              Temukan segala jawaban yang Anda butuhkan untuk merayakan setiap momen indah bersama kami.
             </p>
           </div>
           <div className="FAQList">
@@ -122,7 +107,7 @@ function FAQ() {
           <div className="ContactCustomerServiceDescription">
             <h1 className="txt-color-primary">Perlu bantuan lebih lanjut?</h1>
             <p className="p1 txt-color-white">
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+              Sapa kami kapan saja, dan biarkan kami membantu Anda merajut momen istimewa.
             </p>
           </div>
           <button className="button-primary h3">Customer Service</button>

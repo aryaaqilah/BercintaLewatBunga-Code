@@ -37,22 +37,22 @@ const Navbar = () => {
       <ul className={isMobile ? "NavBarLinks active" : "NavBarLinks"}>
         <li>
           <NavLink to="/" className="NavBarItem" onClick={() => setIsMobile(false)}>
-            Home
+            Beranda
           </NavLink>
         </li>
         <li>
           <NavLink to="/shop" className="NavBarItem" onClick={() => setIsMobile(false)}>
-            Shop
+            Toko
           </NavLink>
         </li>
         <li>
           <NavLink to="/about" className="NavBarItem" onClick={() => setIsMobile(false)}>
-            About
+            Tentang Kami
           </NavLink>
         </li>
         <li>
           <NavLink to="/help" className="NavBarItem" onClick={() => setIsMobile(false)}>
-            Help
+            Bantuan
           </NavLink>
         </li>
 
@@ -62,20 +62,21 @@ const Navbar = () => {
               <NavLink to="/profile" onClick={() => setIsMobile(false)}>
                 <button className="NavBarButton">
                   <FaUser />
-                  <span>{user.Name || "User"}</span>
+                  <p>{user.Name || "User"}</p>
                 </button>
               </NavLink>
             </li>
             <li>
-              <button onClick={handleLogout} className="NavBarButton LogoutBtn">
+              <button onClick={handleLogout} className="NavBarButton">
                 <FaSignOutAlt />
+                <p>Keluar</p>
               </button>
             </li>
           </>
         ) : (
           <li>
             <NavLink to="/login" onClick={() => setIsMobile(false)}>
-              <button className="NavBarButton">Login</button>
+              <button className="NavBarButton">Masuk</button>
             </NavLink>
           </li>
         )}

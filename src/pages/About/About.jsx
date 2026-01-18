@@ -30,11 +30,10 @@ function AboutLanding() {
             className="AboutLandingImageBottom"
           />
           <p className="p1 txt-color-bg-dark AboutLandingDescription">
-            Ullam bibendum eget turpis nec rhoncus. Integer in sapien neque.
-            Phasellus egestas pellentesque ligula tempor vulputate. Sed in
-            bibendum quam. Nullam dignissim dui sed metus tincidunt, id
-            consectetur nunc elementum. Vestibulum non vehicula nunc. Proin
-            gravida tellus sed ipsum euismod, id sollicitudin neque efficitur.
+            Kami percaya bahwa setiap perasaan yang tulus berhak menemukan bentuk indahnya melalui kelopak bunga yang kami kurasi dengan sepenuh hati. 
+            Di sini, kami tidak hanya merangkai bunga, melainkan merajut kembali kepingan memori agar tetap abadi dan mekar dalam dekapan waktu. 
+            Setiap tangkai yang kami pilih adalah sebuah narasi tentang janji, tawa, dan kasih sayang yang Anda bagikan bersama mereka yang paling berharga. 
+            Mari abadikan setiap babak perjalanan Anda dalam sebuah karya seni yang tidak hanya memanjakan mata, namun juga menyentuh jiwa dengan keharuman yang takkan pernah layu dari ingatan.
           </p>
         </div>
       </section>
@@ -55,10 +54,9 @@ function AboutPhilosophy() {
           </div>
           <div className="AboutPhilosophyDescriptionWrapper">
             <p className="AboutPhilosophyDescription">
-              Ullam bibendum eget turpis nec rhoncus. Integer in sapien neque.
-              Phasellus egestas pellentesque ligula tempor vulputate. Sed in
-              bibendum quam. Nullam dignissim dui sed metus tincidunt, id
-              consectetur nunc elementum.
+              Keindahan bagi kami adalah perayaan atas waktu yang berhenti dalam tiap kelopak yang mekar sempurna. 
+              Kami percaya bahwa bunga adalah bahasa jiwa, sebuah jembatan sunyi yang menghubungkan ketulusan hati dengan kenangan yang takkan pernah layu. 
+              Di setiap tangkainya, kami merangkai napas alam dan doa-doa baik agar setiap kisah yang Anda titipkan menjadi abadi dalam keharuman yang paling murni.
             </p>
           </div>
         </div>
@@ -79,8 +77,8 @@ const AboutOurStory = () => {
     <div className="AboutOurStoryContainer">
       <h1 className="txt-color-primary">CERITA KITA.</h1>
       <p className="txt-color-bg-dark">
-        Ullam bibendum eget turpis nec rhoncus. Integer in sapien neque.
-        Phasellus egestas pellentesque ligula tempor vulputate.
+        Menenun setiap detik berharga menjadi rangkaian bunga yang membisikkan janji, 
+        merawat memori agar selamanya mekar dalam keabadian.
       </p>
       <div className="AboutVideoWrapper">
         <video 

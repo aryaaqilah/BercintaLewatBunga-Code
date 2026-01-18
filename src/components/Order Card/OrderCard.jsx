@@ -11,13 +11,14 @@ const OrderCard = ({ order }) => {
 
   const handleDetailClick = () => {
     // Passing the mapped order object to the detail page
-    navigate('/order-detail', { state: { orderData: order } });
+    navigate("/order-detail", { state: { orderData: order } });
   };
 
   const handleCopyLink = () => {
     const linkToCopy = `http://localhost:5000/api/design3d/${order.threeDPath}/ar`;
-    
-    navigator.clipboard.writeText(linkToCopy)
+
+    navigator.clipboard
+      .writeText(linkToCopy)
       .then(() => {
         showAlert("Link berhasil disalin ke clipboard!");
       })
@@ -47,17 +48,14 @@ const OrderCard = ({ order }) => {
         </div>
         <div className="RightItem">
           {/* Mapping to the "DALAM PENGIRIMAN" or status header in the top right */}
-          <p className="p1">DALAM PENGIRIMAN</p> 
+          <p className="p1">DALAM PENGIRIMAN</p>
           <span className="p2 tiny">ORDER #{order.orderId}</span>
         </div>
       </div>
 
       <div className="ProductDetail">
         <div className="ProductImage">
-          <img
-            src={order.productImageUrl}
-            alt={order.productName}
-          />
+          <img src={order.productImageUrl} alt={order.productName} />
         </div>
 
         <div className="LeftItem">
@@ -65,9 +63,10 @@ const OrderCard = ({ order }) => {
           <p className="p1">{order.productDescription}</p>
           <ul className="p2 OrderList">
             {/* customizationDetails is the array from our mapper */}
-            {order.customizationDetails && order.customizationDetails.map((detail, index) => (
-              <li key={index}>- {detail}</li>
-            ))}
+            {order.customizationDetails &&
+              order.customizationDetails.map((detail, index) => (
+                <li key={index}>- {detail}</li>
+              ))}
           </ul>
         </div>
 
@@ -77,17 +76,21 @@ const OrderCard = ({ order }) => {
               <span>Qty</span>
               <div className="QuantityBox">{order.quantity}</div>
             </div>
-            <button className="Order-button-primary-fill button-primary-fill" onClick={handleDetailClick}>
+            <button
+              className="Order-button-primary-fill button-primary-fill"
+              onClick={handleDetailClick}
+            >
               Lihat Detail
             </button>
           </div>
-          <div 
-            className="ShareSection" 
-            onClick={handleCopyLink} 
-            style={{ cursor: 'pointer' }}
+          <div
+            className="ShareSection"
+            onClick={handleCopyLink}
+            style={{ cursor: "pointer" }}
             title="Salin Link"
           >
             <FontAwesomeIcon icon={faShare} />
+            <p>Bagikan</p>
           </div>
         </div>
       </div>
@@ -95,10 +98,12 @@ const OrderCard = ({ order }) => {
       <div className="OrderFooter">
         <div>
           {/* Using the estimatedArrival field from the model */}
-          <span className="p3">Estimated Delivery : </span>
+          <span className="p3">Estimasi Pengirimany : </span>
           <span className="p3">{order.estimatedArrival}</span>
         </div>
-        <a href="#admin" className="p2">Hubungi Admin</a>
+        <a href="#admin" className="p2">
+          Hubungi Admin
+        </a>
       </div>
     </div>
   );

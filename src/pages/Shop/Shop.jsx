@@ -4,6 +4,7 @@ import { useEffect, useState, useRef, useContext } from "react";
 import { CardModel } from "../../models/CardModel";
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../../contexts/AuthContext";
+import ProductCard from "../../components/ProductCard/ProductCard";
 
 function LandingSection() {}
 
@@ -15,13 +16,9 @@ function MostPopularSection({ productData }) {
       product.Price,
       product.Memo,
       product.Image,
-      product.Image,
       false
     );
   });
-
-  console.log("cards:", cards);
-  console.log("productData:", productData);
 
   return (
     <section className="ShopMostPopularSection">
@@ -30,6 +27,33 @@ function MostPopularSection({ productData }) {
         <h3 className="txt-color-ternary">Yang terbaik untuk yang terkasih</h3>
       </div>
       <CardSet cards={cards} navigate={useNavigate()} />
+    </section>
+  );
+}
+
+function ProductSection({ productData }) {
+  const products = productData.map((product) => {
+    return new CardModel(
+      product._id,
+      product.Name,
+      product.Price,
+      product.Memo,
+      product.Image,
+      false
+    );
+  });
+
+  return (
+    <section className="ShopProductSection">
+      <div className="ShopProductSectionTitle">
+        <h2 className="h2">Produk Kami</h2>
+      </div>
+
+      <div className="product-grid">
+        {products.map((product) => (
+          <ProductCard product={product}/>
+        ))}
+      </div>
     </section>
   );
 }
@@ -60,10 +84,6 @@ export default function Shop() {
   const hasFetched = useRef(false);
 
   useEffect(() => {
-    // if (!hasFetched.current) {
-    //   handleSubmit();
-    //   hasFetched.current = true;
-    // }
     handleSubmit();
   }, []);
 
@@ -71,6 +91,7 @@ export default function Shop() {
     <div>
       <LandingSection />
       <MostPopularSection productData={productData} />
+      <ProductSection productData={productData} />
     </div>
   );
 }

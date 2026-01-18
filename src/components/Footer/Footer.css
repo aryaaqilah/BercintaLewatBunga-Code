@@ -1,0 +1,110 @@
+.Footer {
+  background-color: var(--color-ternary);
+  color: white;
+  padding: 2rem 9.375rem;
+  font-family: "Playfair Display", serif;
+}
+
+.FooterContainer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 4rem;
+  margin-bottom: 1rem;
+}
+
+.FooterBrand {
+  flex: 2;
+  max-width: 300px;
+  display: flex;
+  flex-direction: column;
+}
+
+.FooterLogo {
+  height: 4rem;
+  width: auto;
+  object-fit: contain;
+  align-self: flex-start;
+}
+
+.FooterSlogan {
+  font-style: italic;
+  font-size: 0.9rem;
+  opacity: 0.8;
+  margin: 0;
+}
+
+.FooterNav, .FooterSocial {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.FooterTitle {
+  font-size: 1.1rem;
+  margin: 0 0 0.5rem 0;
+  color: var(--color-background-light);
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+.FooterLink {
+  color: white;
+  text-decoration: none;
+  transition: opacity 0.3s ease;
+  font-size: 1rem;
+}
+
+.FooterLink:hover {
+  color: var(--color-primary);
+}
+
+.FooterIcons {
+  display: flex;
+  gap: 1.5rem;
+  font-size: 1.3rem;
+  align-items: center;
+}
+
+.FooterIcons a {
+  color: white;
+  transition: transform 0.3s ease;
+}
+
+.FooterIcons a:hover {
+  color: var(--color-primary);
+  transform: translateY(-3px);
+}
+
+.FooterBottom {
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  padding-top: 1.5rem;
+  text-align: center;
+  opacity: 0.6;
+}
+
+@media (max-width: 1024px) {
+  .Footer {
+    padding: 3rem 2rem;
+  }
+  
+  .FooterContainer {
+    flex-direction: column;
+    text-align: center;
+    gap: 2.5rem;
+  }
+
+  .FooterBrand {
+    max-width: 100%;
+    align-items: center;
+  }
+
+  .FooterLogo {
+    align-self: center;
+  }
+
+  .FooterIcons {
+    justify-content: center;
+  }
+}

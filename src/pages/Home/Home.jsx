@@ -10,14 +10,12 @@ function HeroSection() {
       <div className="HeroOverlay">
         <p className="p1 txt-color-white">mengukir kisah melalui bunga</p>
         <h1 className="txt-color-ternary">
-          Preserve your <span className="txt-color-primary">love</span> journey
-          with <br /> <span className="txt-color-primary">our bouquet</span>, safely
-          living in it
+          Abadikan perjalanan <span className="txt-color-primary">cinta </span> Anda dalam<br /> <span className="txt-color-primary">buket kami</span>, tempat kenangan hidup selamanya
         </h1>
         <p className="txt-color-bg-dark">
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec<br />
-          fringilla odio mauris, sed blandit est viverra quis. Nulla facilisi.<br />
-          Vestibulum non ligula massa.<br />
+          Setiap kelopak bunga yang kami rangkai menyimpan cerita tentang tawa, janji, dan kasih sayang yang tulus.<br />
+          Kami tidak hanya mempersembahkan bunga, tetapi juga merawat memori indah Anda agar tetap mekar dan tak lekang oleh waktu.<br />
+          Biarkan keharumannya menjadi saksi bisu setiap momen berharga yang Anda bagi bersama orang tersayang.<br />
         </p>
       </div>
     </section>
@@ -36,10 +34,8 @@ function OurStorySection() {
             “Cerita Tentang Kita”
           </h2>
           <p className="txt-color-bg-dark">
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec
-            fringilla odio mauris, sed blandit est viverra quis. Nulla facilisi.
-            Vestibulum non ligula massa. Praesent vehicula metus velit, a
-            fringilla dui interdum et.
+            Berawal dari sebuah rasa, kami menghadirkan rangkaian bunga sebagai bahasa bisu untuk merayakan setiap perjalanan cinta dan babak baru kehidupan Anda. 
+            Kami mengukir keindahan dalam detail terkecil, memastikan setiap kisah yang Anda titipkan menjadi kenangan yang takkan pernah layu.
           </p>
           <button className="button-ternary h3">
             <a href="/about" className="h3 txt-color-white txt-decoration-none">
@@ -71,9 +67,9 @@ function CustomizeYourOwnSection() {
             Sampaikan kasih sayangmu
           </h2>
           <p className="txt-color-bg-dark">
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec
-            fringilla odio mauris, sed blandit est viverra quis. Nulla facilisi.
-            Vestibulum non ligula massa.
+            Biarkan bunga menjadi bahasa bagi setiap rasa yang tak terucap. 
+            Pilih setiap tangkainya dengan hati untuk merayakan ketulusan cinta. 
+            Rangkai memori indahmu dan biarkan ia mekar dalam genggaman.
           </p>
           <button className="button-primary-fill h3">
             <a href="/customizer" className="h3 txt-color-white txt-decoration-none">

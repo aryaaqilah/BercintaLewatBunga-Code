@@ -227,7 +227,7 @@ const Profile = () => {
         <div className="ProfileUserDetail">
           <div className="ProfileDetailRow">
             <div className="ProfileLabel txt-color-ternary">
-              <label>Name</label>
+              <label>Nama</label>
               <input
                 name="name"
                 type="text"
@@ -264,8 +264,9 @@ const Profile = () => {
                 className={!isEditing ? "read-only-input" : ""}
               />
             </div>
+            
             <div className="ProfileLabel txt-color-ternary">
-              <label>Confirm Password</label>
+              <label>Konfirmasi Password</label>
               <input
                 name="confirmPassword"
                 type="password"
@@ -279,7 +280,7 @@ const Profile = () => {
           </div>
           {isEditing && !isPasswordValid && (
             <p className="ErrorMessage">
-              Passwords must match and be alphanumeric.
+              Passwords harus sama dan merupakan alfanumerik.
             </p>
           )}
         </div>
@@ -287,14 +288,14 @@ const Profile = () => {
         {isEditing && (
           <div className="ProfileEditButtonsContainer">
             <button className="button-ternary" onClick={handleCancel}>
-              Cancel
+              Batal
             </button>
             <button
               className="button-primary"
               onClick={handleSave}
               disabled={!canSave}
             >
-              Save
+              Simpan
             </button>
           </div>
         )}

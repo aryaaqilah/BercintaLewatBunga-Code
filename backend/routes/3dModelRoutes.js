@@ -143,28 +143,15 @@ router.put("/:id/add-path", async (req, res) => {
 });
 
 router.get("/:id/ar", async (req, res) => {
-  // const mongoose = require("mongoose");
   try {
     const design = await ThreeDModel.findById(req.params.id);
-    if (!design) return res.status(404).send("<h2>❌ Desain tidak ditemukan</h2>");
-    console.log("Design fetched:", design);
+    if (!design) return res.status(404).send("<h2 style='text-align:center; margin-top:50px;'>❌ Desain tidak ditemukan</h2>");
 
     const ThreeDModelId = req.params.id;
-            
-    let filter = {};
-    if (ThreeDModelId) {
-        // Penting: Gunakan Number() karena data di gambar Anda adalah tipe angka
-        filter = { ThreeDModel: ThreeDModelId };
-    }
-
-    // Mencari ke database menggunakan model yang sudah ada di backend
+    let filter = { ThreeDModel: ThreeDModelId };
     const product = await Product.findOne(filter);
 
-    console.log("Associated product:", product);
-
-    console.log("req.params.id :", ThreeDModelId);
-
-    // Jika belum ada jawaban yang dikirim, tampilkan form pertanyaan
+    // 1. TAMPILAN FORM PERTANYAAN (VERIFIKASI)
     if (!req.query.answer) {
       return res.send(`
         <!DOCTYPE html>
@@ -172,117 +159,148 @@ router.get("/:id/ar", async (req, res) => {
         <head>
           <meta charset="UTF-8">
           <meta name="viewport" content="width=device-width, initial-scale=1.0">
-          <title>Verifikasi Desain - ${product.Name}</title>
+          <title>Verifikasi - ${product ? product.Name : 'Florist3D'}</title>
+          <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
           <style>
-            body {
-              font-family: Arial, sans-serif;
-              display: flex;
-              flex-direction: column;
-              align-items: center;
-              justify-content: center;
-              height: 100vh;
-              background: #f0f0f0;
+            :root {
+              --primary: #a55749;
+              --bg: #d4c4b5;
+              --dark: #3e4a49;
             }
-            form {
+            body {
+              margin: 0; padding: 0;
+              font-family: 'Playfair Display', serif;
+              background-color: var(--bg);
+              display: flex; align-items: center; justify-content: center;
+              height: 100vh; color: var(--dark);
+            }
+            .card {
               background: white;
-              padding: 20px 30px;
-              border-radius: 10px;
-              box-shadow: 0 0 10px rgba(0,0,0,0.1);
+              padding: 3rem 2rem;
+              border-radius: 2.5rem;
+              box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+              text-align: center;
+              width: 90%; max-width: 400px;
+            }
+            h2 { color: var(--primary); margin-bottom: 0.5rem; }
+            .question-box {
+              background: rgba(165, 87, 73, 0.05);
+              border-left: 4px solid var(--primary);
+              padding: 1rem; margin: 1.5rem 0;
+              text-align: left; border-radius: 0 1rem 1rem 0;
             }
             input[type=text] {
-              padding: 8px;
-              width: 100%;
-              margin-top: 10px;
-              margin-bottom: 15px;
+              width: 100%; padding: 1rem;
+              border: 1px solid #ddd; border-radius: 1rem;
+              font-family: inherit; font-size: 1rem;
+              margin-bottom: 1rem; outline: none; box-sizing: border-box;
             }
             button {
-              padding: 8px 15px;
-              background: #007BFF;
-              color: white;
-              border: none;
-              border-radius: 5px;
-              cursor: pointer;
+              width: 100%; padding: 1rem;
+              background: var(--primary); color: white;
+              border: none; border-radius: 5rem;
+              font-family: inherit; font-size: 1.1rem;
+              cursor: pointer; transition: 0.3s;
             }
+            button:hover { opacity: 0.9; transform: translateY(-2px); }
           </style>
         </head>
         <body>
-          <h2>${product.Name}</h2>
-          <p><strong>Pertanyaan:</strong> ${design.Question || "Tidak ada pertanyaan"}</p>
-          <form method="GET" action="/api/design3d/${design._id}/ar">
-            <input type="text" name="answer" placeholder="Jawaban Anda" required />
-            <button type="submit">Kirim</button>
-          </form>
+          <div class="card">
+            <h2>${product ? product.Name : 'Florist3D'}</h2>
+            <div class="question-box">
+              <small style="text-transform:uppercase; letter-spacing:1px; opacity:0.7">Teka-teki</small>
+              <p style="margin:5px 0 0; font-style:italic;">"${design.Question || "Siapa nama kecil kesayangan kita?"}"</p>
+            </div>
+            <form method="GET" action="/api/design3d/${design._id}/ar">
+              <input type="text" name="answer" placeholder="Jawaban Anda..." required autocomplete="off" />
+              <button type="submit">Buka Kejutan</button>
+            </form>
+          </div>
         </body>
         </html>
       `);
     }
 
-    // Jika sudah ada jawaban, cek validitasnya
+    // 2. LOGIKA CEK JAWABAN
     if (req.query.answer.trim().toLowerCase() !== design.Answer.trim().toLowerCase()) {
       return res.send(`
-        <h2>❌ Jawaban salah</h2>
-        <a href="/api/design3d/${design._id}/ar">Coba lagi</a>
+        <div style="font-family: 'Playfair Display', serif; text-align: center; padding-top: 100px; background: #d4c4b5; height: 100vh;">
+          <h2 style="color: #a55749;">❌ Jawaban Kurang Tepat</h2>
+          <p>Mungkin ada kenangan yang sedikit terlupa?</p>
+          <a href="/api/design3d/${design._id}/ar" style="color: #3e4a49; text-decoration: underline;">Coba Ingat Lagi</a>
+        </div>
       `);
     }
 
-    // Jika jawaban benar → tampilkan AR model
-const arPage = `
+    // 3. TAMPILAN AR MODEL (JIKA BENAR)
+    const arPage = `
       <!DOCTYPE html>
-      <html lang="en">
+      <html lang="id">
       <head>
-        <meta charset="UTF-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>${product.Name} - AR View</title>
-        <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>${product ? product.Name : 'AR View'} - Florist3D</title>
+        <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/3.3.0/model-viewer.min.js"></script>
+        <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet">
         <style>
+          :root {
+            --primary: #a55749;
+            --bg: #d4c4b5;
+          }
           body {
-            margin: 0;
-            height: 100vh;
-            width: 100vw;
-            display: flex;
-            flex-direction: column; /* Menyusun elemen (Info lalu Model) ke bawah */
-            justify-content: center;
-            align-items: center;
-            background: #f7f7f7;
-            gap: 20px; /* Jarak antara teks info dan model */
+            margin: 0; padding: 0;
+            font-family: 'Playfair Display', serif;
+            background-color: var(--bg);
+            display: flex; flex-direction: column;
+            height: 100vh; overflow: hidden;
           }
-
-          /* Info ditaruh di luar model agar rapi */
-          .info {
-            text-align: center;
-            background: transparent;
-            font-family: sans-serif;
-            color: #333;
+          .model-header {
+            padding: 1.5rem; text-align: center;
+            background: white; border-radius: 0 0 2rem 2rem;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.05);
+            z-index: 10;
           }
-
-          /* Model viewer mengambil 80% layar */
+          .model-header h1 { margin: 0; font-size: 1.4rem; color: var(--primary); }
+          .model-header p { margin: 5px 0 0; font-size: 0.8rem; opacity: 0.7; }
+          
+          .viewer-container {
+            flex: 1; width: 100%; position: relative;
+            display: flex; align-items: center; justify-content: center;
+          }
           model-viewer {
-            width: 80vw;
-            height: 80vh;
-            background-color: #ffffff; /* Putih agar kontras dengan background body */
-            border-radius: 20px;       /* Sudut melengkung agar cantik */
-            box-shadow: 0 10px 30px rgba(0,0,0,0.1); /* Bayangan halus */
-            overflow: hidden;
+            width: 100%; height: 100%;
+            background: radial-gradient(circle, #ffffff 0%, #d4c4b5 100%);
+          }
+          .ar-hint {
+            position: absolute; bottom: 30px;
+            background: rgba(255,255,255,0.8);
+            padding: 10px 20px; border-radius: 2rem;
+            font-size: 0.9rem; pointer-events: none;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
           }
         </style>
       </head>
       <body>
-        
-        <div class="info">
-          <strong>${product.Name}</strong><br/>
-          <small>AR Mode: Ketuk ikon AR di bawah kanan 👇</small>
+        <div class="model-header">
+          <h1>${product ? product.Name : 'Buket Anda'}</h1>
+          <p>Sentuh untuk memutar • Gunakan dua jari untuk zoom</p>
         </div>
 
-        <model-viewer
-          src="/models/exported/${design._id}.gltf"
-          ar
-          ar-modes="webxr scene-viewer quick-look"
-          camera-controls
-          auto-rotate
-          shadow-intensity="1"
-          exposure="1"
-        ></model-viewer>
-        
+        <div class="viewer-container">
+          <model-viewer
+            src="/models/exported/${design._id}.gltf"
+            ar
+            ar-modes="webxr scene-viewer quick-look"
+            camera-controls
+            auto-rotate
+            shadow-intensity="1"
+            exposure="1"
+            interaction-prompt="auto"
+          >
+          </model-viewer>
+          <div class="ar-hint">✨ Ketuk ikon di pojok untuk mode AR</div>
+        </div>
       </body>
       </html>
     `;
@@ -290,7 +308,7 @@ const arPage = `
     res.send(arPage);
   } catch (err) {
     console.error(err);
-    res.status(500).send("<h2>⚠️ Terjadi kesalahan server</h2>");
+    res.status(500).send("<h2 style='text-align:center;'>⚠️ Terjadi kesalahan server</h2>");
   }
 });
 

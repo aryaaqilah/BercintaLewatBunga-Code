@@ -1,15 +1,14 @@
 body {
   margin: 0;
   padding: 0;
-  overflow-x: hidden; /* This is the primary fix for the white gap */
+  overflow-x: hidden;
   font-family: "Playfair Display";
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   line-height: 1.5;
-  width: 100%; /* Ensures body doesn't expand */
+  width: 100%;
 }
 
-/* Added global box-sizing to prevent padding from creating white space */
 * {
   box-sizing: border-box;
 }
@@ -17,7 +16,6 @@ body {
 code {
   font-family: "Playfair Display";
 }
-
 
 :root {
   --color-primary: #a55749;
@@ -27,14 +25,12 @@ code {
   --color-background-dark: #7d796e;
 }
 
-
 h1,
 .h1 {
   font-size: 2.5rem;
   font-weight: 400;
   margin: 0;
 }
-
 
 h2,
 .h2 {
@@ -43,7 +39,6 @@ h2,
   margin: 0;
 }
 
-
 h3,
 .h3 {
   font-size: 1.25rem;
@@ -51,13 +46,11 @@ h3,
   margin: 0;
 }
 
-
 .p1 {
   font-size: 1rem;
   font-weight: 400;
   margin: 0;
 }
-
 
 .p2 {
   font-size: 0.875rem;
@@ -65,63 +58,51 @@ h3,
   margin: 0;
 }
 
-
 .p3 {
   font-size: 0.75rem;
   font-weight: 400;
   margin: 0;
 }
 
-
 .txt-color-primary {
   color: var(--color-primary);
 }
-
 
 .txt-color-secondary {
   color: var(--color-secondary);
 }
 
-
 .txt-color-ternary {
   color: var(--color-ternary);
 }
-
 
 .txt-color-bg-light {
   color: var(--color-background-light);
 }
 
-
 .txt-color-bg-dark {
   color: var(--color-background-dark);
 }
-
 
 .txt-color-white {
   color: white;
 }
 
-
 .txt-decoration-none {
   text-decoration: none;
 }
-
 
 .weight-regular {
   font-weight: 400;
 }
 
-
 .weight-semibold {
   font-weight: 600;
 }
 
-
 .weight-bold {
   font-weight: 700;
 }
-
 
 .rounded-button-primary {
   background-color: var(--color-primary);
@@ -131,8 +112,8 @@ h3,
   transition: background-color 0.3s ease;
   border-radius: 5svh;
   padding: 1rem;
+  font-family: "Playfair Display";
 }
-
 
 .button-primary {
   background-color: var(--color-primary);
@@ -142,8 +123,8 @@ h3,
   transition: background-color 0.3s ease;
   border-radius: 2.5svh;
   padding: 1rem;
+  font-family: "Playfair Display";
 }
-
 
 .rounded-button-primary-fill {
   background-color: var(--color-primary);
@@ -154,8 +135,8 @@ h3,
   border-radius: 5svh;
   padding: 0.5rem;
   width: 100%;
+  font-family: "Playfair Display";
 }
-
 
 .button-primary-fill {
   background-color: var(--color-primary);
@@ -166,8 +147,8 @@ h3,
   border-radius: 2.5svh;
   padding: 0.5rem;
   width: 100%;
+  font-family: "Playfair Display";
 }
-
 
 .rounded-button-ternary {
   background-color: var(--color-ternary);
@@ -177,8 +158,8 @@ h3,
   transition: background-color 0.3s ease;
   border-radius: 5svh;
   padding: 1rem;
+  font-family: "Playfair Display";
 }
-
 
 .button-ternary {
   background-color: var(--color-ternary);
@@ -188,8 +169,8 @@ h3,
   transition: background-color 0.3s ease;
   border-radius: 2.5svh;
   padding: 1rem;
+  font-family: "Playfair Display";
 }
-
 
 .rounded-button-ternary-fill {
   background-color: var(--color-ternary);
@@ -200,8 +181,8 @@ h3,
   border-radius: 5svh;
   padding: 0.5rem;
   width: 100%;
+  font-family: "Playfair Display";
 }
-
 
 .button-ternary-fill {
   background-color: var(--color-ternary);
@@ -212,8 +193,8 @@ h3,
   border-radius: 2.5svh;
   padding: 0.5rem;
   width: 100%;
+  font-family: "Playfair Display";
 }
-
 
 .rounded-button-primary:hover,
 .button-primary:hover,
@@ -225,7 +206,6 @@ h3,
 .button-ternary-fill:hover {
   opacity: 0.9;
 }
-
 
 .rounded-button-primary:disabled,
 .button-primary:disabled,
@@ -239,7 +219,6 @@ h3,
   opacity: 0.5;
 }
 
-
 /* HOME PAGE */
 .HeroSection {
   height: 100vh;
@@ -249,7 +228,6 @@ h3,
   margin-top: -6.25rem;
 }
 
-
 .HeroPicture {
   width: 100%;
   height: 100%;
@@ -258,14 +236,12 @@ h3,
   top: 0;
 }
 
-
 .HeroOverlay {
   position: absolute;
   top: 35vh;
   z-index: 2;
   margin: 9.375rem;
 }
-
 
 .OurStorySectionContainer {
   min-height: 100vh;
@@ -277,14 +253,12 @@ h3,
   margin: 0;
 }
 
-
 .OurStorySection {
   display: flex;
   align-items: center;
   justify-content: space-between;
   width: 100%;
 }
-
 
 .OurStoryImageLeft {
   flex-shrink: 0;
@@ -295,7 +269,6 @@ h3,
   overflow: hidden;
 }
 
-
 .OurStoryImageRight {
   flex-shrink: 0;
   width: 18.75rem;
@@ -305,7 +278,6 @@ h3,
   overflow: hidden;
 }
 
-
 .OurStoryPicture {
   width: 100%;
   height: 100%;
@@ -313,13 +285,11 @@ h3,
   display: block;
 }
 
-
 .OurStoryContent {
   flex-grow: 1;
   text-align: center;
   max-width: 37.5rem;
 }
-
 
 .CustomizeYourOwnSectionContainer {
   height: 100vh;
@@ -331,7 +301,6 @@ h3,
   margin: 0;
 }
 
-
 .CustomizeYourOwnSection {
   display: flex;
   align-items: center;
@@ -340,7 +309,6 @@ h3,
   height: 70vh;
   overflow: hidden;
 }
-
 
 .CustomizeImageWrapper {
   flex-shrink: 0;
@@ -352,13 +320,11 @@ h3,
   z-index: 2;
 }
 
-
 .CustomizeImage {
   width: 100%;
   height: 100%;
   object-fit: cover;
 }
-
 
 .CustomizeContent {
   flex-grow: 1;
@@ -372,25 +338,49 @@ h3,
   text-align: left;
 }
 
-
 /* SHOP PAGE */
 .ShopMostPopularSection {
   width: 100%;
-  height: 100vh;
-  overflow: hidden;
-  margin-top: -6.25rem;
+  min-height: 100vh;
   display: flex;
   flex-direction: column;
-  justify-content: center;
 }
 
-
 .ShopMostPopularDescription {
-  padding: 2.75rem 9.375rem;
+  padding: 2rem 5%;
   align-self: center;
   text-align: center;
 }
 
+.ShopProductSection {
+  width: 100%;
+  padding: 4rem 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  align-items: center; 
+}
+
+.ShopProductSectionTitle {
+  text-align: center;
+  margin-bottom: 1rem;
+}
+
+.ShopProductSectionTitle h2 {
+  display: inline-block;
+  border-bottom: 2px solid var(--color-primary);
+  color: var(--color-primary);
+}
+
+.product-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  width: 100%;
+  justify-items: center;
+  height: max-content;
+}
 
 /* ABOUT PAGE */
 .AboutLandingContainer {
@@ -402,7 +392,6 @@ h3,
   margin-top: -6.25rem;
 }
 
-
 .AboutLandingSection {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -411,12 +400,10 @@ h3,
   width: 100%;
 }
 
-
 .AboutLandingContentTitle {
   padding-top: 9.063rem;
   padding-left: 9.375rem;
 }
-
 
 .AboutLandingDivider {
   width: 50%;
@@ -426,7 +413,6 @@ h3,
   align-self: flex-start;
 }
 
-
 .AboutLandingContentTop {
   grid-column: 2 / 3;
   grid-row: 1 / 2;
@@ -434,7 +420,6 @@ h3,
   justify-content: flex-end;
   align-items: flex-start;
 }
-
 
 .AboutLandingImageTop {
   width: 100%;
@@ -444,7 +429,6 @@ h3,
   display: block;
   padding-top: 7.188rem;
 }
-
 
 .AboutLandingContentBottom {
   grid-column: 1 / 3;
@@ -456,7 +440,6 @@ h3,
   padding: 0 9.375rem;
 }
 
-
 .AboutLandingImageBottom {
   width: 26.25rem;
   height: 15.625rem;
@@ -465,11 +448,9 @@ h3,
   flex-shrink: 0;
 }
 
-
 .AboutLandingDescription {
   width: 60%;
 }
-
 
 .AboutPhilosophyContainer {
   width: 100%;
@@ -477,9 +458,8 @@ h3,
   display: flex;
   justify-content: center;
   align-items: flex-start;
-  padding-top: 12.5rem;
+  padding-top: 5rem;
 }
-
 
 .AboutPhilosophySection {
   display: flex;
@@ -487,14 +467,12 @@ h3,
   width: 100%;
 }
 
-
 .AboutPhilosophyTopContent {
   display: flex; /* Changed from Grid to Flex for better width control */
   min-height: 40vh;
   border: 1px solid black;
   width: 100%;
 }
-
 
 .AboutPhilosophyHeaderText {
   width: 30%; /* Changed from 30vw to 30% to fit container */
@@ -505,7 +483,6 @@ h3,
   border-right: 1px solid black;
 }
 
-
 .AboutPhilosophyDescriptionWrapper {
   width: 70%; /* Changed from 70vw to 70% to fit container */
   min-height: 40vh;
@@ -514,11 +491,9 @@ h3,
   align-items: center;
 }
 
-
 .AboutPhilosophyDescription {
   width: 90%;
 }
-
 
 .AboutPhilosophyImageBottom {
   width: 100%;
@@ -528,7 +503,6 @@ h3,
   border-top: none;
 }
 
-
 .AboutPhilosophyImage {
   width: 100%;
   height: 100%;
@@ -536,7 +510,6 @@ h3,
   display: block;
   object-position: 0 20%;
 }
-
 
 .AboutOurStoryContainer {
   display: flex;
@@ -548,7 +521,6 @@ h3,
   padding-top: 9.5rem;
 }
 
-
 .AboutVideoWrapper {
   width: 100%;
   max-width: 80vw;
@@ -558,13 +530,11 @@ h3,
   margin-top: 1.875rem;
 }
 
-
 .AboutOurStoryVideo {
   width: 100%;
   height: auto;
   display: block;
 }
-
 
 /* LOGIN AND REGISTER PAGE */
 .LoginSection,
@@ -578,7 +548,6 @@ h3,
   padding-left: 9.375rem;
 }
 
-
 .LoginForm,
 .RegisterForm {
   width: 35%;
@@ -591,14 +560,12 @@ h3,
   justify-content: center;
 }
 
-
 .LoginLogo,
 .RegisterLogo {
   width: 60%;
   height: auto;
   padding-bottom: 2rem;
 }
-
 
 .LoginInputGroup,
 .RegisterInputGroup {
@@ -609,7 +576,6 @@ h3,
   align-items: end;
 }
 
-
 .LoginInput,
 .RegisterInput {
   width: 90%;
@@ -619,12 +585,10 @@ h3,
   padding-bottom: 1.5rem;
 }
 
-
 .LoginIcon,
 .RegisterIcon {
   padding-right: 0.5rem;
 }
-
 
 .LoginInputTextfield,
 .RegisterInputTextfield {
@@ -636,7 +600,6 @@ h3,
   border: 0;
 }
 
-
 .AlignCenter {
   width: fit-content;
   height: fit-content;
@@ -644,7 +607,6 @@ h3,
   flex-direction: column;
   align-self: center;
 }
-
 
 /* HELP PAGE */
 .HelpLandingSection {
@@ -655,7 +617,6 @@ h3,
   margin-top: -6.25rem;
 }
 
-
 .HelpLandingImage {
   width: 100%;
   height: 100%;
@@ -664,14 +625,12 @@ h3,
   object-position: 0 85%;
 }
 
-
 .HelpLandingOverlay {
   position: absolute;
   top: 10vh;
   z-index: 2;
   margin: 9.375rem;
 }
-
 
 .FAQSection {
   padding-top: 6.875rem;
@@ -684,7 +643,6 @@ h3,
   margin-bottom: 6.875rem;
 }
 
-
 .FAQContent {
   display: flex;
   flex-direction: row;
@@ -692,30 +650,25 @@ h3,
   width: 100%;
 }
 
-
 .FAQHeader {
   flex: 1;
   max-width: 40%;
   padding-right: 2rem;
 }
 
-
 .FAQList {
   flex: 1;
   max-width: 55%;
 }
-
 
 .FAQItem {
   border-bottom: 1px solid var(--color-secondary);
   padding: 1.2rem 0;
 }
 
-
 .FAQItem:last-child {
   border-bottom: none;
 }
-
 
 .FAQQuestion {
   display: flex;
@@ -723,7 +676,6 @@ h3,
   align-items: center;
   cursor: pointer;
 }
-
 
 .FAQQuestion .toggle {
   transition: transform 0.3s ease;
@@ -734,17 +686,14 @@ h3,
   height: 24px;
 }
 
-
 .FAQQuestion .toggle img {
   width: 100%;
   height: 100%;
 }
 
-
 .FAQQuestion .toggle.open {
   transform: rotate(180deg);
 }
-
 
 .FAQAnswer {
   max-height: 0;
@@ -752,12 +701,10 @@ h3,
   transition: max-height 0.3s ease-in-out, padding-top 0.3s ease-in-out;
 }
 
-
 .FAQAnswerInner {
   padding-top: 0.25rem;
   color: var(--color-text-grey);
 }
-
 
 .ContactCustomerServiceSection {
   width: 100%;
@@ -771,17 +718,14 @@ h3,
   padding: 0 2.5rem;
 }
 
-
 .ContactCustomerServiceDescription {
   flex-grow: 1;
 }
-
 
 /* PROFILE PAGE */
 .ProfilePageContainer {
   margin: 2.5rem 5rem;
 }
-
 
 .TernaryBackButton {
   background: var(--color-ternary);
@@ -797,7 +741,7 @@ h3,
   justify-content: center;
 }
 
-.Customizer-submenu-btn{
+.Customizer-submenu-btn {
   /* background: var(--color-ternary); */
   border: none;
   border-radius: 50%;
@@ -813,16 +757,13 @@ h3,
   /* padding-top: 10px; */
 }
 
-
 .TernaryBackButton:hover {
   opacity: 0.5;
 }
 
-
 .ProfileSection {
   margin: 0 4.375rem;
 }
-
 
 .ProfileHeader {
   display: flex;
@@ -831,13 +772,11 @@ h3,
   margin-bottom: 40px;
 }
 
-
 .ProfileInfo {
   display: flex;
   align-items: center;
   gap: 20px;
 }
-
 
 .ProfileIcon {
   width: 2.5rem;
@@ -847,7 +786,6 @@ h3,
   color: var(--color-background-dark);
 }
 
-
 .ProfileActions {
   display: flex;
   gap: 15px;
@@ -856,20 +794,17 @@ h3,
   cursor: pointer;
 }
 
-
 .ProfileUserDetail {
   margin-bottom: 2rem;
   display: flex;
   flex-direction: column;
 }
 
-
 .ProfileDetailRow {
   display: flex;
   gap: 30px;
   margin-bottom: 20px;
 }
-
 
 .ProfileLabel {
   flex: 1;
@@ -878,12 +813,10 @@ h3,
   gap: 8px;
 }
 
-
 .ProfileLabel label {
   font-size: 0.9rem;
   opacity: 0.8;
 }
-
 
 .ProfileLabel input {
   background-color: rgba(212, 190, 167, 0.5);
@@ -892,27 +825,22 @@ h3,
   border-radius: 8px;
 }
 
-
 .ProfileLabel input::placeholder {
   color: #a0a0a0;
 }
 
-
 .ProfileLabel input:focus {
   outline: 0;
 }
-
 
 .ProfileLabel input.read-only-input {
   cursor: default;
   background-color: rgba(212, 190, 167, 0.3);
 }
 
-
 .ProfileLabel input.read-only-input:focus {
   outline: none;
 }
-
 
 .ProfileEditButtonsContainer {
   display: flex;
@@ -921,7 +849,6 @@ h3,
   gap: 1rem;
   transition: opacity 0.3s ease;
 }
-
 
 .MyOrderSection {
   background-color: rgba(212, 190, 167, 0.3);
@@ -932,7 +859,6 @@ h3,
   gap: 1.5rem;
 }
 
-
 .ErrorMessage {
   color: #d93025;
   font-size: 0.75rem;
@@ -941,17 +867,14 @@ h3,
   font-weight: 500;
 }
 
-
 .ProfileLabel input.invalid {
   border: 1px solid #d93025;
 }
-
 
 /* ORDER DETAIL PAGE */
 .OrderDetailSection {
   margin: 2.5rem 5rem;
 }
-
 
 .PrimaryBackButton {
   background: var(--color-primary);
@@ -967,18 +890,15 @@ h3,
   justify-content: center;
 }
 
-
 .PrimaryBackButton:hover {
   opacity: 0.5;
 }
-
 
 .OrderDetailCard {
   padding: 2rem;
   margin-bottom: 1rem;
   border: 1px solid var(--color-ternary);
 }
-
 
 .OrderDetailCardHeaderRow {
   display: flex;
@@ -987,14 +907,12 @@ h3,
   margin-bottom: 3rem;
 }
 
-
 .OrderTracker {
   display: flex;
   justify-content: space-between;
   position: relative;
   margin: 0 2rem 3rem 2rem;
 }
-
 
 .OrderDetailTrackerLineBackground {
   position: absolute;
@@ -1007,7 +925,6 @@ h3,
   border-radius: 2px;
 }
 
-
 .OrderDetailTrackerLineProgress {
   position: absolute;
   top: 0.625rem;
@@ -1019,7 +936,6 @@ h3,
   transition: width 0.5s ease-in-out;
 }
 
-
 .OrderDetailStepItem {
   position: relative;
   z-index: 3;
@@ -1028,7 +944,6 @@ h3,
   align-items: center;
   width: 1.5rem;
 }
-
 
 .OrderDetailStepCircle {
   width: 1.5rem;
@@ -1041,11 +956,9 @@ h3,
   box-sizing: border-box;
 }
 
-
 .OrderDetailStepItem.active .OrderDetailStepCircle.active {
   border-color: var(--color-primary);
 }
-
 
 .OrderDetailDeliverySummaryRow {
   display: flex;
@@ -1054,7 +967,6 @@ h3,
   padding-top: 1.5rem;
 }
 
-
 .DeliveryInfoRow {
   margin: 1rem 0;
   font-size: 14px;
@@ -1062,18 +974,15 @@ h3,
   align-items: center;
 }
 
-
 .DeliveryInfoRow .label {
   display: inline-block;
   width: 150px;
   color: var(--text-grey);
 }
 
-
 .DeliveryInfoRow .value {
   font-weight: 500;
 }
-
 
 .CopyButton {
   background: white;
@@ -1087,12 +996,10 @@ h3,
   transition: all 0.2s;
 }
 
-
 .CopyButton:hover {
   border-color: var(--text-dark);
   color: var(--text-dark);
 }
-
 
 .OrderDetailBottomCard {
   display: grid;
@@ -1100,13 +1007,11 @@ h3,
   gap: 60px;
 }
 
-
 .OrderDetailCustomerSection {
   display: flex;
   flex-direction: column;
   gap: 1rem;
 }
-
 
 .OrderDetailInfoGrid {
   display: grid;
@@ -1116,22 +1021,18 @@ h3,
   margin-bottom: 40px;
 }
 
-
 .OrderDetailInfoGrid .label {
   color: var(--text-grey);
 }
-
 
 .OrderDetailInfoGrid .value {
   color: var(--text-dark);
 }
 
-
 .OrderDetailInfoGrid .value.link {
   text-decoration: underline;
   cursor: pointer;
 }
-
 
 .OrderDetailContactAdmin {
   text-decoration: underline;
@@ -1139,14 +1040,12 @@ h3,
   display: inline-block;
 }
 
-
 .OrderDetailProductItem {
   display: flex;
   margin: 1rem 0;
   border-bottom: 1px solid var(--color-background-dark);
   padding-bottom: 2.5rem;
 }
-
 
 .OrderDetailProductImage {
   width: 10rem;
@@ -1157,11 +1056,9 @@ h3,
   border-radius: 2.5svh;
 }
 
-
 .OrderDetailProductDetails {
   flex: 1;
 }
-
 
 .OrderDetailProductItems {
   list-style: none;
@@ -1170,13 +1067,11 @@ h3,
   line-height: 1.5;
 }
 
-
 .OrderDetailQuantityRow {
   font-weight: bold;
   font-size: 13px;
   margin: 1rem 0;
 }
-
 
 .OrderDetailNotes {
   color: var(--color-background-dark);
@@ -1184,17 +1079,14 @@ h3,
   line-height: 1.4;
 }
 
-
 .OrderDetailNoteLabel {
   font-style: italic;
   margin-right: 0.5rem;
 }
 
-
 .OrderDetailPricingBreakdown {
   padding-top: 1rem;
 }
-
 
 .OrderDetailPriceRow {
   display: flex;
@@ -1202,13 +1094,11 @@ h3,
   margin-bottom: 1rem;
 }
 
-
 .OrderDetailPriceRow.total {
   margin-top: 1rem;
   padding-top: 1rem;
   border-top: 1px solid var(--color-background-dark);
 }
-
 
 /* ADDRESS PAGE */
 .AddressSection {
@@ -1220,13 +1110,11 @@ h3,
   padding: 2rem 0;
 }
 
-
 .AddressSectionContainer {
   width: 85%;
   display: flex;
   flex-direction: column;
 }
-
 
 .AddressBox {
   width: 100%;
@@ -1237,13 +1125,11 @@ h3,
   background-color: #fff;
 }
 
-
 .AddressFormGrid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 2.5rem;
 }
-
 
 .AddressFormGrid .FormColumn {
   display: flex;
@@ -1251,13 +1137,11 @@ h3,
   gap: 1rem;
 }
 
-
 .AddressFormGroup {
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
 }
-
 
 .AddressFormGroup input,
 .AddressFormGroup select,
@@ -1269,19 +1153,16 @@ h3,
   background-color: rgba(212, 190, 167, 0.5);
 }
 
-
 .AddressFormGroup input:focus,
 .AddressFormGroup select:focus,
 .AddressFormGroup textarea:focus {
   outline: 0;
 }
 
-
 .AddressFormGroup textarea {
   height: 7.5rem;
   resize: none;
 }
-
 
 .AddressButtonContainer {
   grid-column: 1 / span 3;
@@ -1290,7 +1171,6 @@ h3,
   justify-content: center;
   margin: 1rem 0;
 }
-
 
 /* ============================================================
    REACTIVE STACKING LOGIC (MOBILE & TABLET)
@@ -1394,136 +1274,120 @@ h3,
   }
 
   /* HELP PAGE */
-.HelpLandingSection {
-  height: 80vh;
-  width: 100%;
-  overflow: hidden;
-  padding: 0;
-  margin-top: -6.25rem;
-}
+  .HelpLandingSection {
+    height: 80vh;
+    width: 100%;
+    overflow: hidden;
+    padding: 0;
+    margin-top: -6.25rem;
+  }
 
+  .HelpLandingImage {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    object-position: 0 85%;
+  }
 
-.HelpLandingImage {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  display: block;
-  object-position: 0 85%;
-}
+  .HelpLandingOverlay {
+    position: absolute;
+    top: 10vh;
+    z-index: 2;
+    margin: 9.375rem;
+  }
 
+  .FAQSection {
+    padding-top: 6.875rem;
+    width: 100%;
+    padding-left: 9.375rem;
+    padding-right: 9.375rem;
+    display: flex;
+    flex-direction: column;
+    gap: 4rem;
+    margin-bottom: 6.875rem;
+  }
 
-.HelpLandingOverlay {
-  position: absolute;
-  top: 10vh;
-  z-index: 2;
-  margin: 9.375rem;
-}
+  .FAQContent {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 100%;
+  }
 
+  .FAQHeader {
+    flex: 1;
+    max-width: 40%;
+    padding-right: 2rem;
+  }
 
-.FAQSection {
-  padding-top: 6.875rem;
-  width: 100%;
-  padding-left: 9.375rem;
-  padding-right: 9.375rem;
-  display: flex;
-  flex-direction: column;
-  gap: 4rem;
-  margin-bottom: 6.875rem;
-}
+  .FAQList {
+    flex: 1;
+    max-width: 55%;
+  }
 
+  .FAQItem {
+    border-bottom: 1px solid var(--color-secondary);
+    padding: 1.2rem 0;
+  }
 
-.FAQContent {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  width: 100%;
-}
+  .FAQItem:last-child {
+    border-bottom: none;
+  }
 
+  .FAQQuestion {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+  }
 
-.FAQHeader {
-  flex: 1;
-  max-width: 40%;
-  padding-right: 2rem;
-}
+  .FAQQuestion .toggle {
+    transition: transform 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 24px;
+    height: 24px;
+  }
 
+  .FAQQuestion .toggle img {
+    width: 100%;
+    height: 100%;
+  }
 
-.FAQList {
-  flex: 1;
-  max-width: 55%;
-}
+  .FAQQuestion .toggle.open {
+    transform: rotate(180deg);
+  }
 
+  .FAQAnswer {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease-in-out, padding-top 0.3s ease-in-out;
+  }
 
-.FAQItem {
-  border-bottom: 1px solid var(--color-secondary);
-  padding: 1.2rem 0;
-}
+  .FAQAnswerInner {
+    padding-top: 0.25rem;
+    color: var(--color-text-grey);
+  }
 
+  .ContactCustomerServiceSection {
+    width: 100%;
+    height: 25vh;
+    background-color: var(--color-ternary);
+    border-radius: 2.5svh;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 2.5rem;
+  }
 
-.FAQItem:last-child {
-  border-bottom: none;
-}
+  .ContactCustomerServiceDescription {
+    flex-grow: 1;
+  }
 
-
-.FAQQuestion {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  cursor: pointer;
-}
-
-
-.FAQQuestion .toggle {
-  transition: transform 0.3s ease;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 24px;
-  height: 24px;
-}
-
-
-.FAQQuestion .toggle img {
-  width: 100%;
-  height: 100%;
-}
-
-
-.FAQQuestion .toggle.open {
-  transform: rotate(180deg);
-}
-
-
-.FAQAnswer {
-  max-height: 0;
-  overflow: hidden;
-  transition: max-height 0.3s ease-in-out, padding-top 0.3s ease-in-out;
-}
-
-
-.FAQAnswerInner {
-  padding-top: 0.25rem;
-  color: var(--color-text-grey);
-}
-
-
-.ContactCustomerServiceSection {
-  width: 100%;
-  height: 25vh;
-  background-color: var(--color-ternary);
-  border-radius: 2.5svh;
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: space-between;
-  padding: 0 2.5rem;
-}
-
-
-.ContactCustomerServiceDescription {
-  flex-grow: 1;
-}
-
-/* PROFILE PAGE */
+  /* PROFILE PAGE */
 
   .ProfilePageContainer {
     margin: 2rem 1.5rem;
@@ -1625,12 +1489,17 @@ h3,
   .DeliveryInfoRow .label {
     width: 120px; /* Shrink label space for tighter screens */
   }
+
+  /* SHOP PAGE */
+  .product-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+  }
 }
 
 @media screen and (min-width: 600px) and (max-width: 1024px) {
   /* HOME PAGE */
 
-  
   .Customizer-MainSection {
     height: auto;
     min-height: 105vh;
@@ -1718,11 +1587,11 @@ h3,
     background-color: #7f8381; /* Abu-abu gelap */
     color: white;
     /* padding: 10px 10px;        Spasi di sekitar teks label */
-    white-space: nowrap;       /* Mencegah teks turun baris */
+    white-space: nowrap; /* Mencegah teks turun baris */
     display: flex;
-    align-items: center;       /* Tengah vertikal */
+    align-items: center; /* Tengah vertikal */
     font-size: 16px;
-    cursor: pointer;           /* Kursor berubah saat hover label */
+    cursor: pointer; /* Kursor berubah saat hover label */
     border-bottom-left-radius: 10px;
     border-top-left-radius: 10px;
   }
@@ -1731,23 +1600,23 @@ h3,
     font-size: 14px;
     padding: 8px 12px;
     background-color: #c4c3bf; /* Abu-abu muda/beige */
-    border: none;              /* HAPUS border bawaan browser */
-    outline: none;             /* HAPUS garis biru saat diklik */
-    flex-grow: 1;              /* Mengisi sisa ruang */
-    padding: 10px 15px;        /* Spasi di dalam ketikan */
+    border: none; /* HAPUS border bawaan browser */
+    outline: none; /* HAPUS garis biru saat diklik */
+    flex-grow: 1; /* Mengisi sisa ruang */
+    padding: 10px 15px; /* Spasi di dalam ketikan */
     font-size: 16px;
-    color: #333;               /* Warna teks saat mengetik */
+    color: #333; /* Warna teks saat mengetik */
     /* border: 1px solid #404C4C; */
     border-bottom-right-radius: 10px;
     border-top-right-radius: 10px;
   }
 
-    .Customizer-label-nama{
-   background-color: #A95C4C
+  .Customizer-label-nama {
+    background-color: #a95c4c;
   }
 
-  .Customizer-input-nama{
-      background-color: #D4BEA7
+  .Customizer-input-nama {
+    background-color: #d4bea7;
   }
 
   /* ============================= */
@@ -1766,7 +1635,7 @@ h3,
 
   .Customizer-order-summary-container {
     /* max-width: 400px; */
-    width : 100%;
+    width: 100%;
   }
 
   /* ============================= */
@@ -1774,18 +1643,18 @@ h3,
   /* ============================= */
 
   .Customizer-canvas-toolbar {
-    position : absolute;
+    position: absolute;
     top: 16px;
     right: 16px;
     padding: 10px 6px;
     gap: 6px;
     z-index: 50;
 
-    background-color: rgba(121, 117, 107, 0.8); 
+    background-color: rgba(121, 117, 107, 0.8);
     backdrop-filter: blur(8px);
     border-radius: 12px;
     box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
-    border: 1px solid rgba(255, 255, 255, 0.-1);
+    border: 1px solid rgba(255, 255, 255, 0-1);
   }
 
   .Customizer-toolbar-btn {
@@ -1815,7 +1684,7 @@ h3,
     height: 46px;
     font-size: 18px;
     margin: 12px auto;
-    background-color: #404C4C;
+    background-color: #404c4c;
     border: none;
     color: white;
   }
@@ -1837,52 +1706,52 @@ h3,
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    
+
     margin: 0;
     /* background-color: aquamarine; */
   }
 
-  .Confirmation-box{
-      width: 12vw;
-      /* background-color: coral; */
+  .Confirmation-box {
+    width: 12vw;
+    /* background-color: coral; */
   }
 
-  .Confirmation-MainBox{
-      /* background-color: lightblue; */
-      width: 100%;
-      height: 80%;
-      /* border: 2px solid #404C4C; */
-      display: flex;
-      /* flex-direction: column; */
-      justify-content: center;
-      border-top-left-radius: 200px;
-      border-bottom-right-radius: 200px;
+  .Confirmation-MainBox {
+    /* background-color: lightblue; */
+    width: 100%;
+    height: 80%;
+    /* border: 2px solid #404C4C; */
+    display: flex;
+    /* flex-direction: column; */
+    justify-content: center;
+    border-top-left-radius: 200px;
+    border-bottom-right-radius: 200px;
   }
 
-  .Confirmation-ModelBox{
-      background-color: #D4BEA7;
-      width: 35%;
-      height: 100%;
-      border-top-left-radius: 200px;
+  .Confirmation-ModelBox {
+    background-color: #d4bea7;
+    width: 35%;
+    height: 100%;
+    border-top-left-radius: 200px;
   }
 
-  .Confirmation-InfoBox{
-      /* background-color: lightpink; */
-      border-bottom-right-radius: 200px;
-      border: 2px solid #404C4C;
-      box-sizing: border-box;
-      width: 65%;
-      height: 100%;
-      display: flex;
+  .Confirmation-InfoBox {
+    /* background-color: lightpink; */
+    border-bottom-right-radius: 200px;
+    border: 2px solid #404c4c;
+    box-sizing: border-box;
+    width: 65%;
+    height: 100%;
+    display: flex;
   }
 
-  .Confirmation-FillerBox{
-      width: 15%;
-      height: 100%;
-      /* background-color: turquoise; */
+  .Confirmation-FillerBox {
+    width: 15%;
+    height: 100%;
+    /* background-color: turquoise; */
   }
 
-  .Confirmation-InsideBox{
+  .Confirmation-InsideBox {
     width: 70%;
     height: 85%;
     /* background-color: yellow; */
@@ -1890,7 +1759,7 @@ h3,
   }
 
   .Confirmation-btnConfirm {
-    background-color: #404C4C;
+    background-color: #404c4c;
     border: none;
     color: white;
     /* padding: 1px 32px; */
@@ -1903,34 +1772,34 @@ h3,
     font-size: 17px;
   }
 
-  .Confirmation-NameBox{
+  .Confirmation-NameBox {
     /* background-color: greenyellow; */
     height: 15%;
     display: flex;
     align-items: center;
     font-size: 2rem;
-    color: #A95C4C;
+    color: #a95c4c;
   }
 
-  .Confirmation-DetailBox{
+  .Confirmation-DetailBox {
     /* background-color: orange; */
     height: 20%;
-    color: #D4BEA7;
+    color: #d4bea7;
   }
 
-  .Confirmation-SummaryBox{
+  .Confirmation-SummaryBox {
     /* background-color: pink; */
     height: 10%;
     display: flex;
   }
 
-  .Confirmation-NotesBox{
+  .Confirmation-NotesBox {
     /* background-color: lightgray; */
     height: 25%;
-    color: #D4BEA7;
+    color: #d4bea7;
   }
 
-  .Confirmation-QtyBox{
+  .Confirmation-QtyBox {
     /* background-color: lightcoral; */
     width: 40%;
     height: 50%;
@@ -1940,7 +1809,7 @@ h3,
     /* color: #404C4C; */
   }
 
-  .Confirmation-PriceBox{
+  .Confirmation-PriceBox {
     /* background-color: magenta; */
     height: 50%;
     width: 50%;
@@ -1948,28 +1817,28 @@ h3,
     display: flex;
     align-items: center;
     justify-content: flex-end;
-    color: #404C4C;
+    color: #404c4c;
   }
 
-  .Confirmation-Message{
-      width: 90%;
-      height: 12%;
-      /* background-color: lightgreen; */
+  .Confirmation-Message {
+    width: 90%;
+    height: 12%;
+    /* background-color: lightgreen; */
   }
 
-  .Confirmation-Voucher{
-      width: 90%;
-      height: 12%;
-      /* background-color: lightgreen; */
+  .Confirmation-Voucher {
+    width: 90%;
+    height: 12%;
+    /* background-color: lightgreen; */
   }
 
   .Confirmation-input-group {
-    display: flex;             /* Menyusun label & input bersebelahan */
+    display: flex; /* Menyusun label & input bersebelahan */
     height: 80%;
     width: 100%;
-    max-width: 600px;          /* Lebar maksimal */
-        /* Sudut melengkung */
-    overflow: hidden;          /* Memotong sudut anak elemen */
+    max-width: 600px; /* Lebar maksimal */
+    /* Sudut melengkung */
+    overflow: hidden; /* Memotong sudut anak elemen */
     /* font-family: 'Times New Roman', serif; Font Serif sesuai gambar */
   }
 
@@ -1977,26 +1846,26 @@ h3,
   .Confirmation-input-label {
     background-color: #7f8381; /* Abu-abu gelap */
     color: white;
-    padding: 10px 10px;        /* Spasi di sekitar teks label */
-    white-space: nowrap;       /* Mencegah teks turun baris */
+    padding: 10px 10px; /* Spasi di sekitar teks label */
+    white-space: nowrap; /* Mencegah teks turun baris */
     display: flex;
-    align-items: center;       /* Tengah vertikal */
+    align-items: center; /* Tengah vertikal */
     font-size: 16px;
-    cursor: pointer;           /* Kursor berubah saat hover label */
+    cursor: pointer; /* Kursor berubah saat hover label */
     border-bottom-left-radius: 10px;
     border-top-left-radius: 10px;
     width: auto;
   }
 
   /* Bagian Input (Kanan) */
-  .Confirmation-input-field-customizer{
+  .Confirmation-input-field-customizer {
     background-color: #c4c3bf; /* Abu-abu muda/beige */
-    border: none;              /* HAPUS border bawaan browser */
-    outline: none;             /* HAPUS garis biru saat diklik */
-    flex-grow: 1;              /* Mengisi sisa ruang */
-    padding: 10px 15px;        /* Spasi di dalam ketikan */
+    border: none; /* HAPUS border bawaan browser */
+    outline: none; /* HAPUS garis biru saat diklik */
+    flex-grow: 1; /* Mengisi sisa ruang */
+    padding: 10px 15px; /* Spasi di dalam ketikan */
     font-size: 16px;
-    color: #333;               /* Warna teks saat mengetik */
+    color: #333; /* Warna teks saat mengetik */
     /* border: 1px solid #404C4C; */
     border-bottom-right-radius: 10px;
     border-top-right-radius: 10px;
@@ -2006,24 +1875,22 @@ h3,
   .Confirmation-input-field:focus {
     background-color: #dcdbd7; /* Sedikit lebih terang saat mengetik */
     border-radius: 0px;
-
   }
 
-  .Confirmation-label{
-    background-color: #A95C4C
+  .Confirmation-label {
+    background-color: #a95c4c;
   }
 
-  .Confirmation-input{
-      background-color: #D4BEA7
+  .Confirmation-input {
+    background-color: #d4bea7;
   }
 
-    .Confirmation-btnContainer{
+  .Confirmation-btnContainer {
     display: flex;
-    justify-Content: center;
-    padding-Top: 30px;
+    justify-content: center;
+    padding-top: 30px;
   }
 }
-
 
 @media (max-width: 600px) {
   h1,
@@ -2093,7 +1960,7 @@ h3,
   .OrderDetailTrackerLineProgress {
     top: 0.625rem;
     height: 2px;
-    left: 10%; 
+    left: 10%;
     right: 10%;
     width: auto;
     position: absolute;
@@ -2151,7 +2018,7 @@ h3,
     gap: 2rem;
   }
 
-   .Customizer-MainSection {
+  .Customizer-MainSection {
     width: 100vw;
     height: auto;
     min-height: 100vh;
@@ -2239,11 +2106,11 @@ h3,
     background-color: #7f8381; /* Abu-abu gelap */
     color: white;
     /* padding: 10px 10px;        Spasi di sekitar teks label */
-    white-space: nowrap;       /* Mencegah teks turun baris */
+    white-space: nowrap; /* Mencegah teks turun baris */
     display: flex;
-    align-items: center;       /* Tengah vertikal */
+    align-items: center; /* Tengah vertikal */
     font-size: 16px;
-    cursor: pointer;           /* Kursor berubah saat hover label */
+    cursor: pointer; /* Kursor berubah saat hover label */
     border-bottom-left-radius: 10px;
     border-top-left-radius: 10px;
   }
@@ -2252,24 +2119,24 @@ h3,
     font-size: 14px;
     padding: 8px 12px;
     background-color: #c4c3bf; /* Abu-abu muda/beige */
-    border: none;              /* HAPUS border bawaan browser */
-    outline: none;             /* HAPUS garis biru saat diklik */
-    flex-grow: 1;              /* Mengisi sisa ruang */
-    padding: 10px 15px;        /* Spasi di dalam ketikan */
+    border: none; /* HAPUS border bawaan browser */
+    outline: none; /* HAPUS garis biru saat diklik */
+    flex-grow: 1; /* Mengisi sisa ruang */
+    padding: 10px 15px; /* Spasi di dalam ketikan */
     font-size: 16px;
-    color: #333;               /* Warna teks saat mengetik */
+    color: #333; /* Warna teks saat mengetik */
     /* border: 1px solid #404C4C; */
     border-bottom-right-radius: 10px;
     border-top-right-radius: 10px;
   }
 
-  .Customizer-label-nama{
-   background-color: #A95C4C
-}
+  .Customizer-label-nama {
+    background-color: #a95c4c;
+  }
 
-.Customizer-input-nama{
-    background-color: #D4BEA7
-}
+  .Customizer-input-nama {
+    background-color: #d4bea7;
+  }
 
   /* ============================= */
   /* COLOR & PRICE */
@@ -2302,11 +2169,11 @@ h3,
     gap: 6px;
     z-index: 50;
 
-    background-color: rgba(121, 117, 107, 0.8); 
+    background-color: rgba(121, 117, 107, 0.8);
     backdrop-filter: blur(8px);
     border-radius: 12px;
     box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
-    border: 1px solid rgba(255, 255, 255, 0.-1);
+    border: 1px solid rgba(255, 255, 255, 0-1);
   }
 
   .Customizer-toolbar-btn {
@@ -2341,7 +2208,7 @@ h3,
     height: 48px;
     font-size: 18px;
     margin: 12px auto;
-    background-color: #404C4C;
+    background-color: #404c4c;
     border: none;
     color: white;
   }
@@ -2363,52 +2230,52 @@ h3,
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    
+
     margin: 0;
     /* background-color: aquamarine; */
   }
 
-  .Confirmation-box{
-      width: 12vw;
-      /* background-color: coral; */
+  .Confirmation-box {
+    width: 12vw;
+    /* background-color: coral; */
   }
 
-  .Confirmation-MainBox{
-      /* background-color: lightblue; */
-      width: 100%;
-      height: 100%;
-      /* border: 2px solid #404C4C; */
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      border-top-left-radius: 200px;
-      border-bottom-right-radius: 200px;
+  .Confirmation-MainBox {
+    /* background-color: lightblue; */
+    width: 100%;
+    height: 100%;
+    /* border: 2px solid #404C4C; */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    border-top-left-radius: 200px;
+    border-bottom-right-radius: 200px;
   }
 
-  .Confirmation-ModelBox{
-      background-color: #D4BEA7;
-      width: 100%;
-      height: 40%;
-      border-top-left-radius: 200px;
+  .Confirmation-ModelBox {
+    background-color: #d4bea7;
+    width: 100%;
+    height: 40%;
+    border-top-left-radius: 200px;
   }
 
-  .Confirmation-InfoBox{
-      /* background-color: lightpink; */
-      border-bottom-right-radius: 200px;
-      border: 2px solid #404C4C;
-      box-sizing: border-box;
-      width: 100%;
-      height: 60%;
-      display: flex;
+  .Confirmation-InfoBox {
+    /* background-color: lightpink; */
+    border-bottom-right-radius: 200px;
+    border: 2px solid #404c4c;
+    box-sizing: border-box;
+    width: 100%;
+    height: 60%;
+    display: flex;
   }
 
-  .Confirmation-FillerBox{
-      width: 0%;
-      height: 100%;
-      /* background-color: turquoise; */
+  .Confirmation-FillerBox {
+    width: 0%;
+    height: 100%;
+    /* background-color: turquoise; */
   }
 
-  .Confirmation-InsideBox{
+  .Confirmation-InsideBox {
     width: 90%;
     height: 100%;
     /* backgrou0d-color: yellow; */
@@ -2416,14 +2283,14 @@ h3,
     margin-left: 30px;
   }
 
-  .Confirmation-btnContainer{
+  .Confirmation-btnContainer {
     display: flex;
-    justify-Content: flex-start;
-    padding-Top: 30px;
+    justify-content: flex-start;
+    padding-top: 30px;
   }
 
   .Confirmation-btnConfirm {
-    background-color: #404C4C;
+    background-color: #404c4c;
     border: none;
     color: white;
     /* padding: 1px 32px; */
@@ -2437,34 +2304,34 @@ h3,
     /* align-self: flex-start; */
   }
 
-  .Confirmation-NameBox{
+  .Confirmation-NameBox {
     /* background-color: greenyellow; */
     height: 15%;
     display: flex;
     align-items: center;
     font-size: 2rem;
-    color: #A95C4C;
+    color: #a95c4c;
   }
 
-  .Confirmation-DetailBox{
+  .Confirmation-DetailBox {
     /* background-color: orange; */
     height: 20%;
-    color: #D4BEA7;
+    color: #d4bea7;
   }
 
-  .Confirmation-SummaryBox{
+  .Confirmation-SummaryBox {
     /* background-color: pink; */
     height: 10%;
     display: flex;
   }
 
-  .Confirmation-NotesBox{
+  .Confirmation-NotesBox {
     /* background-color: lightgray; */
     height: 25%;
-    color: #D4BEA7;
+    color: #d4bea7;
   }
 
-  .Confirmation-QtyBox{
+  .Confirmation-QtyBox {
     /* background-color: lightcoral; */
     width: 40%;
     height: 50%;
@@ -2474,7 +2341,7 @@ h3,
     /* color: #404C4C; */
   }
 
-  .Confirmation-PriceBox{
+  .Confirmation-PriceBox {
     /* background-color: magenta; */
     height: 50%;
     width: 50%;
@@ -2482,28 +2349,28 @@ h3,
     display: flex;
     align-items: center;
     justify-content: flex-end;
-    color: #404C4C;
+    color: #404c4c;
   }
 
-  .Confirmation-Message{
-      width: 90%;
-      height: 12%;
-      /* background-color: lightgreen; */
+  .Confirmation-Message {
+    width: 90%;
+    height: 12%;
+    /* background-color: lightgreen; */
   }
 
-  .Confirmation-Voucher{
-      width: 90%;
-      height: 12%;
-      /* background-color: lightgreen; */
+  .Confirmation-Voucher {
+    width: 90%;
+    height: 12%;
+    /* background-color: lightgreen; */
   }
 
   .Confirmation-input-group {
-    display: flex;             /* Menyusun label & input bersebelahan */
+    display: flex; /* Menyusun label & input bersebelahan */
     height: 80%;
     width: 100%;
-    max-width: 600px;          /* Lebar maksimal */
-        /* Sudut melengkung */
-    overflow: hidden;          /* Memotong sudut anak elemen */
+    max-width: 600px; /* Lebar maksimal */
+    /* Sudut melengkung */
+    overflow: hidden; /* Memotong sudut anak elemen */
     /* font-family: 'Times New Roman', serif; Font Serif sesuai gambar */
   }
 
@@ -2511,26 +2378,26 @@ h3,
   .Confirmation-input-label {
     background-color: #7f8381; /* Abu-abu gelap */
     color: white;
-    padding: 10px 10px;        /* Spasi di sekitar teks label */
-    white-space: nowrap;       /* Mencegah teks turun baris */
+    padding: 10px 10px; /* Spasi di sekitar teks label */
+    white-space: nowrap; /* Mencegah teks turun baris */
     display: flex;
-    align-items: center;       /* Tengah vertikal */
+    align-items: center; /* Tengah vertikal */
     font-size: 16px;
-    cursor: pointer;           /* Kursor berubah saat hover label */
+    cursor: pointer; /* Kursor berubah saat hover label */
     border-bottom-left-radius: 10px;
     border-top-left-radius: 10px;
     width: auto;
   }
 
   /* Bagian Input (Kanan) */
-  .Confirmation-input-field-customizer{
+  .Confirmation-input-field-customizer {
     background-color: #c4c3bf; /* Abu-abu muda/beige */
-    border: none;              /* HAPUS border bawaan browser */
-    outline: none;             /* HAPUS garis biru saat diklik */
-    flex-grow: 1;              /* Mengisi sisa ruang */
-    padding: 10px 15px;        /* Spasi di dalam ketikan */
+    border: none; /* HAPUS border bawaan browser */
+    outline: none; /* HAPUS garis biru saat diklik */
+    flex-grow: 1; /* Mengisi sisa ruang */
+    padding: 10px 15px; /* Spasi di dalam ketikan */
     font-size: 16px;
-    color: #333;               /* Warna teks saat mengetik */
+    color: #333; /* Warna teks saat mengetik */
     /* border: 1px solid #404C4C; */
     border-bottom-right-radius: 10px;
     border-top-right-radius: 10px;
@@ -2540,20 +2407,23 @@ h3,
   .Confirmation-input-field:focus {
     background-color: #dcdbd7; /* Sedikit lebih terang saat mengetik */
     border-radius: 0px;
-
   }
 
-  .Confirmation-label{
-    background-color: #A95C4C
+  .Confirmation-label {
+    background-color: #a95c4c;
   }
 
-  .Confirmation-input{
-      background-color: #D4BEA7
+  .Confirmation-input {
+    background-color: #d4bea7;
   }
 
+  /* SHOP PAGE */
+  .product-grid {
+    grid-template-columns: 1fr;
+  }
 }
 
-@media (min-width : 1024px) {
+@media (min-width: 1024px) {
   .Customizer-MainSection {
     height: 90vh;
     width: 100vw;
@@ -2571,85 +2441,84 @@ h3,
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    
+
     margin: 0;
     /* background-color: aquamarine; */
   }
 
-  .Customizer-box{
-      width: 12vw;
-      /* background-color: coral; */
+  .Customizer-box {
+    width: 12vw;
+    /* background-color: coral; */
   }
 
-  .Customizer-MainBox{
-      /* background-color: lightblue; */
-      width: 100%;
-      height: 85%;
-      /* border: 2px solid #404C4C; */
-      display: flex;
-      /* flex-direction: column; */
-      justify-content: center;
-
+  .Customizer-MainBox {
+    /* background-color: lightblue; */
+    width: 100%;
+    height: 85%;
+    /* border: 2px solid #404C4C; */
+    display: flex;
+    /* flex-direction: column; */
+    justify-content: center;
   }
 
-  .Customizer-ModelBox{
-      background-color: #000000;
-      width: 50%;
-      height: 100%;
-      border-top-left-radius: 200px;
-      border-bottom-right-radius: 200px;
+  .Customizer-ModelBox {
+    background-color: #000000;
+    width: 50%;
+    height: 100%;
+    border-top-left-radius: 200px;
+    border-bottom-right-radius: 200px;
   }
 
-  .Customizer-InfoBox{
-      /* background-color: lightpink; */
-      /* border-bottom-right-radius: 200px; */
-      /* border: 2px solid #404C4C; */
-      box-sizing: border-box;
-      width: 50%;
-      height: 100%;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
+  .Customizer-InfoBox {
+    /* background-color: lightpink; */
+    /* border-bottom-right-radius: 200px; */
+    /* border: 2px solid #404C4C; */
+    box-sizing: border-box;
+    width: 50%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
   }
 
-  .Customizer-Message{
-      width: 90%;
-      height: 12%;
-      /* background-color: lightgreen; */
+  .Customizer-Message {
+    width: 90%;
+    height: 12%;
+    /* background-color: lightgreen; */
   }
 
-  .Customizer-AddModel{
-      width: 90%;
-      height: 28%;
-      /* background-color: lightyellow; */
+  .Customizer-AddModel {
+    width: 90%;
+    height: 28%;
+    /* background-color: lightyellow; */
   }
 
-  .Customizer-Color{
-      width: 45%;
-      height: 15%;
-      /* background-color: lightgreen; */
+  .Customizer-Color {
+    width: 45%;
+    height: 15%;
+    /* background-color: lightgreen; */
   }
 
-  .Customizer-Question{
-      width: 90%;
-      height: 10%;
-      /* background-color: lightseagreen; */
+  .Customizer-Question {
+    width: 90%;
+    height: 10%;
+    /* background-color: lightseagreen; */
   }
 
-  .Customizer-Answer{
-      width: 90%;
-      height: 10%;
-      /* background-color: lightsalmon; */
+  .Customizer-Answer {
+    width: 90%;
+    height: 10%;
+    /* background-color: lightsalmon; */
   }
 
   /* Container Utama */
   .Customizer-input-group {
-    display: flex;             /* Menyusun label & input bersebelahan */
+    display: flex; /* Menyusun label & input bersebelahan */
     height: 80%;
     width: 100%;
-    max-width: 600px;          /* Lebar maksimal */
-        /* Sudut melengkung */
-    overflow: hidden;          /* Memotong sudut anak elemen */
+    max-width: 600px; /* Lebar maksimal */
+    /* Sudut melengkung */
+    overflow: hidden; /* Memotong sudut anak elemen */
     /* font-family: 'Times New Roman', serif; Font Serif sesuai gambar */
   }
 
@@ -2657,26 +2526,26 @@ h3,
   .Customizer-input-label {
     background-color: #7f8381; /* Abu-abu gelap */
     color: white;
-    padding: 10px 10px;        /* Spasi di sekitar teks label */
-    white-space: nowrap;       /* Mencegah teks turun baris */
+    padding: 10px 10px; /* Spasi di sekitar teks label */
+    white-space: nowrap; /* Mencegah teks turun baris */
     display: flex;
-    align-items: center;       /* Tengah vertikal */
+    align-items: center; /* Tengah vertikal */
     font-size: 16px;
-    cursor: pointer;           /* Kursor berubah saat hover label */
+    cursor: pointer; /* Kursor berubah saat hover label */
     border-bottom-left-radius: 10px;
     border-top-left-radius: 10px;
     width: 30%;
   }
 
   /* Bagian Input (Kanan) */
-  .Customizer-input-field-customizer{
+  .Customizer-input-field-customizer {
     background-color: #c4c3bf; /* Abu-abu muda/beige */
-    border: none;              /* HAPUS border bawaan browser */
-    outline: none;             /* HAPUS garis biru saat diklik */
-    flex-grow: 1;              /* Mengisi sisa ruang */
-    padding: 10px 15px;        /* Spasi di dalam ketikan */
+    border: none; /* HAPUS border bawaan browser */
+    outline: none; /* HAPUS garis biru saat diklik */
+    flex-grow: 1; /* Mengisi sisa ruang */
+    padding: 10px 15px; /* Spasi di dalam ketikan */
     font-size: 16px;
-    color: #333;               /* Warna teks saat mengetik */
+    color: #333; /* Warna teks saat mengetik */
     /* border: 1px solid #404C4C; */
     border-bottom-right-radius: 10px;
     border-top-right-radius: 10px;
@@ -2686,15 +2555,14 @@ h3,
   .Customizer-input-field:focus {
     background-color: #dcdbd7; /* Sedikit lebih terang saat mengetik */
     border-radius: 0px;
-
   }
 
-  .Customizer-label-nama{
-    background-color: #A95C4C
+  .Customizer-label-nama {
+    background-color: #a95c4c;
   }
 
-  .Customizer-input-nama{
-      background-color: #D4BEA7
+  .Customizer-input-nama {
+    background-color: #d4bea7;
   }
 
   /* Container Utama Toolbar */
@@ -2708,13 +2576,13 @@ h3,
     align-items: center;
     gap: 8px;
     padding: 12px 8px;
-    
+
     /* Efek Visual Warna Taupe/Abu-abu seperti gambar */
-    background-color: rgba(121, 117, 107, 0.8); 
+    background-color: rgba(121, 117, 107, 0.8);
     backdrop-filter: blur(8px);
     border-radius: 12px;
     box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
-    border: 1px solid rgba(255, 255, 255, 0.-1);
+    border: 1px solid rgba(255, 255, 255, 0-1);
   }
 
   /* Styling Tombol Individual */
@@ -2747,7 +2615,7 @@ h3,
   /* Active State */
   .Customizer-toolbar-btn.Customizer-active {
     background-color: rgba(255, 255, 255, 0.3);
-    box-shadow: inset 0 0 5px rgba(0,0,0,0.1);
+    box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.1);
   }
 
   .Customizer-toolbar-btn .Customizer-active .Customizer-icon {
@@ -2763,15 +2631,15 @@ h3,
     margin: 4px 0;
   }
 
-  .Customizer-colorAndPrice{
-      display: flex;
-      width: 90%;
-      height: 10%;
-      /* background-color: lightcoral; */
+  .Customizer-colorAndPrice {
+    display: flex;
+    width: 90%;
+    height: 10%;
+    /* background-color: lightcoral; */
   }
 
   .Customizer-btnAddress {
-    background-color: #404C4C;
+    background-color: #404c4c;
     border: none;
     color: white;
     /* padding: 1px 32px; */
@@ -2801,52 +2669,52 @@ h3,
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    
+
     margin: 0;
     /* background-color: aquamarine; */
   }
 
-  .Confirmation-box{
-      width: 12vw;
-      /* background-color: coral; */
+  .Confirmation-box {
+    width: 12vw;
+    /* background-color: coral; */
   }
 
-  .Confirmation-MainBox{
-      /* background-color: lightblue; */
-      width: 100%;
-      height: 80%;
-      /* border: 2px solid #404C4C; */
-      display: flex;
-      /* flex-direction: column; */
-      justify-content: center;
-      border-top-left-radius: 200px;
-      border-bottom-right-radius: 200px;
+  .Confirmation-MainBox {
+    /* background-color: lightblue; */
+    width: 100%;
+    height: 80%;
+    /* border: 2px solid #404C4C; */
+    display: flex;
+    /* flex-direction: column; */
+    justify-content: center;
+    border-top-left-radius: 200px;
+    border-bottom-right-radius: 200px;
   }
 
-  .Confirmation-ModelBox{
-      background-color: #D4BEA7;
-      width: 35%;
-      height: 100%;
-      border-top-left-radius: 200px;
+  .Confirmation-ModelBox {
+    background-color: #d4bea7;
+    width: 35%;
+    height: 100%;
+    border-top-left-radius: 200px;
   }
 
-  .Confirmation-InfoBox{
-      /* background-color: lightpink; */
-      border-bottom-right-radius: 200px;
-      border: 2px solid #404C4C;
-      box-sizing: border-box;
-      width: 65%;
-      height: 100%;
-      display: flex;
+  .Confirmation-InfoBox {
+    /* background-color: lightpink; */
+    border-bottom-right-radius: 200px;
+    border: 2px solid #404c4c;
+    box-sizing: border-box;
+    width: 65%;
+    height: 100%;
+    display: flex;
   }
 
-  .Confirmation-FillerBox{
-      width: 15%;
-      height: 100%;
-      /* background-color: turquoise; */
+  .Confirmation-FillerBox {
+    width: 15%;
+    height: 100%;
+    /* background-color: turquoise; */
   }
 
-  .Confirmation-InsideBox{
+  .Confirmation-InsideBox {
     width: 70%;
     height: 85%;
     /* background-color: yellow; */
@@ -2854,7 +2722,7 @@ h3,
   }
 
   .Confirmation-btnConfirm {
-    background-color: #404C4C;
+    background-color: #404c4c;
     border: none;
     color: white;
     /* padding: 1px 32px; */
@@ -2867,34 +2735,34 @@ h3,
     font-size: 20px;
   }
 
-  .Confirmation-NameBox{
+  .Confirmation-NameBox {
     /* background-color: greenyellow; */
     height: 15%;
     display: flex;
     align-items: center;
     font-size: 2rem;
-    color: #A95C4C;
+    color: #a95c4c;
   }
 
-  .Confirmation-DetailBox{
+  .Confirmation-DetailBox {
     /* background-color: orange; */
     height: 20%;
-    color: #D4BEA7;
+    color: #d4bea7;
   }
 
-  .Confirmation-SummaryBox{
+  .Confirmation-SummaryBox {
     /* background-color: pink; */
     height: 10%;
     display: flex;
   }
 
-  .Confirmation-NotesBox{
+  .Confirmation-NotesBox {
     /* background-color: lightgray; */
     height: 25%;
-    color: #D4BEA7;
+    color: #d4bea7;
   }
 
-  .Confirmation-QtyBox{
+  .Confirmation-QtyBox {
     /* background-color: lightcoral; */
     width: 40%;
     height: 50%;
@@ -2904,7 +2772,7 @@ h3,
     /* color: #404C4C; */
   }
 
-  .Confirmation-PriceBox{
+  .Confirmation-PriceBox {
     /* background-color: magenta; */
     height: 50%;
     width: 50%;
@@ -2912,28 +2780,28 @@ h3,
     display: flex;
     align-items: center;
     justify-content: flex-end;
-    color: #404C4C;
+    color: #404c4c;
   }
 
-  .Confirmation-Message{
-      width: 90%;
-      height: 12%;
-      /* background-color: lightgreen; */
+  .Confirmation-Message {
+    width: 90%;
+    height: 12%;
+    /* background-color: lightgreen; */
   }
 
-  .Confirmation-Voucher{
-      width: 90%;
-      height: 12%;
-      /* background-color: lightgreen; */
+  .Confirmation-Voucher {
+    width: 90%;
+    height: 12%;
+    /* background-color: lightgreen; */
   }
 
   .Confirmation-input-group {
-    display: flex;             /* Menyusun label & input bersebelahan */
+    display: flex; /* Menyusun label & input bersebelahan */
     height: 80%;
     width: 100%;
-    max-width: 600px;          /* Lebar maksimal */
-        /* Sudut melengkung */
-    overflow: hidden;          /* Memotong sudut anak elemen */
+    max-width: 600px; /* Lebar maksimal */
+    /* Sudut melengkung */
+    overflow: hidden; /* Memotong sudut anak elemen */
     /* font-family: 'Times New Roman', serif; Font Serif sesuai gambar */
   }
 
@@ -2941,26 +2809,26 @@ h3,
   .Confirmation-input-label {
     background-color: #7f8381; /* Abu-abu gelap */
     color: white;
-    padding: 10px 10px;        /* Spasi di sekitar teks label */
-    white-space: nowrap;       /* Mencegah teks turun baris */
+    padding: 10px 10px; /* Spasi di sekitar teks label */
+    white-space: nowrap; /* Mencegah teks turun baris */
     display: flex;
-    align-items: center;       /* Tengah vertikal */
+    align-items: center; /* Tengah vertikal */
     font-size: 16px;
-    cursor: pointer;           /* Kursor berubah saat hover label */
+    cursor: pointer; /* Kursor berubah saat hover label */
     border-bottom-left-radius: 10px;
     border-top-left-radius: 10px;
     width: 30%;
   }
 
   /* Bagian Input (Kanan) */
-  .Confirmation-input-field-customizer{
+  .Confirmation-input-field-customizer {
     background-color: #c4c3bf; /* Abu-abu muda/beige */
-    border: none;              /* HAPUS border bawaan browser */
-    outline: none;             /* HAPUS garis biru saat diklik */
-    flex-grow: 1;              /* Mengisi sisa ruang */
-    padding: 10px 15px;        /* Spasi di dalam ketikan */
+    border: none; /* HAPUS border bawaan browser */
+    outline: none; /* HAPUS garis biru saat diklik */
+    flex-grow: 1; /* Mengisi sisa ruang */
+    padding: 10px 15px; /* Spasi di dalam ketikan */
     font-size: 16px;
-    color: #333;               /* Warna teks saat mengetik */
+    color: #333; /* Warna teks saat mengetik */
     /* border: 1px solid #404C4C; */
     border-bottom-right-radius: 10px;
     border-top-right-radius: 10px;
@@ -2970,34 +2838,33 @@ h3,
   .Confirmation-input-field:focus {
     background-color: #dcdbd7; /* Sedikit lebih terang saat mengetik */
     border-radius: 0px;
-
   }
 
-  .Confirmation-label{
-    background-color: #A95C4C
+  .Confirmation-label {
+    background-color: #a95c4c;
   }
 
-  .Confirmation-input{
-      background-color: #D4BEA7
+  .Confirmation-input {
+    background-color: #d4bea7;
   }
 
-  .Confirmation-btnContainer{
+  .Confirmation-btnContainer {
     display: flex;
-    justify-Content: center;
-    padding-Top: 30px;
+    justify-content: center;
+    padding-top: 30px;
   }
 }
 
-  .Payment-btnConfirm {
-    background-color: #404C4C;
-    border: none;
-    color: white;
-    /* padding: 1px 32px; */
-    text-decoration: none;
-    margin: 4px 2px;
-    cursor: pointer;
-    border-radius: 10px;
-    height: 45px;
-    width: auto;
-    font-size: 15px;
-  }
+.Payment-btnConfirm {
+  background-color: #404c4c;
+  border: none;
+  color: white;
+  /* padding: 1px 32px; */
+  text-decoration: none;
+  margin: 4px 2px;
+  cursor: pointer;
+  border-radius: 10px;
+  height: 45px;
+  width: auto;
+  font-size: 15px;
+}
