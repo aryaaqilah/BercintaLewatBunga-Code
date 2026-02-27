@@ -26,7 +26,7 @@ function AppContent() {
   const location = useLocation();
   
   const hideNavAndFooter = [
-    "/login", "/register", "/profile", "/order-detail"
+    "/login", "/register", "/profile", "/order-detail", ""
   ].includes(location.pathname);
 
   return (

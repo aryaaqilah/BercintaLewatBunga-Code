@@ -3,6 +3,7 @@
   color: white;
   padding: 2rem 9.375rem;
   font-family: "Playfair Display", serif;
+  margin-top: 2rem;
 }
 
 .FooterContainer {
@@ -87,6 +88,7 @@
 @media (max-width: 1024px) {
   .Footer {
     padding: 3rem 2rem;
+    margin-top: 1.5rem;
   }
   
   .FooterContainer {

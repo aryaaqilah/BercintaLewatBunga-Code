@@ -52,7 +52,8 @@
   background-color: var(--color-primary);
   color: white;
   border: none;
-  padding: 0 1rem;
+  padding: 0.5rem 1rem;
+  max-height: 2rem;
   border-radius: 5svh;
   cursor: pointer;
   font-family: "Playfair Display"; 
