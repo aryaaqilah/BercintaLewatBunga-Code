@@ -14,7 +14,7 @@
 
 .AlertPopup {
   background: white;
-  padding: 1.25rem;
+  padding: 1.5rem;
   border-radius: 2.5svh;
   width: 85%;
   max-width: 25rem;
@@ -28,6 +28,19 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  margin-bottom: 1rem;
+}
+
+.ModalActions {
+  display: flex;
+  gap: 0.75rem;
+  justify-content: center;
+  width: 100%;
+}
+
+.ModalActions button {
+  flex: 1;
+  min-width: 80px;
 }
 
 @keyframes modalPop {

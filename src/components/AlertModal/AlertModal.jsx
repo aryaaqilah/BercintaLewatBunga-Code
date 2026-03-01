@@ -2,16 +2,13 @@ import React, { useEffect } from "react";
 import { createPortal } from "react-dom";
 import "./AlertModal.css";
 
-const AlertModal = ({ isOpen, message, onClose }) => {
+const AlertModal = ({ isOpen, message, confirmText, cancelText, onConfirm, onCancel }) => {
   useEffect(() => {
     if (isOpen) {
-      // Lock scrolling and touch events
       document.body.style.overflow = "hidden";
       document.body.style.touchAction = "none";
     }
-
     return () => {
-      // Restore interaction
       document.body.style.overflow = "";
       document.body.style.touchAction = "";
     };
@@ -23,9 +20,16 @@ const AlertModal = ({ isOpen, message, onClose }) => {
     <div className="ModalOverlay">
       <div className="AlertPopup" role="alertdialog" aria-modal="true">
         <p className="AlertDescription p1 txt-color-ternary">{message}</p>
-        <button className="button-ternary-fill" onClick={onClose}>
-          OK
-        </button>
+        <div className="ModalActions">
+          {cancelText && (
+            <button className="button-ternary" onClick={onCancel}>
+              {cancelText}
+            </button>
+          )}
+          <button className={cancelText ? "button-primary" : "button-ternary-fill"} onClick={onConfirm}>
+            {confirmText}
+          </button>
+        </div>
       </div>
     </div>,
     document.body

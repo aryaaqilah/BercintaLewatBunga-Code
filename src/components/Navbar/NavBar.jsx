@@ -12,7 +12,6 @@ const Navbar = () => {
   const navigate = useNavigate();
   const [isMobile, setIsMobile] = useState(false);
 
-  // Prevent background scrolling when menu is open
   useEffect(() => {
     if (isMobile) {
       document.body.style.overflow = "hidden";
@@ -22,10 +21,20 @@ const Navbar = () => {
   }, [isMobile]);
 
   const handleLogout = () => {
-    logout();
-    navigate("/login");
-    showAlert("Berhasil keluar.");
     setIsMobile(false);
+    
+    showAlert({
+      msg: "Apakah anda yakin ingin berpamit saat ini?",
+      confirmText: "Ya, Pamit",
+      cancelText: "Tetap Bersama",
+      onConfirm: () => {
+        logout();
+        navigate("/login");
+        setTimeout(() => {
+          showAlert("Hati-hati di jalan, sampai jumpa di musim bersemi berikutnya.");
+        }, 500);
+      }
+    });
   };
 
   return (

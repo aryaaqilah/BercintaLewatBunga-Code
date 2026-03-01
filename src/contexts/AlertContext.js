@@ -4,10 +4,36 @@ import AlertModal from '../components/AlertModal/AlertModal';
 const AlertContext = createContext();
 
 export const AlertProvider = ({ children }) => {
-  const [alert, setAlert] = useState({ show: false, msg: "" });
+  const initialState = {
+    show: false,
+    msg: "",
+    confirmText: "OK",
+    cancelText: "",
+    onConfirm: null,
+    onCancel: null,
+  };
 
-  const showAlert = (msg) => setAlert({ show: true, msg });
-  const hideAlert = () => setAlert({ show: false, msg: "" });
+  const [alert, setAlert] = useState(initialState);
+
+  const showAlert = (options) => {
+    if (typeof options === 'string') {
+      setAlert({ ...initialState, show: true, msg: options });
+    } else {
+      setAlert({ ...initialState, ...options, show: true });
+    }
+  };
+
+  const hideAlert = () => setAlert(initialState);
+
+  const handleConfirm = () => {
+    if (alert.onConfirm) alert.onConfirm();
+    hideAlert();
+  };
+
+  const handleCancel = () => {
+    if (alert.onCancel) alert.onCancel();
+    hideAlert();
+  };
 
   return (
     <AlertContext.Provider value={{ showAlert }}>
@@ -15,7 +41,10 @@ export const AlertProvider = ({ children }) => {
       <AlertModal 
         isOpen={alert.show} 
         message={alert.msg} 
-        onClose={hideAlert} 
+        confirmText={alert.confirmText}
+        cancelText={alert.cancelText}
+        onConfirm={handleConfirm} 
+        onCancel={handleCancel}
       />
     </AlertContext.Provider>
   );
