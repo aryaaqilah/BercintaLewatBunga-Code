@@ -197,10 +197,6 @@ export default function Login() {
             message="Password harus diisi."
             isTouched={isTouched.password}
           />
-
-          <a href="#" className="p1 txt-color-primary">
-            lupa password
-          </a>
         </div>
 
         <div className="AlignCenter">

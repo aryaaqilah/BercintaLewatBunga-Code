@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import PrimaryLogoLight from '../../assets/Logo/Logo_Primary_Dark.png';
 import { FaUser, FaLock, FaEnvelope } from 'react-icons/fa';
 import { useAlert } from "../../contexts/AlertContext";
+import { useNavigate } from "react-router-dom";
 
 // --- Komponen Umpan Balik Validasi Inline (Dibiarkan untuk kebutuhan tampilan Anda) ---
 const ValidationMessage = ({ field, isValid, message, isTouched }) => {
@@ -17,6 +18,7 @@ const ValidationMessage = ({ field, isValid, message, isTouched }) => {
 
 export default function Register() {
     const { showAlert } = useAlert();
+    const navigate = useNavigate();
     const [formData, setFormData] = useState({
         name: '',
         email: '',
@@ -56,7 +58,7 @@ export default function Register() {
 
         // ... (LOGIKA VALIDASI TETAP SAMA DENGAN KODE ASLI ANDA) ...
         if (name === 'name') {
-            const onlyLettersRegex = /^[a-zA-Z]+$/;
+            const onlyLettersRegex = /^[a-zA-Z ]+$/;
             if (value.length <= 8) {
                 isValid = false;
                 errorMessage = "Nama harus lebih dari 8 huruf.";
@@ -195,9 +197,8 @@ export default function Register() {
                 if (response.ok) {
                     // Status 200-299: Berhasil
                     console.log("Registrasi/Penyimpanan Berhasil:", responseData);
-                    showAlert("Data Berhasil Disimpan! Silakan lanjutkan.");
-                    // Opsional: Reset form atau redirect
-                    // setFormData({ name: '', email: '', password: '', confirmPassword: '' });
+                    navigate("/login");
+                    showAlert("Data Berhasil Disimpan!");
                 } else {
                     // Status 400 atau 500: Error dari Server 
                     const serverErrorMessage = responseData.message || responseData.error || "Gagal menyimpan data ke server.";
