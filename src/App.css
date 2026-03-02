@@ -1,0 +1,23 @@
+/* Container for Florist Mode */
+.AppFloristLayout {
+  display: flex;
+  width: 100%;
+}
+
+/* Push the content to the right so it doesn't go under the fixed sidebar */
+.MainFloristContent {
+  margin-left: 320px; /* Width of your sidebar */
+  flex: 1;
+  min-height: 100vh;
+  background-color: #ffffff;
+}
+
+/* Mobile Fix: If screen is small, remove the margin */
+@media (max-width: 900px) {
+  .AppFloristLayout {
+    flex-direction: column;
+  }
+  .MainFloristContent {
+    margin-left: 0;
+  }
+}

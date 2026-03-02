@@ -4,10 +4,9 @@ export const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
-  const [loading, setLoading] = useState(true); // Add loading state
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // Check localStorage when the app first loads
     const savedUser = localStorage.getItem('userData');
     if (savedUser) {
       try {
@@ -21,12 +20,12 @@ export const AuthProvider = ({ children }) => {
 
   const login = (userData) => {
     setUser(userData);
-    localStorage.setItem('userData', JSON.stringify(userData)); // Save to browser
+    localStorage.setItem('userData', JSON.stringify(userData));
   };
 
   const logout = () => {
     setUser(null);
-    localStorage.removeItem('userData'); // Clear from browser
+    localStorage.removeItem('userData');
   };
 
   return (

@@ -1,6 +1,7 @@
-import { BrowserRouter as Router, Routes, Route, useLocation, useNavigate } from "react-router-dom";
-import React, { useEffect, useCallback, useRef, useState } from "react";
+import { BrowserRouter as Router, Routes, Route, useLocation, Navigate, Outlet } from "react-router-dom";
+import React from "react";
 import Navbar from "./components/Navbar/NavBar";
+import FloristSidebar from "./components/FloristSidebar/FloristSidebar";
 import Footer from "./components/Footer/Footer";
 import Home from "./pages/Home/Home";
 import Shop from "./pages/Shop/Shop";
@@ -8,7 +9,6 @@ import About from "./pages/About/About";
 import Help from "./pages/Help/Help";
 import Login from "./pages/Login/Login";
 import Register from "./pages/Register/Register";
-// import Customizer from "./pages/customizer";
 import ARViewer from "./pages/ARViewer";
 import Address from "./pages/Address/Address";
 import Confirmation from "./pages/Confirmation/Confirmation";
@@ -16,42 +16,89 @@ import Payment from "./pages/Payment/Payment";
 import Customizer from "./pages/Customizer/Customizer";
 import Profile from "./pages/Profile/Profile";
 import OrderDetail from "./pages/Order Detail/OrderDetail";
-import AlertModal from "./components/AlertModal/AlertModal";
+import FloristDashboard from "./pages/FloristDashboard/FloristDashboard";
 import IdleTimer from "./components/IdleTimer";
 import { AuthProvider, useAuth } from './contexts/AuthContext';
 import { AlertProvider } from './contexts/AlertContext';
 import { LoadingProvider } from './contexts/LoadingContext';
+import "./App.css"
+
+const NotFound = () => (
+  <div style={{ padding: "100px", textAlign: "center", minHeight: "100vh", display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center" }}>
+    <h1 className="h1 txt-color-primary">404</h1>
+    <h2 className="h2">Halaman Tidak Ditemukan</h2>
+    <p className="p1" style={{ margin: "20px 0" }}>Maaf, halaman yang Anda cari tidak ada atau Anda tidak memiliki akses.</p>
+    <a href="/" className="txt-color-primary weight-bold">Kembali ke Beranda</a>
+  </div>
+);
+
+const CustomerLayout = ({ isFlorist }) => {
+  const location = useLocation();
+  const hideFooter = ["/profile", "/order-detail"].includes(location.pathname);
+  
+  if (isFlorist) return <NotFound />;
+
+  return (
+    <div className="AppCustomerLayout">
+      <Navbar />
+      <main>
+        <Outlet />
+      </main>
+      {!hideFooter && <Footer />}
+    </div>
+  );
+};
+
+const FloristLayout = ({ isFlorist }) => {
+  if (!isFlorist) return <NotFound />;
+
+  return (
+    <div className="AppFloristLayout">
+      <FloristSidebar />
+      <main className="MainFloristContent">
+        <Outlet />
+      </main>
+    </div>
+  );
+};
 
 function AppContent() {
-  const location = useLocation();
-  
-  const hideNavAndFooter = [
-    "/login", "/register", "/profile", "/order-detail", ""
-  ].includes(location.pathname);
+  const { user } = useAuth();
+  const isFlorist = user?.userType === 'florist';
 
   return (
     <>
       <IdleTimer timeout={300000} />
-      {!hideNavAndFooter && <Navbar />}
-      <main>
-        <Routes>
+      <Routes>
+        {/* --- AUTH PAGES (No Nav/Footer) --- */}
+        <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<Register />} />
+        <Route path="/ar/:id" element={<ARViewer />} />
+
+        {/* --- CUSTOMER AREA --- */}
+        <Route element={<CustomerLayout isFlorist={isFlorist} />}>
           <Route path="/" element={<Home />} />
           <Route path="/shop" element={<Shop />} />
           <Route path="/about" element={<About />} />
           <Route path="/help" element={<Help />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/register" element={<Register />} />
           <Route path="/customizer" element={<Customizer />} />
-          <Route path="/ar/:id" element={<ARViewer />} />
           <Route path="/address" element={<Address />} />
           <Route path="/confirmation" element={<Confirmation />} />
           <Route path="/payment" element={<Payment />} />
-          {/* <Route path="/temp" element={<Temp />} /> */}
           <Route path="/profile" element={<Profile />} />
           <Route path="/order-detail" element={<OrderDetail />} />
-        </Routes>
-      </main>
-      {!hideNavAndFooter && <Footer />}
+        </Route>
+
+        {/* --- FLORIST AREA --- */}
+        <Route element={<FloristLayout isFlorist={isFlorist} />}>
+          <Route path="/dashboard" element={<FloristDashboard />} />
+          <Route path="/inventory" element={<div>Inventory Page</div>} />
+          <Route path="/manage-orders" element={<div>Manage Orders Page</div>} />
+        </Route>
+
+        {/* --- GLOBAL 404 (No Nav/Footer) --- */}
+        <Route path="*" element={<NotFound />} />
+      </Routes>
     </>
   );
 }
