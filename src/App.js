@@ -17,6 +17,7 @@ import Customizer from "./pages/Customizer/Customizer";
 import Profile from "./pages/Profile/Profile";
 import OrderDetail from "./pages/Order Detail/OrderDetail";
 import FloristDashboard from "./pages/FloristDashboard/FloristDashboard";
+import FloristProduct from "./pages/FloristProduct/FloristProduct";
 import IdleTimer from "./components/IdleTimer";
 import { AuthProvider, useAuth } from './contexts/AuthContext';
 import { AlertProvider } from './contexts/AlertContext';
@@ -50,7 +51,7 @@ const CustomerLayout = ({ isFlorist }) => {
 };
 
 const FloristLayout = ({ isFlorist }) => {
-  if (!isFlorist) return <NotFound />;
+  if (isFlorist) return <NotFound />;
 
   return (
     <div className="AppFloristLayout">
@@ -92,7 +93,7 @@ function AppContent() {
         {/* --- FLORIST AREA --- */}
         <Route element={<FloristLayout isFlorist={isFlorist} />}>
           <Route path="/dashboard" element={<FloristDashboard />} />
-          <Route path="/inventory" element={<div>Inventory Page</div>} />
+          <Route path="/inventory" element={<FloristProduct/>} />
           <Route path="/manage-orders" element={<div>Manage Orders Page</div>} />
         </Route>
 
