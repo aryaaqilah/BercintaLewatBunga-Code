@@ -24,9 +24,10 @@ import { LoadingProvider } from './contexts/LoadingContext';
 
 function AppContent() {
   const location = useLocation();
+  const orbitRef = useRef();
   
   const hideNavAndFooter = [
-    "/login", "/register", "/profile", "/order-detail", ""
+    "/login", "/register", "/profile", "/order-detail", "", "/customizer", "/ar/:id", "/address", "/confirmation", "/payment"
   ].includes(location.pathname);
 
   return (

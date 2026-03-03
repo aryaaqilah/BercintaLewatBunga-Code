@@ -66,6 +66,11 @@ function AddressSection({ selectedProduct, modelData, provinceData, cityData, di
   return (
     <section className="AddressSection">
       <div className="AddressSectionContainer">
+        <div className="Confirmation-Back-Container" style={{ display : "flex", justifyContent : "flex-start", alignItems : "center", width : "100%", height : "10px" }}>
+            <button className="TernaryBackButton" onClick={handleGoBack}>
+            ←
+            </button>
+          </div>
         <h1 className="txt-color-primary">Alamat Pengiriman</h1>
 
         <div className="AddressBox txt-color-ternary">
@@ -199,9 +204,9 @@ function AddressSection({ selectedProduct, modelData, provinceData, cityData, di
 
             {/* Center Button */}
             <div className="AddressButtonContainer" style={{ gap : 30 }}>
-              <button type="submit" className="button-ternary" onClick={handleGoBack}>
+              {/* <button type="submit" className="button-ternary" onClick={handleGoBack}>
                 Kembali 
-              </button>
+              </button> */}
               <button type="submit" className="button-ternary">
                 Lanjut ke Pembayaran
               </button>

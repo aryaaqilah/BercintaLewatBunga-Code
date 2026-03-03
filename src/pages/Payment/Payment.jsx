@@ -132,7 +132,7 @@ function MainSection({
       // const formattedDate = date.toISOString().split('T')[0];
 
       const deliveryPayload = {
-        ShippingCode: "To be inputed 123456789123456789123",
+        ShippingCode: "To be inputed 12345678912322454632357428912232",
         Service: "GrabSend",
         EstimatedArrival: date,
         TrackingLink: "To be inputed",
@@ -245,14 +245,14 @@ function MainSection({
           Name: selectedProduct.title,
           Price: productPrice,
           Quantity: 1,
-          Image: "kosong",
+          Image: selectedProduct.thumbnail,
           ThreeDModel: modelId,
           Memo: selectedProduct.pesan,
           Items: [
             collectedIds[1].tempId,
             collectedIds[2].tempId,
             collectedIds[3].tempId,
-            collectedIds[4].tempId,
+            // collectedIds[4].tempId,
           ],
         };
 
@@ -275,6 +275,11 @@ function MainSection({
       }
 
       console.log("PRODUCT ID TEMP : ", productIdTemp);
+      console.log(savedAddress._id);
+      console.log(savedDelivery._id);
+      console.log(adminFee[0]._id);
+      console.log(discountData);
+      console.log(discountData.percentage);
 
       // SECTION POST ORDER =========================================================================
       const orderPayload = {
@@ -285,7 +290,7 @@ function MainSection({
         ProductPrice: productPrice,
         AdministrationFee: adminFee[0]._id,
         DiscountId:
-          discountData.percentage === 0.0 ? null : discountData[0]._id,
+          discountData.percentage === null ? null : discountData[0]._id,
         Total: totalOrder,
       };
       console.log("Order Payload:", orderPayload);
@@ -460,7 +465,7 @@ function MainSection({
                   }}
                 >
                   <img
-                    src={`http://localhost:5000${selectedProduct?.image}`}
+                    src={selectedProduct?.thumbnail}
                     alt="Product"
                     style={{ width: "70%", height: "70%" }}
                   />
@@ -608,6 +613,8 @@ export default function Payment() {
       const dataFee = await resFee.json();
       setAdminFee(dataFee.reverse().slice(0, 1));
 
+      console.log("AAQ DISKON ", selectedProduct.voucher);
+
       const response = await fetch(
         `http://localhost:5000/api/discounts/get-voucher?name=${selectedProduct.voucher}`
       );
@@ -620,12 +627,13 @@ export default function Payment() {
       // const dataDisc = await resDisc.json();
       setDiscountData(dataDisc);
 
-      if(dataDisc.length === 0){
+      if(dataDisc.length === 0 || selectedProduct.voucher === "" || selectedProduct.voucher === undefined){
         const discountNA = {
           Name: "VOUCHER NOT FOUND",
           Percentage: 0.0,
         };
         setDiscountData(discountNA);
+        console.log("VOUCHER NOT FOUND, set default discount data");
       }
 
       console.log("DISCOUNT DATA : ", discountData);

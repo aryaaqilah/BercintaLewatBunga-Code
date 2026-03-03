@@ -50,6 +50,7 @@ function MainSection({ selectedProduct, modelScene, meta }) {
         answer: meta.answer,
         pesan: pesan,
         items: meta.items,
+        thumbnail: meta?.thumbnail,
       };
     }
 
@@ -80,14 +81,23 @@ function MainSection({ selectedProduct, modelScene, meta }) {
               >
                 {!selectedProduct ? (
                   /* Kondisi A: Menampilkan Canvas */
-                  <Canvas>
-                    <ambientLight intensity={0.8} />
-                    <pointLight position={[10, 10, 10]} />
-                    {modelScene && (
-                      <primitive object={modelScene} scale={0.8} />
-                    )}
-                    <OrbitControls />
-                  </Canvas>
+                  // <Canvas>
+                  //   <ambientLight intensity={0.8} />
+                  //   <pointLight position={[10, 10, 10]} />
+                  //   {modelScene && (
+                  //     <primitive object={modelScene} scale={0.8} />
+                  //   )}
+                  //   <OrbitControls />
+                  // </Canvas>
+                  <img
+                    src={meta?.thumbnail || ""}
+                    alt="Model Preview"
+                    style={{
+                      width: "100%",
+                      height: "100%",
+                      objectFit: "cover",
+                    }}
+                  />
                 ) : (
                   /* Kondisi B: Menampilkan Gambar */
                   <img

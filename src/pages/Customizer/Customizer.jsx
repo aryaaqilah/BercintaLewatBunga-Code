@@ -296,8 +296,9 @@ const FlowerGallery = ({onAddObject, components}) => {
   const objects = [
     { name: components[2]?.Name, image: LilyImage, path: components[2]?.Asset },
     { name: components[1]?.Name, image: TulipImage, path: components[1]?.Asset },
-    { name: components[0]?.Name, image: RoseImage, path: components[0]?.Asset },
-    { name: components[3]?.Name, image: WrapperImage, path: components[3]?.Asset },
+    { name: components[0]?.Name, image: RoseImage, path: components[0]?.Asset } 
+    // ,
+    // { name: components[3]?.Name, image: WrapperImage, path: components[3]?.Asset }
   ];
 
   return (
@@ -316,13 +317,30 @@ const FlowerGallery = ({onAddObject, components}) => {
       <style>{`
         .Customizer-gallery-container {
           display: flex;
-          gap: 20px; /* Jarak antar kartu */
+          gap: 20px;
           padding-top: 10px;
-          border-radius: 10px;
+          padding-bottom: 20px; /* Tambahkan ruang untuk shadow agar tidak terpotong */
+          padding-left: 5%;    /* Agar sejajar dengan teks judul di atasnya */
+          padding-right: 5%;   /* Memberi ruang di akhir scroll */
+          
+          /* Inti dari scroll horizontal */
+          overflow-x: auto;
+          scroll-behavior: smooth; /* Agar scroll terasa halus */
+          -webkit-overflow-scrolling: touch; /* Untuk scroll yang mulus di iOS */
         }
-        
-        /* Gaya Tombol Dasar */
+
+        /* Sembunyikan scrollbar agar tampilan lebih bersih (Opsional) */
+        .Customizer-gallery-container::-webkit-scrollbar {
+          display: none; /* Untuk Chrome, Safari, dan Opera */
+        }
+        .Customizer-gallery-container {
+          -ms-overflow-style: none;  /* Untuk IE dan Edge */
+          scrollbar-width: none;  /* Untuk Firefox */
+        }
+
+        /* Tambahan: Pastikan kartu tidak mengecil (shrink) */
         .Customizer-gallery-card-btn {
+          flex-shrink: 0; /* WAJIB agar kartu tidak gepeng saat konten penuh */
           position: relative;
           width: 140px;
           height: 160px;
@@ -597,7 +615,7 @@ const ColorSelector = ({ title, colors, selectedColor, onColorChange }) => {
 // --- Contoh Penggunaan di Halaman Utama ---
 const ColorChoose = ({ parcelColor, setParcelColor, ribbonColor, setRibbonColor }) => {
   return (
-    <div style={{ display: 'flex', gap: '20px', justifyContent: 'center', flexDirection: 'column'}}>
+    <div style={{ display: 'flex', gap: '20px', justifyContent: 'center'}}>
       <ColorSelector 
         title="warna Wrapper" 
         colors={WRAPPER_COLORS}
@@ -642,6 +660,10 @@ function MainSection() {
 
     const { showLoading, hideLoading } = useLoading();
 
+    const [showGrid, setShowGrid] = useState(true);
+
+    const handleGoBack = () => window.history.back();
+
     const fetchData = async () => {
       showLoading("Menyiapkan data model...");
       try{
@@ -661,7 +683,9 @@ function MainSection() {
         const wrapperJson = await wrapperData.json();
         console.log("🌹 Data Wrapper dari backend:", wrapperJson);
 
-        setComponents([roseJson, tulipJson, lillyJson, wrapperJson]);
+        setComponents([roseJson, tulipJson, lillyJson]);
+
+        handleAddWrapper();
       }catch(error){
         console.error("❌ Error fetching data:", error);
       }
@@ -922,13 +946,22 @@ const formattedSummary = summaryData.map(item => [item.ComponentId, item.qty]);
   
     const deleteSelected = () => {
       if (!selectedId) return showAlert("Tidak ada objek yang dipilih!");
-      setObjects((prev) => prev.filter((o) => o.id !== selectedId));
-      setSelectedId(null);
+      if (selectedId) {
+        const targetObj = objects.find(o => o.id === selectedId);
+        // Hanya hapus jika objek bukan wrapper yang dikunci
+        if (targetObj && targetObj.type !== "Wrapper") {
+          setObjects((prev) => prev.filter((obj) => obj.id !== selectedId));
+          setSelectedId(null);
+        }
+      }
     };
   
     const resetAll = () => {
       if (window.confirm("Yakin ingin menghapus semua objek?")) {
-        setObjects([]);
+        // Bukannya mengosongkan array [], kita filter agar yang 'isLocked' tetap tinggal
+        setObjects((prevObjects) => prevObjects.filter((obj) => obj.type === "Wrapper"));
+        
+        // Pastikan tidak ada objek yang sedang terpilih setelah reset
         setSelectedId(null);
       }
     };
@@ -958,6 +991,21 @@ const formattedSummary = summaryData.map(item => [item.ComponentId, item.qty]);
       ]);
     }
   };
+
+  const handleAddWrapper = (type, path) => {
+      // Jika Wrapper, ganti yang lama (hanya boleh ada 1 Wrapper)
+      setObjects((prev) => [
+        // ...prev.filter((o) => o.type !== "Wrapper"),
+        {
+          id: Date.now(),
+          type: "Wrapper",
+          modelPath: "/models/wrapper.glb",
+          position: [0, 0, 0],
+        },
+      ]);
+  };
+
+
   const navigate = useNavigate();
   const [BouquetData, setBouquetData] = useState({
     BouquetName: "",
@@ -975,9 +1023,10 @@ const formattedSummary = summaryData.map(item => [item.ComponentId, item.qty]);
     });
 
     if (
-      !BouquetData.BouquetName ||
-      !BouquetData.BouquetQuestion ||
-      !BouquetData.BouquetAnswer
+      !BouquetData.BouquetName 
+      // ||
+      // !BouquetData.BouquetQuestion ||
+      // !BouquetData.BouquetAnswer
     ) {
       showAlert("Mohon lengkapi nama buket, pertanyaan, dan jawaban!");
       return;
@@ -993,6 +1042,14 @@ const formattedSummary = summaryData.map(item => [item.ComponentId, item.qty]);
     };
   });
   const finalPrice = summary.reduce((sum, item) => sum + item.subTotal, 0);
+
+  setShowGrid(false);
+  await new Promise((resolve) => setTimeout(resolve, 100));
+
+  const canvas = document.querySelector('canvas');
+  const screenshot = canvas ? canvas.toDataURL("image/png") : null;
+
+  setShowGrid(true);
 
     const exporter = new GLTFExporter();
     
@@ -1011,17 +1068,6 @@ const formattedSummary = summaryData.map(item => [item.ComponentId, item.qty]);
     // }];
 
     const formattedItems = summaryData.map(formattedSummary => [{ComponentId : formattedSummary.ComponentId, Quantity : formattedSummary.qty}]);
-
-    // formattedItems[0].ComponentId = '694e44be85890620cea2e86e';
-    // formattedItems[1].ComponentId = '694e44b185890620cea2e86c';
-    // formattedItems[2].ComponentId = '694e448285890620cea2e86a';
-    // formattedItems[3].ComponentId = '694e44d385890620cea2e870';
-
-    // formattedItems[0].Quantity = formattedSummary[0][1];
-    // formattedItems[1].Quantity = formattedSummary[1][1];
-    // formattedItems[2].Quantity = formattedSummary[2][1];
-    // formattedItems[3].Quantity = formattedSummary[3][1];
-
     
     console.log("FORMATTED ITEMS ", formattedItems)
 
@@ -1044,9 +1090,10 @@ const formattedSummary = summaryData.map(item => [item.ComponentId, item.qty]);
           ribbonColor,
           cardText,
           modelName,
-          question,
-          answer,
+          question : "",
+          answer : "",
           items : formattedItems,
+          thumbnail: screenshot,
           timestamp: Date.now()
         };
           await setDb('pending_order_meta', orderMeta);
@@ -1114,6 +1161,11 @@ const formattedSummary = summaryData.map(item => [item.ComponentId, item.qty]);
       <section className='Customizer-MainSection'>
         <div className="Customizer-box"></div>
         <div className="Customizer-SectionContainer">
+          <div className="Confirmation-Back-Container" style={{ display : "flex", justifyContent : "flex-start", alignItems : "center", width : "100%"}}>
+            <button className="TernaryBackButton" onClick={handleGoBack}>
+            ←
+            </button>
+          </div>
           <div className="Customizer-MainBox">
             <div className="Customizer-ModelBox border-4 border-gray-1000 rounded-lg overflow-hidden" style={{ position: "relative" }}>
               {/* --- TOMBOL MODE (Melayang di kiri atas) --- */}
@@ -1143,16 +1195,16 @@ const formattedSummary = summaryData.map(item => [item.ComponentId, item.qty]);
                 <div className="Customizer-toolbar-divider"></div>
 
                 {/* Tombol Drag / Move */}
-            <button 
-              className={`Customizer-toolbar-btn ${mode === 'drag' ? 'active' : ''}`}
-              onClick={() => {
-                setMode('drag');
-                setShowRotateMenu(false); // Tutup menu rotasi jika pilih drag
-              }}
-              title="Move Mode"
-            >
-              <span className="Customizer-icon"><FontAwesomeIcon icon={faHand} /></span>
-            </button>
+                <button 
+                  className={`Customizer-toolbar-btn ${mode === 'drag' ? 'active' : ''}`}
+                  onClick={() => {
+                    setMode('drag');
+                    setShowRotateMenu(false); // Tutup menu rotasi jika pilih drag
+                  }}
+                  title="Move Mode"
+                >
+                  <span className="Customizer-icon"><FontAwesomeIcon icon={faHand} /></span>
+                </button>
 
             {/* Group Tombol Rotasi */}
             <div className="Customizer-rotate-menu-Wrapper">
@@ -1180,7 +1232,7 @@ const formattedSummary = summaryData.map(item => [item.ComponentId, item.qty]);
               )}
             </div>
               </div>
-              <Canvas camera={{ position: [5, 5, 10], fov: 50 }}>
+              <Canvas camera={{ position: [1, 5, 5], fov: 50 }} gl={{ preserveDrawingBuffer: true }}>
                 <color attach="background" args={["#fdfdfd"]} />
                 <ambientLight intensity={0.6} />
                 <directionalLight position={[5, 10, 5]} intensity={1} />
@@ -1207,14 +1259,19 @@ const formattedSummary = summaryData.map(item => [item.ComponentId, item.qty]);
                   ))}
                 </SceneContent>
       
-                <gridHelper args={[20, 20, 0x888888, 0x444444]} />
-                <OrbitControls enabled={mode === "camera" && !isDragging} />
+                {showGrid && <gridHelper args={[20, 20, 0x888888, 0x444444]} />}
+                <OrbitControls 
+                enabled={mode === "camera" && !isDragging}
+                enableZoom={false}
+                />
               </Canvas>
             </div>
             <div className="Customizer-InfoBox">
 
             <div className="" style={{ display : "flex", alignSelf : "flex-start", paddingLeft : "5%", fontSize : "32px", paddingBottom : "10px"}}>
-                Sampaikan Bunga Mu
+                <span>Tentukan bunga</span>
+                <span style={{ color: "#ffffff" }}>-</span>
+                <span style={{ color: "#A95C4C" }}> pilihan mu</span>
             </div>
               <div className="Customizer-Message">
                 <div className="Customizer-input-group">
@@ -1230,7 +1287,7 @@ const formattedSummary = summaryData.map(item => [item.ComponentId, item.qty]);
                 </div>                        
               </div>
 
-              <div className="Customizer-Question">
+              {/* <div className="Customizer-Question">
                 <div className="Customizer-input-group">
                   <label htmlFor="question" className="Customizer-input-label">pertanyaan konfirmasi</label>
                   <input 
@@ -1256,8 +1313,8 @@ const formattedSummary = summaryData.map(item => [item.ComponentId, item.qty]);
                     onChange={(e) => setAnswer(e.target.value)}
                   />
                 </div> 
-              </div>
-              <div className="Customizer-AddModel">
+              </div> */}
+              <div className="Customizer-AddModel" style={{ width : '90%' }}>
                 <FlowerGallery onAddObject={handleAddFromGallery} components={components}/>
               </div>
               <div className="Customizer-colorAndPrice">
