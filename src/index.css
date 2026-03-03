@@ -2922,3 +2922,501 @@ h3,
   width: auto;
   font-size: 15px;
 }
+
+/* FLORIST ROLE */
+body {
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
+  font-family: "Playfair Display";
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  line-height: 1.5;
+  width: 100%;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+code {
+  font-family: "Playfair Display";
+}
+
+:root {
+  --color-primary: #a55749;
+  --color-secondary: #b38d89;
+  --color-ternary: #3e4a49;
+  --color-background-light: #d4c4b5;
+  --color-background-dark: #7d796e;
+}
+
+h1,
+.h1 {
+  font-size: 2.5rem;
+  font-weight: 400;
+  margin: 0;
+}
+
+h2,
+.h2 {
+  font-size: 1.5rem;
+  font-weight: 400;
+  margin: 0;
+}
+
+h3,
+.h3 {
+  font-size: 1.25rem;
+  font-weight: 400;
+  margin: 0;
+}
+
+.p1 {
+  font-size: 1rem;
+  font-weight: 400;
+  margin: 0;
+}
+
+.p2 {
+  font-size: 0.875rem;
+  font-weight: 400;
+  margin: 0;
+}
+
+.p3 {
+  font-size: 0.75rem;
+  font-weight: 400;
+  margin: 0;
+}
+
+.txt-color-primary {
+  color: var(--color-primary);
+}
+
+.txt-color-secondary {
+  color: var(--color-secondary);
+}
+
+.txt-color-ternary {
+  color: var(--color-ternary);
+}
+
+.txt-color-bg-light {
+  color: var(--color-background-light);
+}
+
+.txt-color-bg-dark {
+  color: var(--color-background-dark);
+}
+
+.txt-color-white {
+  color: white;
+}
+
+.txt-decoration-none {
+  text-decoration: none;
+}
+
+.weight-regular {
+  font-weight: 400;
+}
+
+.weight-semibold {
+  font-weight: 600;
+}
+
+.weight-bold {
+  font-weight: 700;
+}
+
+.rounded-button-primary {
+  background-color: var(--color-primary);
+  color: white;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  border-radius: 5svh;
+  padding: 1rem;
+  font-family: "Playfair Display";
+}
+
+.button-primary {
+  background-color: var(--color-primary);
+  color: white;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  border-radius: 2.5svh;
+  padding: 1rem;
+  font-family: "Playfair Display";
+}
+
+.rounded-button-primary-fill {
+  background-color: var(--color-primary);
+  color: white;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  border-radius: 5svh;
+  padding: 0.5rem;
+  width: 100%;
+  font-family: "Playfair Display";
+}
+
+.button-primary-fill {
+  background-color: var(--color-primary);
+  color: white;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  border-radius: 2.5svh;
+  padding: 0.5rem;
+  width: 100%;
+  font-family: "Playfair Display";
+}
+
+.rounded-button-ternary {
+  background-color: var(--color-ternary);
+  color: white;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  border-radius: 5svh;
+  padding: 1rem;
+  font-family: "Playfair Display";
+}
+
+.button-ternary {
+  background-color: var(--color-ternary);
+  color: white;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  border-radius: 2.5svh;
+  padding: 1rem;
+  font-family: "Playfair Display";
+}
+
+.rounded-button-ternary-fill {
+  background-color: var(--color-ternary);
+  color: white;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  border-radius: 5svh;
+  padding: 0.5rem;
+  width: 100%;
+  font-family: "Playfair Display";
+}
+
+.button-ternary-fill {
+  background-color: var(--color-ternary);
+  color: white;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  border-radius: 2.5svh;
+  padding: 0.5rem;
+  width: 100%;
+  font-family: "Playfair Display";
+}
+
+.rounded-button-primary:hover,
+.button-primary:hover,
+.rounded-button-primary-fill:hover,
+.button-primary-fill:hover,
+.rounded-button-ternary:hover,
+.button-ternary:hover,
+.rounded-button-ternary-fill:hover,
+.button-ternary-fill:hover {
+  opacity: 0.9;
+}
+
+.rounded-button-primary:disabled,
+.button-primary:disabled,
+.rounded-button-primary-fill:disabled,
+.button-primary-fill:disabled,
+.rounded-button-ternary:disabled,
+.button-ternary:disabled,
+.rounded-button-ternary-fill:disabled,
+.button-ternary-fill:disabled {
+  background-color: var(--color-background-dark);
+  opacity: 0.5;
+}
+
+/* APP LAYOUT STRUCTURE */
+.AppFloristLayout {
+  display: flex;
+  width: 100%;
+}
+
+.MainFloristContent {
+  margin-left: 320px;
+  flex: 1;
+  min-height: 100vh;
+  background-color: #ffffff;
+  transition: 0.3s ease;
+}
+
+/* FLORIST SIDEBAR */
+.FloristSidebarNav {
+  width: 320px;
+  background-color: var(--color-ternary);
+  padding: 2.5rem 1.5rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  position: fixed;
+  height: 100vh;
+  left: 0;
+  top: 0;
+  z-index: 1000;
+  transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.FloristBloomHeader {
+  display: none;
+}
+
+.FloristLogoBouquet img {
+  width: 150px;
+  margin-bottom: 3.5rem;
+}
+
+.FloristProfileBloom {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  margin-bottom: 3rem;
+  color: white;
+}
+
+.FloristAvatarPetal {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid var(--color-background-light);
+}
+
+.FloristInfoSeed p {
+  opacity: 0.7;
+}
+
+.FloristNavVine {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.FloristPetalTab {
+  background: rgba(255, 255, 255, 0.05);
+  color: white;
+  padding: 1.1rem 1.5rem;
+  border-radius: 15px;
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  text-decoration: none;
+  transition: all 0.3s ease;
+}
+
+.FloristActivePetal {
+  background-color: var(--color-background-light);
+  color: var(--color-ternary) !important;
+  font-weight: 700;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.FloristLogoutPetal {
+  background-color: var(--color-primary);
+  color: white;
+  border: none;
+  padding: 1.1rem;
+  border-radius: 15px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  font-family: inherit;
+  font-size: 1rem;
+}
+
+.FloristMistOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(4px);
+  z-index: 999;
+}
+
+/* FLORIST DASHBOARD */
+.FloristDashboardContainer {
+  padding: 2.5rem;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.FloristDashboardTitle {
+  color: var(--color-primary);
+  font-family: "Playfair Display", serif;
+  font-size: 2.2rem;
+  margin-bottom: 2rem;
+}
+
+.FloristStatsGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2rem;
+  margin-bottom: 3.5rem;
+}
+
+.FloristStatCard {
+  padding: 2.2rem;
+  border-radius: 15px;
+  color: white;
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+}
+
+.FloristStatCircle {
+  width: 55px;
+  height: 55px;
+  background: rgba(0, 0, 0, 0.15);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 1.3rem;
+}
+
+.FloristSageBackground { background-color: #93A099; }
+.FloristRoseBackground { background-color: #B38D89; }
+.FloristTanBackground { background-color: #B0ACA1; }
+
+.FloristOrdersTableSection {
+  background-color: #ECE4DB;
+  border-radius: 20px;
+  padding: 2.5rem;
+}
+
+.FloristOrdersHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2.5rem;
+}
+
+.FloristTableResponsive {
+  width: 100%;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.FloristMainTable {
+  width: 100%;
+  border-collapse: collapse;
+  /* Adjust this value to ensure content has enough space to not squash */
+  min-width: 750px; 
+}
+
+.FloristMainTable th {
+  text-align: left;
+  padding: 1rem;
+  color: #444;
+  border-bottom: 2px solid white;
+}
+
+.FloristMainTable td {
+  padding: 1.25rem 1rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.6);
+  vertical-align: middle;
+}
+
+.FloristBuyerCell {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.FloristBuyerAvatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: #ccc;
+  background-image: url('https://i.pravatar.cc/150?u=a');
+  background-size: cover;
+  flex-shrink: 0;
+}
+
+.FloristStatusPill {
+  padding: 6px 16px;
+  border-radius: 50px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  /* Prevents the text from wrapping or being cut off */
+  white-space: nowrap; 
+  display: inline-block;
+}
+
+.FloristStatusDone { background-color: #D1FAE5; color: #10B981; }
+.FloristStatusShipping { background-color: #FEE2E2; color: #EF4444; }
+
+/* RESPONSIVE LOGIC */
+@media (max-width: 1024px) {
+  .MainFloristContent { margin-left: 260px; }
+  .FloristSidebarNav { width: 260px; }
+  .FloristStatsGrid { gap: 1rem; }
+  .FloristStatCard { padding: 1.5rem; flex-direction: column; text-align: center; }
+}
+
+@media (max-width: 768px) {
+  .FloristBloomHeader {
+    display: flex;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 80px;
+    background-color: var(--color-ternary);
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 1.5rem;
+    z-index: 1100;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+  }
+
+  .FloristLogoBouquet { display: none; }
+
+  .FloristSidebarNav {
+    transform: translateX(-100%);
+    width: 300px;
+    padding-top: 100px;
+    left: 0;
+  }
+
+  .FloristSidebarNav.FloristBloomOpen { transform: translateX(0); }
+
+  .MainFloristContent {
+    margin-left: 0;
+    padding: 100px 1rem 2rem 1rem;
+    width: 100%;
+  }
+
+  .FloristStatsGrid { grid-template-columns: 1fr; }
+  .FloristOrdersHeader { flex-direction: column; align-items: flex-start; gap: 1rem; }
+  
+  .FloristMainTable th, 
+  .FloristMainTable td { 
+    font-size: 0.85rem; 
+    padding: 0.75rem 0.5rem; 
+  }
+}
