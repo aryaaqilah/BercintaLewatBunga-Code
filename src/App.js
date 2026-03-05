@@ -5,6 +5,7 @@ import FloristSidebar from "./components/FloristSidebar/FloristSidebar";
 import Footer from "./components/Footer/Footer";
 import Home from "./pages/Home/Home";
 import Shop from "./pages/Shop/Shop";
+import ShopLanding from "./pages/ShopLanding/ShopLanding";
 import About from "./pages/About/About";
 import Help from "./pages/Help/Help";
 import Login from "./pages/Login/Login";
@@ -34,17 +35,19 @@ const NotFound = () => (
 
 const CustomerLayout = ({ isFlorist }) => {
   const location = useLocation();
-  const hideFooter = ["/profile", "/order-detail"].includes(location.pathname);
+  const hideNavbarFooter = ["/profile", "/order-detail", "/store", "/login", "/register"].some(path => 
+    location.pathname.startsWith(path)
+  );
   
   if (isFlorist) return <NotFound />;
 
   return (
     <div className="AppCustomerLayout">
-      <Navbar />
+      {!hideNavbarFooter && <Navbar />}
       <main>
         <Outlet />
       </main>
-      {!hideFooter && <Footer />}
+      {!hideNavbarFooter && <Footer />}
     </div>
   );
 };
@@ -79,6 +82,7 @@ function AppContent() {
         <Route element={<CustomerLayout isFlorist={isFlorist} />}>
           <Route path="/" element={<Home />} />
           <Route path="/shop" element={<Shop />} />
+          <Route path="/store/:storeId" element={<ShopLanding />} />
           <Route path="/about" element={<About />} />
           <Route path="/help" element={<Help />} />
           <Route path="/customizer" element={<Customizer />} />

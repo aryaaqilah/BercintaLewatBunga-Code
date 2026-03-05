@@ -1,12 +1,10 @@
-import { div } from "three/tsl";
 import CardSet from "../../components/Card/CardSet";
-import { useEffect, useState, useRef, useContext } from "react";
+import { useEffect, useState, useRef } from "react";
 import { CardModel } from "../../models/CardModel";
+import { StoreCardModel } from "../../models/StoreCardModel";
 import { useNavigate } from "react-router-dom";
-import { AuthContext } from "../../contexts/AuthContext";
 import ProductCard from "../../components/ProductCard/ProductCard";
-
-function LandingSection() {}
+import StoreCard from "../../components/StoreCard/StoreCard"; // Import New Component
 
 function MostPopularSection({ productData }) {
   const cards = productData.map((product) => {
@@ -31,27 +29,39 @@ function MostPopularSection({ productData }) {
   );
 }
 
-function ProductSection({ productData }) {
-  const products = productData.map((product) => {
-    return new CardModel(
-      product._id,
-      product.Name,
-      product.Price,
-      product.Memo,
-      product.Image,
-      false
-    );
-  });
+// NEW: Store Section Implementation
+const dummyStores = [
+  new StoreCardModel("1", "HER.ROSES", "https://i.ibb.co/LzY8v1C/Logo-Placeholder.png"),
+  new StoreCardModel("2", "FLORA.STUDIO", "https://i.ibb.co/LzY8v1C/Logo-Placeholder.png"),
+  new StoreCardModel("3", "PETALS.CO", "https://i.ibb.co/LzY8v1C/Logo-Placeholder.png"),
+  new StoreCardModel("4", "BLOOM.GARDEN", "https://i.ibb.co/LzY8v1C/Logo-Placeholder.png"),
+];
+
+function StoreSection({ floristData }) {
+  const navigate = useNavigate();
+
+  const handleLihatToko = (florist) => {
+    navigate(`/store/${florist._id}`);
+  };
 
   return (
     <section className="ShopProductSection">
       <div className="ShopProductSectionTitle">
-        <h2 className="h2">Produk Kami</h2>
+        <h1 className="txt-color-primary">Toko</h1>
+        <h3 className="txt-color-ternary">Menyediakan yang terbaik untuk Anda</h3>
       </div>
 
       <div className="product-grid">
-        {products.map((product) => (
-          <ProductCard product={product}/>
+        {floristData.map((florist) => (
+          <StoreCard 
+            key={florist._id} 
+            store={{
+              id: florist._id,
+              name: florist.Name,
+              logo: florist.Logo // Assuming the model has a Logo field
+            }}
+            onSelect={handleLihatToko}
+          />
         ))}
       </div>
     </section>
@@ -60,38 +70,38 @@ function ProductSection({ productData }) {
 
 export default function Shop() {
   const [productData, setProductData] = useState([]);
-  const API_URL = "http://localhost:5000/api/products/not-customized";
-  const handleSubmit = async (e) => {
-    try {
-      const response = await fetch(API_URL, {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
-      const data = await response.json();
-      const latestData = data.reverse().slice(0, 3);
+  const [floristData, setFloristData] = useState([]); // State for Stores
 
-      setProductData(latestData);
-      console.log(data);
-      console.log("Fetch successful");
+  const fetchProducts = async () => {
+    try {
+      const response = await fetch("http://localhost:5000/api/products/not-customized");
+      const data = await response.json();
+      setProductData(data.reverse().slice(0, 6));
     } catch (error) {
-      console.log("Error:", error);
-    } finally {
+      console.error("Product fetch error:", error);
     }
   };
 
-  const hasFetched = useRef(false);
+  const fetchFlorists = async () => {
+    try {
+      // Assuming this endpoint exists for your Florists/Stores
+      const response = await fetch("http://localhost:5000/api/florists");
+      const data = await response.json();
+      setFloristData(data);
+    } catch (error) {
+      console.error("Florist fetch error:", error);
+    }
+  };
 
   useEffect(() => {
-    handleSubmit();
+    fetchProducts();
+    fetchFlorists();
   }, []);
 
   return (
     <div>
-      <LandingSection />
-      <MostPopularSection productData={productData} />
-      <ProductSection productData={productData} />
+      <MostPopularSection productData={productData.slice(0, 5)} />
+      <StoreSection floristData={dummyStores} />
     </div>
   );
 }
