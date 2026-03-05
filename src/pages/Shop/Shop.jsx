@@ -41,7 +41,7 @@ function StoreSection({ floristData }) {
   const navigate = useNavigate();
 
   const handleLihatToko = (florist) => {
-    navigate(`/store/${florist._id}`);
+    navigate(`/store/${florist.id}`);
   };
 
   return (
@@ -76,7 +76,7 @@ export default function Shop() {
     try {
       const response = await fetch("http://localhost:5000/api/products/not-customized");
       const data = await response.json();
-      setProductData(data.reverse().slice(0, 6));
+      setProductData(data.reverse().slice(0, 4));
     } catch (error) {
       console.error("Product fetch error:", error);
     }
