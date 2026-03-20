@@ -132,7 +132,7 @@ function MainSection({
       // const formattedDate = date.toISOString().split('T')[0];
 
       const deliveryPayload = {
-        ShippingCode: "To be inputed 12345678912322454632357428912232",
+        ShippingCode: "To be inputed"+date.getTime(),
         Service: "GrabSend",
         EstimatedArrival: date,
         TrackingLink: "To be inputed",
@@ -254,6 +254,7 @@ function MainSection({
             collectedIds[3].tempId,
             // collectedIds[4].tempId,
           ],
+          Shop : '69a581ef883533f34a8dc3b0'
         };
 
         console.log("PRODUCT PAYLOAD : ", productPayload);
@@ -303,6 +304,57 @@ function MainSection({
       const savedOrder = await orderRes.json();
       if (!orderRes.ok) throw new Error("Gagal memproses pesanan");
 
+      // 🔥 PANGGIL BACKEND UNTUK BUAT MIDTRANS TOKEN
+      const midtransRes = await fetch("http://localhost:5000/api/payment/create-transaction", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          orderId: savedOrder._id,
+          amount: totalOrder,
+          customer: {
+            name: user.name,
+            email: user.email,
+          },
+        }),
+      });
+
+      const midtransData = await midtransRes.json();
+
+      if (!midtransRes.ok) {
+        throw new Error("Gagal membuat transaksi pembayaran");
+      }
+
+      window.snap.pay(midtransData.token, {
+      onSuccess: async function (result) {
+        showAlert("Pembayaran berhasil!");
+
+        // update order jadi PAID
+        // await fetch(`http://localhost:5000/api/orders/${savedOrder._id}/paid`, {
+        //   method: "PUT",
+        // });
+
+        navigate("/profile", {
+          state: {
+            selectedProduct,
+            orderId: savedOrder._id,
+          },
+        });
+      },
+
+      onPending: function () {
+        showAlert("Menunggu pembayaran...");
+      },
+
+      onError: function () {
+        showAlert("Pembayaran gagal!");
+      },
+
+      onClose: function () {
+        showAlert("Kamu menutup pembayaran.");
+      },
+    });
+    // ================= MIDTRANS END =================
+
       const userUpdatePayload = {
         OrderId: savedOrder._id, // Kirim ID order baru untuk di-push ke array Orders di backend
       };
@@ -321,26 +373,26 @@ function MainSection({
 
       if (userRes.ok) {
         showAlert("Transaksi Berhasil! Pesanan telah dicatat di akun Anda.");
-        navigate("/orders", {
-          state: {
-            selectedProduct: selectedProduct,
-            orderId: savedOrder._id,
-          },
-        });
+        // navigate("/orders", {
+        //   state: {
+        //     selectedProduct: selectedProduct,
+        //     orderId: savedOrder._id,
+        //   },
+        // });
       } else {
         console.error("Gagal sinkronisasi ke tabel User");
         // Tetap pindah halaman karena Order utama sudah sukses
-        navigate("/orders");
+        // navigate("/orders");
       }
 
       if (userRes.ok) {
         showAlert("Pembayaran Berhasil Diproses!");
-        navigate("/orders", {
-          state: {
-            selectedProduct: selectedProduct,
-            orderId: savedOrder._id,
-          },
-        });
+        // navigate("/orders", {
+        //   state: {
+        //     selectedProduct: selectedProduct,
+        //     orderId: savedOrder._id,
+        //   },
+        // });
       } else {
         showAlert("Gagal memproses order: " + savedOrder.message);
       }
@@ -589,6 +641,18 @@ export default function Payment() {
 
   const { showLoading, hideLoading } = useLoading();
   
+  useEffect(() => {
+    const script = document.createElement("script");
+    script.src = "https://app.sandbox.midtrans.com/snap/snap.js";
+    script.setAttribute("data-client-key", "Mid-client-7vNauj8bb3yiXmEQ");
+    script.async = true;
+
+    document.body.appendChild(script);
+
+    return () => {
+      document.body.removeChild(script);
+    };
+  }, []);
 
   useEffect(() => {
     const loadAndParseModel = async () => {
