@@ -36,7 +36,7 @@ const NotFound = () => (
 
 const CustomerLayout = ({ isFlorist }) => {
   const location = useLocation();
-  const hideNavbarFooter = ["/profile", "/order-detail", "/store", "/login", "/register"].some(path => 
+  const hideNavbarFooter = ["/profile", "/order-detail", "/store", "/login", "/register","/customizer", "/ar/:id", "/address", "/confirmation", "/payment"].some(path => 
     location.pathname.startsWith(path)
   );
   
