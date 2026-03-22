@@ -23,6 +23,8 @@ import provinceRoutes from "./routes/ProvinceRoutes.js";
 import cityRoutes from "./routes/CityRoutes.js";
 import districtRoutes from "./routes/DistrictRoutes.js";
 import postalCodeRoutes from "./routes/PostalCodeRoutes.js";
+import shopRoutes from "./routes/ShopRoutes.js"; // Import ShopRoutes
+import paymentRoutes from "./routes/PaymentRoutes.js"; // Import PaymentRoutes
 
 // Load environment variables
 dotenv.config();  
@@ -63,6 +65,8 @@ app.use("/api/provinces", provinceRoutes);
 app.use("/api/cities", cityRoutes);
 app.use("/api/districts", districtRoutes);
 app.use("/api/postalcodes", postalCodeRoutes);
+app.use("/api/shops", shopRoutes); // Tambahkan route untuk Shop
+app.use("/api/payment", paymentRoutes);
 app.use(express.static('public'));
 
 // === Tes koneksi backend ===

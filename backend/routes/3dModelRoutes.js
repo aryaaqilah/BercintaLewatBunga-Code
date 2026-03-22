@@ -62,7 +62,7 @@ router.post("/save", async (req, res) => {
     console.log("answer ", answer);
 
     // Validasi sederhana
-    if (!path || !question || !answer) {
+    if (!path) {
       return res.status(400).json({ message: "Missing required fields" });
     }
 

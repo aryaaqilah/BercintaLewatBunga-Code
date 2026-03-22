@@ -730,7 +730,7 @@ h3,
 }
 
 .TernaryBackButton {
-  background: var(--color-ternary);
+  background: #A95C4C;
   border: none;
   border-radius: 50%;
   color: white;
@@ -1741,7 +1741,7 @@ h3,
 
   .Confirmation-InfoBox {
     /* background-color: lightpink; */
-    border-bottom-right-radius: 200px;
+    /* border-bottom-right-radius: 200px; */
     border: 2px solid #404c4c;
     box-sizing: border-box;
     width: 65%;
@@ -2148,7 +2148,7 @@ h3,
   .Customizer-input-group {
     width: auto;
     height: auto;
-    max-width: 100%;
+    /* max-width: 100%; */
     display: flex;
   }
 
@@ -2315,7 +2315,7 @@ h3,
 
   .Confirmation-InfoBox {
     /* background-color: lightpink; */
-    border-bottom-right-radius: 200px;
+    /* border-bottom-right-radius: 200px; */
     border: 2px solid #404c4c;
     box-sizing: border-box;
     width: 100%;
@@ -2548,8 +2548,8 @@ h3,
   }
 
   .Customizer-Color {
-    width: 45%;
-    height: 15%;
+    width: 100%;
+    /* height: 15%; */
     /* background-color: lightgreen; */
   }
 
@@ -2570,7 +2570,7 @@ h3,
     display: flex; /* Menyusun label & input bersebelahan */
     height: 80%;
     width: 100%;
-    max-width: 600px; /* Lebar maksimal */
+    /* max-width: 600px; Lebar maksimal */
     /* Sudut melengkung */
     overflow: hidden; /* Memotong sudut anak elemen */
     /* font-family: 'Times New Roman', serif; Font Serif sesuai gambar */
@@ -2686,9 +2686,9 @@ h3,
   }
 
   .Customizer-colorAndPrice {
-    display: flex;
+    /* display: flex; */
     width: 90%;
-    height: 10%;
+    /* height: 10%; */
     /* background-color: lightcoral; */
   }
 
@@ -2754,7 +2754,7 @@ h3,
 
   .Confirmation-InfoBox {
     /* background-color: lightpink; */
-    border-bottom-right-radius: 200px;
+    /* border-bottom-right-radius: 200px; */
     border: 2px solid #404c4c;
     box-sizing: border-box;
     width: 65%;

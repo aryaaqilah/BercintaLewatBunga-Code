@@ -132,7 +132,7 @@ function MainSection({
       // const formattedDate = date.toISOString().split('T')[0];
 
       const deliveryPayload = {
-        ShippingCode: "To be inputed 123456789123456789123",
+        ShippingCode: "To be inputed"+date.getTime(),
         Service: "GrabSend",
         EstimatedArrival: date,
         TrackingLink: "To be inputed",
@@ -245,15 +245,16 @@ function MainSection({
           Name: selectedProduct.title,
           Price: productPrice,
           Quantity: 1,
-          Image: "kosong",
+          Image: selectedProduct.thumbnail,
           ThreeDModel: modelId,
           Memo: selectedProduct.pesan,
           Items: [
             collectedIds[1].tempId,
             collectedIds[2].tempId,
             collectedIds[3].tempId,
-            collectedIds[4].tempId,
+            // collectedIds[4].tempId,
           ],
+          Shop : '69a581ef883533f34a8dc3b0'
         };
 
         console.log("PRODUCT PAYLOAD : ", productPayload);
@@ -275,6 +276,11 @@ function MainSection({
       }
 
       console.log("PRODUCT ID TEMP : ", productIdTemp);
+      console.log(savedAddress._id);
+      console.log(savedDelivery._id);
+      console.log(adminFee[0]._id);
+      console.log(discountData);
+      console.log(discountData.percentage);
 
       // SECTION POST ORDER =========================================================================
       const orderPayload = {
@@ -285,7 +291,7 @@ function MainSection({
         ProductPrice: productPrice,
         AdministrationFee: adminFee[0]._id,
         DiscountId:
-          discountData.percentage === 0.0 ? null : discountData[0]._id,
+          discountData.percentage === null ? null : discountData[0]._id,
         Total: totalOrder,
       };
       console.log("Order Payload:", orderPayload);
@@ -297,6 +303,60 @@ function MainSection({
 
       const savedOrder = await orderRes.json();
       if (!orderRes.ok) throw new Error("Gagal memproses pesanan");
+
+      // 🔥 PANGGIL BACKEND UNTUK BUAT MIDTRANS TOKEN
+      const midtransRes = await fetch("http://localhost:5000/api/payment/create-transaction", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          orderId: savedOrder._id,
+          amount: totalOrder,
+          customer: {
+            name: user.name,
+            email: user.email,
+          },
+        }),
+      });
+
+      const midtransData = await midtransRes.json();
+
+      if (!midtransRes.ok) {
+        throw new Error("Gagal membuat transaksi pembayaran");
+      }
+
+      window.snap.pay(midtransData.token, {
+      onSuccess: async function (result) {
+        showAlert("Pembayaran berhasil!");
+
+        // update order jadi PAID
+        // await fetch(`http://localhost:5000/api/orders/${savedOrder._id}/paid`, {
+        //   method: "PUT",
+        // });
+
+        navigate("/profile", {
+          state: {
+            selectedProduct,
+            orderId: savedOrder._id,
+          },
+        });
+      },
+
+      onPending: function () {
+        showAlert("Menunggu pembayaran...");
+
+      },
+
+      onError: function () {
+        showAlert("Pembayaran gagal!");
+
+      },
+
+      onClose: function () {
+        showAlert("Kamu menutup pembayaran.");
+        
+      },
+    });
+    // ================= MIDTRANS END =================
 
       const userUpdatePayload = {
         OrderId: savedOrder._id, // Kirim ID order baru untuk di-push ke array Orders di backend
@@ -316,26 +376,26 @@ function MainSection({
 
       if (userRes.ok) {
         showAlert("Transaksi Berhasil! Pesanan telah dicatat di akun Anda.");
-        navigate("/orders", {
-          state: {
-            selectedProduct: selectedProduct,
-            orderId: savedOrder._id,
-          },
-        });
+        // navigate("/orders", {
+        //   state: {
+        //     selectedProduct: selectedProduct,
+        //     orderId: savedOrder._id,
+        //   },
+        // });
       } else {
         console.error("Gagal sinkronisasi ke tabel User");
         // Tetap pindah halaman karena Order utama sudah sukses
-        navigate("/orders");
+        // navigate("/orders");
       }
 
       if (userRes.ok) {
         showAlert("Pembayaran Berhasil Diproses!");
-        navigate("/orders", {
-          state: {
-            selectedProduct: selectedProduct,
-            orderId: savedOrder._id,
-          },
-        });
+        // navigate("/orders", {
+        //   state: {
+        //     selectedProduct: selectedProduct,
+        //     orderId: savedOrder._id,
+        //   },
+        // });
       } else {
         showAlert("Gagal memproses order: " + savedOrder.message);
       }
@@ -460,7 +520,7 @@ function MainSection({
                   }}
                 >
                   <img
-                    src={`http://localhost:5000${selectedProduct?.image}`}
+                    src={selectedProduct?.thumbnail}
                     alt="Product"
                     style={{ width: "70%", height: "70%" }}
                   />
@@ -584,6 +644,18 @@ export default function Payment() {
 
   const { showLoading, hideLoading } = useLoading();
   
+  useEffect(() => {
+    const script = document.createElement("script");
+    script.src = "https://app.sandbox.midtrans.com/snap/snap.js";
+    script.setAttribute("data-client-key", "Mid-client-7vNauj8bb3yiXmEQ");
+    script.async = true;
+
+    document.body.appendChild(script);
+
+    return () => {
+      document.body.removeChild(script);
+    };
+  }, []);
 
   useEffect(() => {
     const loadAndParseModel = async () => {
@@ -608,6 +680,8 @@ export default function Payment() {
       const dataFee = await resFee.json();
       setAdminFee(dataFee.reverse().slice(0, 1));
 
+      console.log("AAQ DISKON ", selectedProduct.voucher);
+
       const response = await fetch(
         `http://localhost:5000/api/discounts/get-voucher?name=${selectedProduct.voucher}`
       );
@@ -620,12 +694,13 @@ export default function Payment() {
       // const dataDisc = await resDisc.json();
       setDiscountData(dataDisc);
 
-      if(dataDisc.length === 0){
+      if(dataDisc.length === 0 || selectedProduct.voucher === "" || selectedProduct.voucher === undefined){
         const discountNA = {
           Name: "VOUCHER NOT FOUND",
           Percentage: 0.0,
         };
         setDiscountData(discountNA);
+        console.log("VOUCHER NOT FOUND, set default discount data");
       }
 
       console.log("DISCOUNT DATA : ", discountData);
