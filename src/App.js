@@ -5,6 +5,7 @@ import FloristSidebar from "./components/FloristSidebar/FloristSidebar";
 import Footer from "./components/Footer/Footer";
 import Home from "./pages/Home/Home";
 import Shop from "./pages/Shop/Shop";
+import ShopLanding from "./pages/ShopLanding/ShopLanding";
 import About from "./pages/About/About";
 import Help from "./pages/Help/Help";
 import Login from "./pages/Login/Login";
@@ -17,6 +18,7 @@ import Customizer from "./pages/Customizer/Customizer";
 import Profile from "./pages/Profile/Profile";
 import OrderDetail from "./pages/Order Detail/OrderDetail";
 import FloristDashboard from "./pages/FloristDashboard/FloristDashboard";
+import FloristProduct from "./pages/FloristProduct/FloristProduct";
 import IdleTimer from "./components/IdleTimer";
 import { AuthProvider, useAuth } from './contexts/AuthContext';
 import { AlertProvider } from './contexts/AlertContext';
@@ -34,23 +36,25 @@ const NotFound = () => (
 
 const CustomerLayout = ({ isFlorist }) => {
   const location = useLocation();
-  const hideFooter = ["/profile", "/order-detail"].includes(location.pathname);
+  const hideNavbarFooter = ["/profile", "/order-detail", "/store", "/login", "/register"].some(path => 
+    location.pathname.startsWith(path)
+  );
   
   if (isFlorist) return <NotFound />;
 
   return (
     <div className="AppCustomerLayout">
-      <Navbar />
+      {!hideNavbarFooter && <Navbar />}
       <main>
         <Outlet />
       </main>
-      {!hideFooter && <Footer />}
+      {!hideNavbarFooter && <Footer />}
     </div>
   );
 };
 
 const FloristLayout = ({ isFlorist }) => {
-  if (!isFlorist) return <NotFound />;
+  if (isFlorist) return <NotFound />;
 
   return (
     <div className="AppFloristLayout">
@@ -79,6 +83,7 @@ function AppContent() {
         <Route element={<CustomerLayout isFlorist={isFlorist} />}>
           <Route path="/" element={<Home />} />
           <Route path="/shop" element={<Shop />} />
+          <Route path="/store/:storeId" element={<ShopLanding />} />
           <Route path="/about" element={<About />} />
           <Route path="/help" element={<Help />} />
           <Route path="/customizer" element={<Customizer />} />
@@ -92,7 +97,7 @@ function AppContent() {
         {/* --- FLORIST AREA --- */}
         <Route element={<FloristLayout isFlorist={isFlorist} />}>
           <Route path="/dashboard" element={<FloristDashboard />} />
-          <Route path="/inventory" element={<div>Inventory Page</div>} />
+          <Route path="/inventory" element={<FloristProduct/>} />
           <Route path="/manage-orders" element={<div>Manage Orders Page</div>} />
         </Route>
 

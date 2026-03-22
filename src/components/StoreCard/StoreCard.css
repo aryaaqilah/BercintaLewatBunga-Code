@@ -1,0 +1,62 @@
+.StoreCardBox {
+  background-color: white;
+  border: 1px solid #E8DFD3;
+  border-radius: 20px;
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1.5rem;
+  width: 100%;
+  max-width: 320px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.StoreCardBox:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.05);
+}
+
+.StoreLogoWrapper {
+  width: 10rem;
+  aspect-ratio: 1/1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #F3F0EC;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.StoreLogoImage {
+  width: 80%;
+  height: 80%;
+  object-fit: contain;
+}
+
+.StoreActionButton {
+  background-color: var(--color-primary);
+  color: white;
+  border: none;
+  border-radius: 50px;
+  padding: 0.8rem 2rem;
+  width: 100%;
+  font-family: "Playfair Display", serif;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: opacity 0.3s ease;
+}
+
+.StoreActionButton:hover {
+  opacity: 0.9;
+}
+
+/* Responsiveness for the Grid in Shop.jsx */
+@media (max-width: 1024px) {
+  .StoreCardBox { padding: 1.5rem; }
+}
+
+@media (max-width: 600px) {
+  .StoreCardBox { max-width: 100%; }
+}

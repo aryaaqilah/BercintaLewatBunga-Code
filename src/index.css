@@ -2923,228 +2923,6 @@ h3,
   font-size: 15px;
 }
 
-/* FLORIST ROLE */
-body {
-  margin: 0;
-  padding: 0;
-  overflow-x: hidden;
-  font-family: "Playfair Display";
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  line-height: 1.5;
-  width: 100%;
-}
-
-* {
-  box-sizing: border-box;
-}
-
-code {
-  font-family: "Playfair Display";
-}
-
-:root {
-  --color-primary: #a55749;
-  --color-secondary: #b38d89;
-  --color-ternary: #3e4a49;
-  --color-background-light: #d4c4b5;
-  --color-background-dark: #7d796e;
-}
-
-h1,
-.h1 {
-  font-size: 2.5rem;
-  font-weight: 400;
-  margin: 0;
-}
-
-h2,
-.h2 {
-  font-size: 1.5rem;
-  font-weight: 400;
-  margin: 0;
-}
-
-h3,
-.h3 {
-  font-size: 1.25rem;
-  font-weight: 400;
-  margin: 0;
-}
-
-.p1 {
-  font-size: 1rem;
-  font-weight: 400;
-  margin: 0;
-}
-
-.p2 {
-  font-size: 0.875rem;
-  font-weight: 400;
-  margin: 0;
-}
-
-.p3 {
-  font-size: 0.75rem;
-  font-weight: 400;
-  margin: 0;
-}
-
-.txt-color-primary {
-  color: var(--color-primary);
-}
-
-.txt-color-secondary {
-  color: var(--color-secondary);
-}
-
-.txt-color-ternary {
-  color: var(--color-ternary);
-}
-
-.txt-color-bg-light {
-  color: var(--color-background-light);
-}
-
-.txt-color-bg-dark {
-  color: var(--color-background-dark);
-}
-
-.txt-color-white {
-  color: white;
-}
-
-.txt-decoration-none {
-  text-decoration: none;
-}
-
-.weight-regular {
-  font-weight: 400;
-}
-
-.weight-semibold {
-  font-weight: 600;
-}
-
-.weight-bold {
-  font-weight: 700;
-}
-
-.rounded-button-primary {
-  background-color: var(--color-primary);
-  color: white;
-  border: none;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-  border-radius: 5svh;
-  padding: 1rem;
-  font-family: "Playfair Display";
-}
-
-.button-primary {
-  background-color: var(--color-primary);
-  color: white;
-  border: none;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-  border-radius: 2.5svh;
-  padding: 1rem;
-  font-family: "Playfair Display";
-}
-
-.rounded-button-primary-fill {
-  background-color: var(--color-primary);
-  color: white;
-  border: none;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-  border-radius: 5svh;
-  padding: 0.5rem;
-  width: 100%;
-  font-family: "Playfair Display";
-}
-
-.button-primary-fill {
-  background-color: var(--color-primary);
-  color: white;
-  border: none;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-  border-radius: 2.5svh;
-  padding: 0.5rem;
-  width: 100%;
-  font-family: "Playfair Display";
-}
-
-.rounded-button-ternary {
-  background-color: var(--color-ternary);
-  color: white;
-  border: none;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-  border-radius: 5svh;
-  padding: 1rem;
-  font-family: "Playfair Display";
-}
-
-.button-ternary {
-  background-color: var(--color-ternary);
-  color: white;
-  border: none;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-  border-radius: 2.5svh;
-  padding: 1rem;
-  font-family: "Playfair Display";
-}
-
-.rounded-button-ternary-fill {
-  background-color: var(--color-ternary);
-  color: white;
-  border: none;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-  border-radius: 5svh;
-  padding: 0.5rem;
-  width: 100%;
-  font-family: "Playfair Display";
-}
-
-.button-ternary-fill {
-  background-color: var(--color-ternary);
-  color: white;
-  border: none;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-  border-radius: 2.5svh;
-  padding: 0.5rem;
-  width: 100%;
-  font-family: "Playfair Display";
-}
-
-.rounded-button-primary:hover,
-.button-primary:hover,
-.rounded-button-primary-fill:hover,
-.button-primary-fill:hover,
-.rounded-button-ternary:hover,
-.button-ternary:hover,
-.rounded-button-ternary-fill:hover,
-.button-ternary-fill:hover {
-  opacity: 0.9;
-}
-
-.rounded-button-primary:disabled,
-.button-primary:disabled,
-.rounded-button-primary-fill:disabled,
-.button-primary-fill:disabled,
-.rounded-button-ternary:disabled,
-.button-ternary:disabled,
-.rounded-button-ternary-fill:disabled,
-.button-ternary-fill:disabled {
-  background-color: var(--color-background-dark);
-  opacity: 0.5;
-}
-
 /* APP LAYOUT STRUCTURE */
 .AppFloristLayout {
   display: flex;
@@ -3253,6 +3031,84 @@ h3,
   background: rgba(0, 0, 0, 0.5);
   backdrop-filter: blur(4px);
   z-index: 999;
+}
+
+/* SHOP LANDING */
+.ShopLandingContainer {
+  padding: 4rem 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.ShopLandingHeader {
+  display: flex;
+  align-items: center;
+  gap: 2.5rem;
+  padding: 2rem 0 3.5rem 0;
+  border-bottom: 1px solid #F0E9E2;
+  margin-bottom: 4rem;
+}
+
+.ShopLandingLogo {
+  width: 130px;
+  height: 130px;
+  border-radius: 15px;
+  object-fit: contain;
+  background-color: #F9F7F5;
+  border: 1px solid #eee;
+  padding: 15px;
+}
+
+.ShopLandingDetails {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.ShopLandingRatingRow {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 10px;
+}
+
+.ShopLandingProductTitle {
+  text-align: left;
+  margin-bottom: 7rem; /* Large margin for flower pop-out effect */
+}
+
+.ShopLandingProductTitle h2 {
+  color: var(--color-primary);
+  margin-bottom: 0.5rem;
+}
+
+/* RESPONSIVE */
+@media (max-width: 1024px) {
+  .ShopLandingHeader {
+    gap: 1.5rem;
+  }
+}
+
+@media (max-width: 600px) {
+  .ShopLandingContainer {
+    padding: 2rem 1.5rem;
+  }
+  
+  .ShopLandingHeader {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1.5rem;
+  }
+
+  .ShopLandingLogo {
+    width: 100px;
+    height: 100px;
+  }
+
+  .ShopLandingProductTitle {
+    text-align: center;
+    margin-bottom: 5rem;
+  }
 }
 
 /* FLORIST DASHBOARD */
