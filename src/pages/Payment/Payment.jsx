@@ -343,14 +343,17 @@ function MainSection({
 
       onPending: function () {
         showAlert("Menunggu pembayaran...");
+
       },
 
       onError: function () {
         showAlert("Pembayaran gagal!");
+
       },
 
       onClose: function () {
         showAlert("Kamu menutup pembayaran.");
+        
       },
     });
     // ================= MIDTRANS END =================
